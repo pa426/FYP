@@ -32,6 +32,8 @@ namespace WebApplication.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> _SearchVideo(VideoModels model)
         {
+            List<VideoModels> videos = new List<VideoModels>();
+
             if (ModelState.IsValid == false)
             {
                 return View("DashboardV0");
@@ -45,13 +47,12 @@ namespace WebApplication.Controllers
 
             var searchListRequest = youtubeService.Search.List("snippet");
             searchListRequest.Q = model.VideoQuery; // Replace with your search term.
-            searchListRequest.MaxResults = 3;
-
+            searchListRequest.MaxResults = Convert.ToInt64(model.VideoNr);
+ 
 
             // Call the search.list method to retrieve results matching the specified query term.
             var searchListResponse = await searchListRequest.ExecuteAsync();
-            List<VideoModels> videos = new List<VideoModels>();
-
+            
 
             // Add each result to the appropriate list, and then display the lists of
             // matching videos, channels, and playlists.
@@ -82,6 +83,7 @@ namespace WebApplication.Controllers
                 }
             }
             ViewBag.Videos = videos;
+            ModelState.Clear();
             return View("DashboardV0");
         }
     }
