@@ -18,11 +18,12 @@
     $('#range_2').ionRangeSlider();
 
     $('#range_5').ionRangeSlider({
-        min: 0,
-        max: 10,
+        min: 1,
+        max: 50,
         type: 'single',
-        step: 0.1,
-        postfix: " mm",
+        step: 1,
+        postfix: " videos",
+        from: 7,
         prettify: false,
         hasGrid: true
     });

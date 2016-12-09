@@ -6,6 +6,8 @@
     @Scripts.Render("~/Scripts/Home/DashboardV0/menu")
 }
 
+@model WebApplication.Models.VideoModels
+
 @Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
 @Styles.Render("~/AdminLTE/plugins/icheck/css")
 @Styles.Render("~/AdminLTE/plugins/colorpicker/css")
@@ -13,6 +15,7 @@
 @Styles.Render("~/AdminLTE/plugins/select2/css")
 @Styles.Render("~/AdminLTE/dist/css")
 @Styles.Render("~/AdminLTE/dist/css/skins")
+@Styles.Render("~/AdminLTE/plugins/ionslider/css")
 
 @*Search starting*@
 <div class="box box-primary">
@@ -20,7 +23,12 @@
         <h3 class="box-title">Search subject:</h3>
     </div>
     <div class="box-body">
-        <div class="form-group pull-right">
+        <div class="form-group">
+            <div class="col-sm-6">
+                <input id="range_5" type="text" name="range_5" value="">
+            </div>
+        </div>
+        <div id="datePickerSearch" class="form-group pull-right">
             <label>Date range button:</label>
             <div class="input-group">
                 <button type="button" class="btn btn-default pull-right" id="daterange-btn">
@@ -29,16 +37,20 @@
                 </button>
             </div>
         </div>
-        @using (Html.BeginForm("SearchRun", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+        @using (Html.BeginForm("_SearchVideo", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
         {
+            @Html.ValidationSummary(true)
+            ;
+
             <div class="form-group pull-left">
                 <div class="input-group margin">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "text",
-                   name = "searchVideo-tb", placeholder = "Description..." })
-                    <input type="text" class="form-control" name="searchVideo-tb">
+                    @Html.TextBoxFor(m => m.VideoQuery, new {@class = "form-control", type = "text", placeholder = "Inser description!"})
                     <span class="input-group-btn">
-                    <input type="submit" class="btn btn-info btn-flat" name="searchVideo-btn" value="GO!"/>
-                </span> 
+                            <input type="submit" class="btn btn-info btn-flat" name="searchVideo-btn" value="GO!" />
+                        </span>
+                </div>
+                <div class="input-group margin">
+                    @Html.ValidationMessageFor(m => m.VideoQuery, "", new {@class = "text-danger"})
                 </div>
             </div>
         }
@@ -47,37 +59,12 @@
 </div>
 @*Finish search*@
 
-@*Start timeline*@
-<div class="row">
-    <div class="col-md-12">
-        <ul class="timeline">
-            <li class="time-label">
-                <span class="bg-red">
-                    10 Feb. 2014
-                </span>
-            </li>
-            <li>
-                <i class="fa fa-video-camera bg-maroon"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
-                    <h3 class="timeline-header"><a href="#">Mr. Doe</a> shared a video</h3>
-                    <div class="timeline-body">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <div class="timeline-footer">
-                        <a href="#" class="btn btn-xs bg-maroon">See comments</a>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <i class="fa fa-clock-o bg-gray"></i>
-            </li>
-        </ul>
-    </div>
-</div>
-@*Finish Timeline*@
+@if (IsPost && this.ViewData.ModelState.IsValid)
+{
+    Html.RenderPartial("_SearchVideo");
+}
+
+
 
 
 @section Scripts {
@@ -86,6 +73,8 @@
         $.widget.bridge('uibutton', $.ui.button);
     </script>
 
+    @Scripts.Render("~/AdminLTE/plugins/ionslider/js")
+    @Scripts.Render("~/Scripts/Elements/Sliders")
     @Scripts.Render("~/AdminLTE/plugins/select2/js")
     @Scripts.Render("~/AdminLTE/plugins/input-mask/js")
     @Scripts.Render("~/AdminLTE/plugins/momentjs/js")

@@ -4904,3 +4904,10 @@ table.text-center th {
     white-space: normal !important;
   }
 }
+
+/*Custom CSS*/
+
+#datePickerSearch {
+    top: -10px;
+    position: relative;
+  }

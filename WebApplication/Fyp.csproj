@@ -547,6 +547,7 @@
     <Content Include="Views\Home\DashboardV1.cshtml" />
     <Content Include="Views\Home\DashboardV2.cshtml" />
     <Content Include="Views\Home\DashboardV0.cshtml" />
+    <Content Include="Views\Home\_SearchVideo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
