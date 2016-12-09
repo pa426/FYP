@@ -17,7 +17,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header">
-            <a href="@Url.Action("DashboardV1", "Home")" class="logo">
+            <a href="@Url.Action("DashboardV0", "Home")" class="logo">
                 <span class="logo-mini"><b>W</b>eb</span>
                 <span class="logo-lg"><b>Web</b>Application</span>
             </a>
@@ -244,7 +244,8 @@
                         <a href="#">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
-                        <ul class="treeview-menu">
+                        <ul class="treeview-menu open">
+                            <li id="left-sidebar-menu-dashboard-dashboardV0"><a href="@Url.Action("DashboardV0", "Home")"><i class="fa fa-circle-o"></i> Dashboard v0</a></li>
                             <li id="left-sidebar-menu-dashboard-dashboardV1"><a href="@Url.Action("DashboardV1", "Home")"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
                             <li id="left-sidebar-menu-dashboard-dashboardV2"><a href="@Url.Action("DashboardV2", "Home")"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
                         </ul>

@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Dashboard v0";
+}
+
+@section Menu {
+    @Scripts.Render("~/Scripts/Home/DashboardV0/menu")
+}
+
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/icheck/css")
+@Styles.Render("~/AdminLTE/plugins/colorpicker/css")
+@Styles.Render("~/AdminLTE/plugins/timepicker/css")
+@Styles.Render("~/AdminLTE/plugins/select2/css")
+@Styles.Render("~/AdminLTE/dist/css")
+@Styles.Render("~/AdminLTE/dist/css/skins")
+
+@*Search starting*@
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-title">Search subject:</h3>
+    </div>
+    <div class="box-body">
+        <div class="form-group pull-right">
+            <label>Date range button:</label>
+            <div class="input-group">
+                <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                    <i class="fa fa-calendar"></i> Date range picker
+                    <i class="fa fa-caret-down"></i>
+                </button>
+            </div>
+        </div>
+        @using (Html.BeginForm("SearchRun", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+        {
+            <div class="form-group pull-left">
+                <div class="input-group margin">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "text",
+                   name = "searchVideo-tb", placeholder = "Description..." })
+                    <input type="text" class="form-control" name="searchVideo-tb">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn btn-info btn-flat" name="searchVideo-btn" value="GO!"/>
+                </span> 
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+@*Finish search*@
+
+@*Start timeline*@
+<div class="row">
+    <div class="col-md-12">
+        <ul class="timeline">
+            <li class="time-label">
+                <span class="bg-red">
+                    10 Feb. 2014
+                </span>
+            </li>
+            <li>
+                <i class="fa fa-video-camera bg-maroon"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
+                    <h3 class="timeline-header"><a href="#">Mr. Doe</a> shared a video</h3>
+                    <div class="timeline-body">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="timeline-footer">
+                        <a href="#" class="btn btn-xs bg-maroon">See comments</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+        </ul>
+    </div>
+</div>
+@*Finish Timeline*@
+
+
+@section Scripts {
+    @Scripts.Render("~/AdminLTE/plugins/jquery-ui/js")
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+
+    @Scripts.Render("~/AdminLTE/plugins/select2/js")
+    @Scripts.Render("~/AdminLTE/plugins/input-mask/js")
+    @Scripts.Render("~/AdminLTE/plugins/momentjs/js")
+    @Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+    @Scripts.Render("~/AdminLTE/plugins/colorpicker/js")
+    @Scripts.Render("~/AdminLTE/plugins/timepicker/js")
+    @Scripts.Render("~/AdminLTE/plugins/icheck/js")
+    @Scripts.Render("~/Scripts/Forms/Advanced")
+}
