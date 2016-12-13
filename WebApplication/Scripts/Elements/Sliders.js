@@ -23,7 +23,6 @@
         type: 'single',
         step: 1,
         postfix: " videos",
-        from: 7,
         prettify: false,
         hasGrid: true
     });

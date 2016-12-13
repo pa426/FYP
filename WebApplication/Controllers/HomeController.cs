@@ -47,8 +47,12 @@ namespace WebApplication.Controllers
 
             var searchListRequest = youtubeService.Search.List("snippet");
             searchListRequest.Q = model.VideoQuery; // Replace with your search term.
-            searchListRequest.MaxResults = Convert.ToInt64(model.VideoNr);
- 
+            searchListRequest.MaxResults = Convert.ToInt32(model.VideoNr);
+            var dates = model.SeparateDates();
+            searchListRequest.PublishedAfter = dates[0];
+            searchListRequest.PublishedBefore = dates[1];
+            //var x = Convert.ToDecimal(Request["daterangeBtn"].ToString());
+            //Console.WriteLine(x);
 
             // Call the search.list method to retrieve results matching the specified query term.
             var searchListResponse = await searchListRequest.ExecuteAsync();
