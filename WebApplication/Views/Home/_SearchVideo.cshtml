@@ -1,12 +1,12 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "SearchVideo";
 }
 
 @section Menu {
     @Scripts.Render("~/Scripts/Home/SearchVideo/menu")
 }
+
+@model WebApplication.Models.VideoModels
 
 @Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
 @Styles.Render("~/AdminLTE/plugins/icheck/css")
@@ -23,16 +23,21 @@
         <ul class="timeline">
             <li class="time-label">
                 <span class="bg-red">
-                    10 Feb. 2014
+                    Start
                 </span>
             </li>
             @foreach (var vid in ViewBag.Videos)
             {
                 <li>
+                    @using (Html.BeginForm("_SearchVideo", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+                    {
+                       @Html.CheckBoxFor(m => m.checkBox)
+                    }
                     <i class="fa fa-video-camera bg-maroon"></i>
                     <div class="timeline-item">
                         <span class="time"><i class="fa fa-clock-o"> @vid.PublishedAt</i> </span>
-                        <h3 class="timeline-header"><a href="https://www.youtube.com/channel/@vid.ChannelId"> @vid.ChannelTitle</a> shared a video</h3>
+                        <h3 class="timeline-header"><a href="https://www.youtube.com/channel/@vid.ChannelId"> @vid.ChannelTitle</a> shared a video
+                        </h3>
                         <div class="timeline-body">
                             <div class="embed-responsive embed-responsive-16by9">
                                 <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/@vid.VideoId" frameborder="0" allowfullscreen></iframe>

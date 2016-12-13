@@ -48,11 +48,15 @@ namespace WebApplication.Controllers
             var searchListRequest = youtubeService.Search.List("snippet");
             searchListRequest.Q = model.VideoQuery; // Replace with your search term.
             searchListRequest.MaxResults = Convert.ToInt32(model.VideoNr);
+
+            if (model.VideoDates != null)
+            {
+
             var dates = model.SeparateDates();
             searchListRequest.PublishedAfter = dates[0];
             searchListRequest.PublishedBefore = dates[1];
-            //var x = Convert.ToDecimal(Request["daterangeBtn"].ToString());
-            //Console.WriteLine(x);
+
+            }
 
             // Call the search.list method to retrieve results matching the specified query term.
             var searchListResponse = await searchListRequest.ExecuteAsync();
@@ -67,7 +71,7 @@ namespace WebApplication.Controllers
                 switch (searchResult.Id.Kind)
                 {
                     case "youtube#video":
-                        vid.VideoName = (String.Format("{0}", searchResult.Snippet.Title));
+                        vid.VideoTitle = (String.Format("{0}", searchResult.Snippet.Title));
                         vid.VideoId = (String.Format("{0}", searchResult.Id.VideoId));
                         vid.ChannelTitle = (String.Format("{0}", searchResult.Snippet.ChannelTitle));
                         vid.PublishedAt = (String.Format("{0}", searchResult.Snippet.PublishedAt));
@@ -75,6 +79,7 @@ namespace WebApplication.Controllers
                         videos.Add(vid);
                         break;
 
+                    // Further development stages
                     //case "youtube#channel":
                     //    vid.channelName = (String.Format("{0}", searchResult.Snippet.Title));
                     //    vid.channelId = (String.Format("{0}", searchResult.Id.ChannelId));
