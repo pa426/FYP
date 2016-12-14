@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "SearchVideo";
-    int i = 1;
+    int i = 0;
 }
 
 @section Menu {
@@ -21,69 +21,32 @@
 
 @*Start timeline*@
 <div class="row">
-    <div id="videosDiv" class="col-md-12">
-        <ul class="timeline">
-            <li class="time-label">
-                <span class="bg-red">
-            Start
-        </span>
-            </li>
-            @foreach (var vid in ViewBag.Videos)
-            {
-                if ((i++%2) == 0)
-                {
-                    <li class="alignLeft">
+    <div class="col-md-12">
 
-                        @using (Html.BeginForm("_SearchVideo", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
-                        {
-                            @Html.CheckBoxFor(m => m.checkBox)
-                        }
-                        <i class="fa fa-video-camera bg-maroon"></i>
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"> @vid.PublishedAt</i> </span>
-                            <h3 class="timeline-header">
-                                <a href="https://www.youtube.com/channel/@vid.ChannelId"> @vid.ChannelTitle</a> shared a video
-                            </h3>
-                            <div class="timeline-body">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/@vid.VideoId" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                            </div>
-                            <div class="timeline-footer">
-                                <a href="#" class="btn btn-xs bg-maroon">See comments</a>
-                            </div>
+        @foreach (var vid in ViewBag.Videos)
+        {
+            <div class="col-md-4 videoDiv">
+                <div class="timeline-item">
+                    <h4 class="timeline-header videoHeader">
+                        <a href="https://www.youtube.com/channel/@vid.ChannelId"> @vid.ChannelTitle</a> shared a video
+                    </h4>
+                    <span class="time"><i class="fa fa-clock-o"> @vid.PublishedAt</i> </span>
+                    <div class="timeline-body">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/@vid.VideoId" frameborder="0" allowfullscreen></iframe>
                         </div>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        @using (Html.BeginForm("_SearchVideo", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
-                        {
-                            @Html.CheckBoxFor(m => m.checkBox)
-                        }
-                        <i class="fa fa-video-camera bg-maroon"></i>
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"> @vid.PublishedAt</i> </span>
-                            <h3 class="timeline-header">
-                                <a href="https://www.youtube.com/channel/@vid.ChannelId"> @vid.ChannelTitle</a> shared a video
-                            </h3>
-                            <div class="timeline-body">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/@vid.VideoId" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                            </div>
-                            <div class="timeline-footer">
-                                <a href="#" class="btn btn-xs bg-maroon">See comments</a>
-                            </div>
+                    </div>
+                    <div class="timeline-footer">
+                        <a href="#" class="btn btn-xs bg-maroon">See comments</a>
+                        <div class="checkboxThree">
+                            <input type="checkbox" id="@string.Format("videoCb{0}", i)" name="" value="1"/>
+                            <label for="@string.Format("videoCb{0}", i++)"></label>
                         </div>
-                    </li>
-                }
-            }
-            <li>
-                <i class="fa fa-clock-o bg-gray"></i>
-            </li>
-        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
     </div>
 </div>
 @*Finish Timeline*@

@@ -16,7 +16,7 @@ namespace WebApplication.Models
         public string ChannelId { get; set; }
         public string ChannelTitle { get; set; }
         public string PublishedAt { get; set; }
-        public bool checkBox { get; set; }
+        public bool addVideoCb { get; set; }
 
         public DateTime[] SeparateDates()
         {
