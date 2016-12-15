@@ -752,4 +752,5 @@ function _init() {
       }
     });
   };
+
 }(jQuery));

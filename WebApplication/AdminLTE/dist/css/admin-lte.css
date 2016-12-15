@@ -5050,7 +5050,7 @@ input[type=checkbox] {
 .checkboxThree {
 	width: 150px;
 	height: 40px;
-	background: #333;
+	background: #374850;
 	margin: 20px 60px;
 
 	border-radius: 50px;
@@ -5058,22 +5058,22 @@ input[type=checkbox] {
 }
 
 .checkboxThree:before {
-	content: 'Add';
+	content: 'Remove';
 	position: absolute;
 	top: 9px;
-	left: 28px;
+	left: 14px;
 	height: 2px;
-	color: #26ca28;
+	color: #f00;
 	font-size: 16px;
 }
 
 .checkboxThree:after {
-	content: 'Remove';
+    content: 'Add';
 	position: absolute;
-	top: 9px;
-	left: 82px;
+    top: 9px;
+	left: 100px;
 	height: 2px;
-	color: #f00;
+	color: #26ca28;
 	font-size: 16px;
 }
 

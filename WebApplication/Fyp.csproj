@@ -463,6 +463,8 @@
     <Content Include="Scripts\Forms\Editors-menu.js" />
     <Content Include="Scripts\Forms\Editors.js" />
     <Content Include="Scripts\Forms\General-menu.js" />
+    <Content Include="Scripts\Home\DashboardV0-menu.js" />
+    <Content Include="Scripts\Home\DashboardV0.js" />
     <Content Include="Scripts\Home\DashboardV1-menu.js" />
     <Content Include="Scripts\Home\DashboardV1.js" />
     <Content Include="Scripts\Home\DashboardV2-menu.js" />

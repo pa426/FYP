@@ -22,7 +22,17 @@
 @*Start timeline*@
 <div class="row">
     <div class="col-md-12">
-
+        <div class="box-body">
+            <a id="checkAllBtn" class="btn btn-app">
+                <i class="fa fa-check-square-o"></i> Add All
+            </a>
+            <a class="btn btn-app">
+                <i class="fa fa-times"></i> Remove All
+            </a>
+            <a class="btn btn-app pull-right">
+                <i class="fa fa-send-o"></i> Analise
+            </a>
+        </div>
         @foreach (var vid in ViewBag.Videos)
         {
             <div class="col-md-4 videoDiv">
@@ -46,7 +56,17 @@
                 </div>
             </div>
         }
-
+    </div>
+    <div class="box-body">
+        <a class="btn btn-app">
+            <i class="fa fa-check-square-o"></i> Select All
+        </a>
+        <a class="btn btn-app">
+            <i class="fa fa-times"></i> Add All
+        </a>
+        <a class="btn btn-app pull-right">
+            <i class="fa fa-send-o"></i> Analise
+        </a>
     </div>
 </div>
 @*Finish Timeline*@
@@ -65,5 +85,6 @@
     @Scripts.Render("~/AdminLTE/plugins/colorpicker/js")
     @Scripts.Render("~/AdminLTE/plugins/timepicker/js")
     @Scripts.Render("~/AdminLTE/plugins/icheck/js")
-    @Scripts.Render("~/Scripts/Forms/Advanced")
+    @Scripts.Render("~/AdminLTE/dist/js/app.js")
+    @Scripts.Render("~/Scripts/Home/DashboardV0")
 }
