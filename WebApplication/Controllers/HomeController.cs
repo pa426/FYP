@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
-using Org.BouncyCastle.Asn1.Ocsp;
-using WebApplication.Extensions;
+
 using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
+ 
     public class HomeController : Controller
     {
         public ActionResult DashboardV0()
@@ -94,6 +94,26 @@ namespace WebApplication.Controllers
             ViewBag.Videos = videos;
             ModelState.Clear();
             return View("DashboardV0");
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public void CheckAll()
+        {
+            if (Request.Form["checkAllBtn"] != null)
+            {
+                Debug.WriteLine( "test check all");
+            }
+            else if (Request.Form["removeAllBtn"] != null)
+            {
+                Debug.WriteLine("test check all");
+            }
+            else if (Request.Form["analiseBtn"] != null)
+            {
+                Debug.WriteLine("test check all");
+            }
+
         }
     }
 }

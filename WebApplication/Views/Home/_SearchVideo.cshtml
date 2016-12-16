@@ -21,18 +21,21 @@
 
 @*Start timeline*@
 <div class="row">
+    @using (Html.BeginForm("_SearchVideo", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+    {
+    <div class="box-body">
+        <button id="checkAllBtn" name="checkAllBtn" class="btn btn-app" value="">
+            <i class="fa fa-check-square-o"></i> Add All
+        </button>
+        <button id="removeAllBtn" name="removeAllBtn" class="btn btn-app">
+            <i class="fa fa-times"></i> Remove All
+        </button>
+        <button id="analiseBtn" name="analiseBtn" class="btn btn-app pull-right">
+            <i class="fa fa-send-o"></i> Analise
+        </button>
+    </div>
+    }
     <div class="col-md-12">
-        <div class="box-body">
-            <a id="checkAllBtn" class="btn btn-app">
-                <i class="fa fa-check-square-o"></i> Add All
-            </a>
-            <a class="btn btn-app">
-                <i class="fa fa-times"></i> Remove All
-            </a>
-            <a class="btn btn-app pull-right">
-                <i class="fa fa-send-o"></i> Analise
-            </a>
-        </div>
         @foreach (var vid in ViewBag.Videos)
         {
             <div class="col-md-4 videoDiv">
@@ -56,17 +59,6 @@
                 </div>
             </div>
         }
-    </div>
-    <div class="box-body">
-        <a class="btn btn-app">
-            <i class="fa fa-check-square-o"></i> Select All
-        </a>
-        <a class="btn btn-app">
-            <i class="fa fa-times"></i> Add All
-        </a>
-        <a class="btn btn-app pull-right">
-            <i class="fa fa-send-o"></i> Analise
-        </a>
     </div>
 </div>
 @*Finish Timeline*@

@@ -8,8 +8,11 @@ namespace WebApplication.Models
     public class VideoModels
     {
        
-        [Required] public string VideoQuery { get; set; }
-        [Required] public string VideoNr { get; set; }
+        [Display (Name="Video description")]
+        [Required]
+        public string VideoQuery { get; set; }
+        [Required]
+        public string VideoNr { get; set; }
         public string VideoDates { get; set; }
         public string VideoTitle  { get; set; }
         public string VideoId { get; set; }
