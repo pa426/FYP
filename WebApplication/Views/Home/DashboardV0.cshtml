@@ -1,4 +1,4 @@
-﻿@{
+﻿r@{
     ViewBag.Title = "Dashboard v0";
 }
 
@@ -23,7 +23,7 @@
         <h3 class="box-title">Search subject:</h3>
     </div>
     <div class="box-body">
-        @using (Html.BeginForm("_SearchVideo", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        @using (Html.BeginForm("DashboardV0", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
         {
             @Html.ValidationSummary(true)
             ;

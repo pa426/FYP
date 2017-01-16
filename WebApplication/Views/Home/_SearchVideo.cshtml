@@ -21,7 +21,7 @@
 
 @*Start timeline*@
 <div class="row">
-    @using (Html.BeginForm("_SearchVideo", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+    @using (Html.BeginForm("CheckAll", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
     {
     <div class="box-body">
         <button id="checkAllBtn" name="checkAllBtn" class="btn btn-app" value="">
@@ -51,9 +51,12 @@
                     </div>
                     <div class="timeline-footer">
                         <a href="#" class="btn btn-xs bg-maroon">See comments</a>
-                        <div class="checkboxThree">
-                            <input type="checkbox" id="@string.Format("videoCb{0}", i)" name="" value="1"/>
-                            <label for="@string.Format("videoCb{0}", i++)"></label>
+                        <div >
+                            @Html.LabelFor(m => m.AddVideoCb)
+                            @Html.CheckBoxFor(m => m.AddVideoCb)
+                            @**@
+                            @*<input type="checkbox" id="@string.Format("videoCb{0}", i)" name="" value="1"/>*@
+                            @*<label for="@string.Format("videoCb{0}", i++)"></label>*@
                         </div>
                     </div>
                 </div>

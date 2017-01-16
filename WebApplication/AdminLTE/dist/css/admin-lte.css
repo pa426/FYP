@@ -5043,7 +5043,7 @@ table.text-center th { text-align: center; }
 /**
  * Start by hiding the checkboxes
  */
-input[type=checkbox] {
+/*input[type=checkbox] {
 	visibility: hidden;
 }
 
@@ -5095,7 +5095,7 @@ input[type=checkbox] {
 .checkboxThree input[type=checkbox]:checked + label {
 	left: 74px;
 	background: #26ca28;
-}
+}*/
 
 
 /*.alignLeft > .timeline-item { left: -95%; }
