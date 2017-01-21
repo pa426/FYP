@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using WebApplication.CognitiveServicesAuthorizationProvider;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.ProjectOxford.Common.Contract;
 using WebApplication.Models;
 using Microsoft.ProjectOxford.Emotion;
 using Microsoft.ProjectOxford.Emotion.Contract;
-using Newtonsoft.Json;
-using YoutubeExtractor;
 
 
 namespace WebApplication.Controllers
@@ -21,12 +18,16 @@ namespace WebApplication.Controllers
     {
         public const string youtubeSubscriptionKey = "AIzaSyAFKde_KX47mFd7g2YkG3oa9RbmMztq74g";
         public const string emotionSubscriptionKey = "2cc6f73902d74e08b3d7e0e32af04a3f";
+        public const string faceSubscriptionKey = "37d014179cb44f308fadb3517e97db77";
+        public const string visionSubscriptionKey = "070cf781e8b14db9a4415966072e1de8";
+        public const string speechSubscriptionKey = "f48aefc9b8cb447cbc947db53a7757ee";
 
         public async Task<ActionResult> DashboardV0()
         {
-            //var x = await vidAnalisys(); // uploading video 
-            //var y = await vidAnalisysResult(x); // getting video analisys
-            var z = await downloadSound();
+            //var x = await VidAnalisys(); // uploading video 
+            //var y = await VidAnalisysResult(x); // getting video analisys
+            var p = new Program();
+            await p.SpeechToText(@"https://www.youtube.com/watch?v=eYmgivYOmu8", "en-GB", speechSubscriptionKey);
 
             return View();
         }
@@ -109,7 +110,7 @@ namespace WebApplication.Controllers
         }
 
 
-        public async Task<VideoEmotionRecognitionOperation> vidAnalisys()
+        public async Task<VideoEmotionRecognitionOperation> VidAnalisys()
         {
             EmotionServiceClient emotionServiceClient = new EmotionServiceClient(emotionSubscriptionKey);
             VideoEmotionRecognitionOperation videoOperation;
@@ -122,7 +123,7 @@ namespace WebApplication.Controllers
             return videoOperation;
         }
 
-        public async Task<VideoOperationResult> vidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
+        public async Task<VideoOperationResult> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
         {
             EmotionServiceClient emotionServiceClient = new EmotionServiceClient(emotionSubscriptionKey);
             VideoOperationResult operationResult;
@@ -174,61 +175,8 @@ namespace WebApplication.Controllers
             return operationResult;
         }
 
-        public async Task<AudioDownloader> downloadSound()
-        {
-            AudioDownloader audioDownloader = null;
+        
 
-            try
-            {
-                string link = "https://www.youtube.com/watch?v=arqTu9Ay4Ig";
 
-                IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
-
-               
-                /*
-                 * We want the first extractable video with the highest audio quality.
-                 */
-                VideoInfo videox = videoInfos
-                        .Where(info => info.CanExtractAudio)
-                        .OrderByDescending(info => info.AudioBitrate)
-                        .First();
-
-                /*
-                 * If the video has a decrypted signature, decipher it
-                 */
-                if (videox.RequiresDecryption)
-                {
-                    DownloadUrlResolver.DecryptDownloadUrl(videox);
-                }
-
-                /*
-                 * Create the audio downloader.
-                 * The first argument is the video where the audio should be extracted from.
-                 * The second argument is the path to save the audio file.
-                 */
-                audioDownloader = new AudioDownloader(videox, Path.Combine("‪C:/Users/Alexandru/Desktop", videox.Title + videox.AudioExtension));
-
-                // Register the progress events. We treat the download progress as 85% of the progress and the extraction progress only as 15% of the progress,
-                // because the download will take much longer than the audio extraction.
-                audioDownloader.DownloadProgressChanged += (sender, args) => Console.WriteLine(args.ProgressPercentage * 0.85);
-                audioDownloader.AudioExtractionProgressChanged += (sender, args) => Console.WriteLine(85 + args.ProgressPercentage * 0.15);
-
-                /*
-                 * Execute the audio downloader.
-                 * For GUI applications note, that this method runs synchronously.
-                 */
-                audioDownloader.Execute();
-            }
-            catch (AggregateException ex)
-            {
-                foreach (var e in ex.InnerExceptions)
-                {
-                    Console.WriteLine("Error: " + e.Message);
-                }
-            }
-
-            return audioDownloader;
-
-        }
     }
 }
