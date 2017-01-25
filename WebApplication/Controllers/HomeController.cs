@@ -21,13 +21,16 @@ namespace WebApplication.Controllers
         public const string faceSubscriptionKey = "37d014179cb44f308fadb3517e97db77";
         public const string visionSubscriptionKey = "070cf781e8b14db9a4415966072e1de8";
         public const string speechSubscriptionKey = "f48aefc9b8cb447cbc947db53a7757ee";
+        public const string nalyticstextASubscriptionKey = "cd82f8aab44e410cb2f4b1bd2d1228e3";
 
         public async Task<ActionResult> DashboardV0()
         {
             //var x = await VidAnalisys(); // uploading video 
             //var y = await VidAnalisysResult(x); // getting video analisys
-            var p = new Program();
-            await p.SpeechToText(@"https://www.youtube.com/watch?v=eYmgivYOmu8", "en-GB", speechSubscriptionKey);
+            //var p = new Program();
+            //await p.SpeechToText(@"C:\Users\Alexandru\Desktop\test.wav", "en-GB", speechSubscriptionKey);
+            YoutubeSound its = new YoutubeSound();
+            await its.TextToSpeach();
 
             return View();
         }
@@ -174,9 +177,7 @@ namespace WebApplication.Controllers
 
             return operationResult;
         }
-
-        
-
-
     }
+
+
 }

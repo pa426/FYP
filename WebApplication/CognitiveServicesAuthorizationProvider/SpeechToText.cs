@@ -1,5 +1,6 @@
 ﻿
-
+using AlchemyAPIClient;
+using AlchemyAPIClient.Requests;
 
 namespace WebApplication.CognitiveServicesAuthorizationProvider
 {
@@ -13,12 +14,12 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
     /// <summary>
     /// This sample program shows how to use <see cref="SpeechClient"/> APIs to perform speech recognition.
     /// </summary>
-    public class Program
+    public class SpeechToText
     {
-
         private static readonly Uri ShortPhraseUrl = new Uri(@"wss://speech.platform.bing.com/api/service/recognition");
 
-        private static readonly Uri LongDictationUrl = new Uri(@"wss://speech.platform.bing.com/api/service/recognition/continuous");
+        private static readonly Uri LongDictationUrl =
+            new Uri(@"wss://speech.platform.bing.com/api/service/recognition/continuous");
 
         private static readonly Task CompletedTask = Task.FromResult(true);
 
@@ -32,16 +33,13 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
             // Print the partial response recognition hypothesis.
             Debug.WriteLine(args.DisplayText);
 
-            Console.WriteLine();
-
             return CompletedTask;
         }
 
 
-        public Task OnRecognitionResult(RecognitionResult args)
+        public async Task OnRecognitionResult(RecognitionResult args)
         {
             var response = args;
-            Console.WriteLine();
 
             Debug.WriteLine("--- Phrase result received by OnRecognitionResult ---");
 
@@ -53,18 +51,35 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
                 {
                     // Print the recognition phrase display text.
                     Debug.WriteLine("{0} (Confidence:{1})", result.DisplayText, result.Confidence);
+
+                    //await TextAnalytics.MakeRequests(result.DisplayText);
+
+                    //IBM SEntiments from Text
+
+                    var client = new AlchemyClient("18f89f43ce81f33be88e3c4067acc8cd895c3a6e");
+
+                    var request = new AlchemyTextTaxonomiesRequest(result.DisplayText, client)
+                    {
+                    };
+
+
+                    var res = await request.GetResponse();
+
+                   
+                    Debug.WriteLine("(****Sentiment Type:{0})", res.Taxonomy.Capacity);
+                    Debug.WriteLine("(****Sentiment Score:{0})", res.Taxonomy.Count);
+
+
                 }
             }
-
-            Console.WriteLine();
-            return CompletedTask;
         }
 
 
-        public async Task SpeechToText(string audioFile, string locale, string subscriptionKey)
+        public async Task SpeechToTextTransformation(string audioFile, string locale, string subscriptionKey)
         {
             // create the preferences object
-            var preferences = new Preferences(locale, LongDictationUrl, new CognitiveServicesAuthorizationProvider(subscriptionKey));
+            var preferences = new Preferences(locale, LongDictationUrl,
+                new CognitiveServicesAuthorizationProvider(subscriptionKey));
 
             // Create a a speech client
             using (var speechClient = new SpeechClient(preferences))
@@ -75,18 +90,16 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
                 // create an audio content and pass it a stream.
                 using (var audio = new FileStream(audioFile, FileMode.Open, FileAccess.Read))
                 {
-                    var deviceMetadata = new DeviceMetadata(DeviceType.Near, DeviceFamily.Desktop, NetworkType.Ethernet, OsName.Windows, "1607", "Dell", "T3600");
+                    var deviceMetadata = new DeviceMetadata(DeviceType.Near, DeviceFamily.Desktop, NetworkType.Ethernet,
+                        OsName.Windows, "1607", "Dell", "T3600");
                     var applicationMetadata = new ApplicationMetadata("SpeechApi", "1.0.0");
-                    var requestMetadata = new RequestMetadata(Guid.NewGuid(), deviceMetadata, applicationMetadata, "SpeechApiService");
+                    var requestMetadata = new RequestMetadata(Guid.NewGuid(), deviceMetadata, applicationMetadata,
+                        "SpeechApiService");
 
-                    await speechClient.RecognizeAsync(new SpeechInput(audio, requestMetadata), this.cts.Token).ConfigureAwait(false);
-
+                    await speechClient.RecognizeAsync(new SpeechInput(audio, requestMetadata), this.cts.Token)
+                        .ConfigureAwait(false);
                 }
             }
-
         }
-
-       
     }
 }
-
