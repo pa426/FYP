@@ -49,10 +49,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Alchemy, Version=2.2.0.238, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alchemy.2.2.1\lib\net40\Alchemy.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="AlchemyAPIClient, Version=1.4.0.0, Culture=neutral, PublicKeyToken=2e85acc812ed0c7b, processorArchitecture=MSIL">
       <HintPath>..\packages\AlchemyAPIClient.1.5.1608.252\lib\net45\AlchemyAPIClient.dll</HintPath>
       <Private>True</Private>
@@ -109,8 +105,8 @@
       <HintPath>..\packages\Google.Apis.1.20.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Google.Apis.Speech.v1beta1, Version=1.20.0.748, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Speech.v1beta1.1.20.0.748\lib\net45\Google.Apis.Speech.v1beta1.dll</HintPath>
+    <Reference Include="Google.Apis.Speech.v1beta1, Version=1.20.0.755, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Speech.v1beta1.1.20.0.755\lib\net45\Google.Apis.Speech.v1beta1.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.Apis.YouTube.v3, Version=1.20.0.701, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
@@ -301,6 +297,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="CognitiveServicesAuthorizationProvider\AlchemyLanguage.cs" />
+    <Compile Include="CognitiveServicesAuthorizationProvider\BeyondVerbal.cs" />
     <Compile Include="CognitiveServicesAuthorizationProvider\CognitiveServicesAuthorizationProvider.cs" />
     <Compile Include="CognitiveServicesAuthorizationProvider\IbmTextAnalisys.cs" />
     <Compile Include="CognitiveServicesAuthorizationProvider\SpeechToText.cs" />

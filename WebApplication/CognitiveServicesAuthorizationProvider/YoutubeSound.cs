@@ -47,14 +47,20 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
         {
 
             FFMPEG ffmpeg = new FFMPEG();
+            Vokaturi vokaturi = new Vokaturi();
             
             // Convert to wav.
             string wavPath = path.Replace(".mp4", ".wav");
             ffmpeg.RunCommand("-i \"" + path + "\" -acodec pcm_u8 -ar 22050 \"" + wavPath + "\"");
 
+            vokaturi.RunCommand(wavPath);
+
             //Speech to Text
             var p = new SpeechToText();
             await p.SpeechToTextTransformation(wavPath, "en-US", speechSubscriptionKey);
+
+            //Beyond verbal anlisys
+            //await BeyondVerbal.RunAnalisys();
 
             // Cleanup.
             File.Delete(path);

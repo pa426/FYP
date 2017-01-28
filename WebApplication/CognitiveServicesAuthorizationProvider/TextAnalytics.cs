@@ -14,8 +14,6 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
 
         private const string BaseUrl = "https://westus.api.cognitive.microsoft.com/";
         private const string AccountKey = "cd82f8aab44e410cb2f4b1bd2d1228e3";
-        private const int NumLanguages = 1;
-
 
         public static async Task MakeRequests(string speechToText)
         {

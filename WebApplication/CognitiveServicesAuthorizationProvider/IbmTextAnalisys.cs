@@ -12,7 +12,7 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
     public static class IbmTextAnalisys
     {
 
-        private const string BaseUrl = "https://gateway-a.watsonplatform.net/calls/url/URLGetEmotion";
+        private const string BaseUrl = "https://gateway-a.watsonplatform.net/calls/";
         private const string AccountKey = "18f89f43ce81f33be88e3c4067acc8cd895c3a6e";
         private const int NumLanguages = 1;
 
@@ -24,20 +24,19 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
                 client.BaseAddress = new Uri(BaseUrl);
 
                 // Request headers.
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", AccountKey);
+                client.DefaultRequestHeaders.Add("API_KEY", AccountKey);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Request body. Insert your text data here in JSON format.
-                byte[] byteData = Encoding.UTF8.GetBytes("{\"documents\":[" +
-                    "{\"id\":\"1\",\"text\":\"" + speechToText + "\"},]}");
+                byte[] byteData = Encoding.UTF8.GetBytes("text\":\"" + speechToText + "\"}");
                 // Detect sentiment:
-               
-                var response = await CallEndpoint(client, byteData);
-                Debug.WriteLine("\n****Detect sentiment response:\n****" + response);
+                var uri = "text/TextGetEmotion";
+                var response = await CallEndpoint(client, uri, byteData);
+                Debug.WriteLine("\n****Detect emotions response:\n****" + response);
             }
         }
 
-        static async Task<String> CallEndpoint(HttpClient client, byte[] byteData)
+        static async Task<String> CallEndpoint(HttpClient client, string uri, byte[] byteData)
         {
             using (var content = new ByteArrayContent(byteData))
             {

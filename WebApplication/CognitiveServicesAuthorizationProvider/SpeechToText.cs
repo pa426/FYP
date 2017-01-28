@@ -1,7 +1,4 @@
 ﻿
-using AlchemyAPIClient;
-using AlchemyAPIClient.Requests;
-
 namespace WebApplication.CognitiveServicesAuthorizationProvider
 {
     using System;
@@ -53,21 +50,6 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
                     Debug.WriteLine("{0} (Confidence:{1})", result.DisplayText, result.Confidence);
 
                     //await TextAnalytics.MakeRequests(result.DisplayText);
-
-                    //IBM SEntiments from Text
-
-                    var client = new AlchemyClient("18f89f43ce81f33be88e3c4067acc8cd895c3a6e");
-
-                    var request = new AlchemyTextTaxonomiesRequest(result.DisplayText, client)
-                    {
-                    };
-
-
-                    var res = await request.GetResponse();
-
-                   
-                    Debug.WriteLine("(****Sentiment Type:{0})", res.Taxonomy.Capacity);
-                    Debug.WriteLine("(****Sentiment Score:{0})", res.Taxonomy.Count);
 
 
                 }

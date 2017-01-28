@@ -22,15 +22,27 @@ namespace WebApplication.Controllers
         public const string visionSubscriptionKey = "070cf781e8b14db9a4415966072e1de8";
         public const string speechSubscriptionKey = "f48aefc9b8cb447cbc947db53a7757ee";
         public const string nalyticstextASubscriptionKey = "cd82f8aab44e410cb2f4b1bd2d1228e3";
+        public const string beyondVerbalSubscriptionKey = "055d0416-7a5d-4e66-a249-19956d25b3f3";
 
         public async Task<ActionResult> DashboardV0()
         {
+
+            //Video Emotions Analisys
             //var x = await VidAnalisys(); // uploading video 
             //var y = await VidAnalisysResult(x); // getting video analisys
-            //var p = new Program();
-            //await p.SpeechToText(@"C:\Users\Alexandru\Desktop\test.wav", "en-GB", speechSubscriptionKey);
-            YoutubeSound its = new YoutubeSound();
-            await its.TextToSpeach();
+
+            //DOwnloading from youtube
+            //YoutubeSound its = new YoutubeSound();
+            //await its.TextToSpeach();
+
+            //IBM Alchemy API 
+            string text = "Watched protests yesterday but was under the impression that we just had an election! Why didn’t these people vote? Celebs hurt cause badly.";
+            await IbmTextAnalisys.MakeRequests(text);
+
+
+            //Beyond verbal anlisys
+            //await BeyondVerbal.RunAnalisys();
+
 
             return View();
         }
