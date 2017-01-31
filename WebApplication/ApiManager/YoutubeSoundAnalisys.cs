@@ -4,20 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
-using YoutubeExtractor;
 using Frapper;
+using YoutubeExtractor;
 
-namespace WebApplication.CognitiveServicesAuthorizationProvider
+namespace WebApplication.ApiManager
 {
-    public class YoutubeSound
+    public class YoutubeSoundAnalisys
     {
-        private const string speechSubscriptionKey = "f48aefc9b8cb447cbc947db53a7757ee";
-
+      
         public async Task TextToSpeach()
         {
             IEnumerable<VideoInfo> videoInfos =
-                DownloadUrlResolver.GetDownloadUrls("https://www.youtube.com/watch?v=tSAKcKMncfY", false);
+                DownloadUrlResolver.GetDownloadUrls("https://www.youtube.com/watch?v=tTl_2hVUmbg", false);
 
             string path = DownloadAudioQuick(videoInfos);
             await Mp4ToWav(path);
@@ -47,17 +45,19 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
         {
 
             FFMPEG ffmpeg = new FFMPEG();
-            Vokaturi vokaturi = new Vokaturi();
             
             // Convert to wav.
             string wavPath = path.Replace(".mp4", ".wav");
-            ffmpeg.RunCommand("-i \"" + path + "\" -acodec pcm_u8 -ar 22050 \"" + wavPath + "\"");
+            ffmpeg.RunCommand("-i \"" + path + "\" -acodec pcm_s16le -ac 1 -ar 16000 \"" + wavPath + "\"");
 
-            vokaturi.RunCommand(wavPath);
 
-            //Speech to Text
-            var p = new SpeechToText();
-            await p.SpeechToTextTransformation(wavPath, "en-US", speechSubscriptionKey);
+            //Speech to Text Microsoft
+            //var p = new SpeechToText();
+            //await p.SpeechToTextTransformation(wavPath, "en-US", speechSubscriptionKey);
+
+
+            ////Speech to Text IBM
+            //await IbmSpeechToText.SpeeechToText(wavPath);
 
             //Beyond verbal anlisys
             //await BeyondVerbal.RunAnalisys();

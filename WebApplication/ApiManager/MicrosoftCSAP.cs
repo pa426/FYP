@@ -1,18 +1,19 @@
-﻿namespace WebApplication.CognitiveServicesAuthorizationProvider
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.Bing.Speech;
+
+
+namespace WebApplication.ApiManager
 {
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using Microsoft.Bing.Speech;
-
-
-    public sealed class CognitiveServicesAuthorizationProvider : IAuthorizationProvider
+  
+    public sealed class MicrosoftCSAP : IAuthorizationProvider
     {
         private const string FetchTokenUri = "https://api.cognitive.microsoft.com/sts/v1.0";
 
-        private readonly string subscriptionKey;
+        private readonly string subscriptionKey = ApiKeys.microsoftSpeechToTextSubKey;
 
-        public CognitiveServicesAuthorizationProvider(string subscriptionKey)
+        public MicrosoftCSAP()
         {
             if (subscriptionKey == null)
             {

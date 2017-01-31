@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using WebApplication.CognitiveServicesAuthorizationProvider;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
-using Microsoft.ProjectOxford.Common.Contract;
 using WebApplication.Models;
-using Microsoft.ProjectOxford.Emotion;
-using Microsoft.ProjectOxford.Emotion.Contract;
+
 
 
 namespace WebApplication.Controllers
@@ -17,12 +14,7 @@ namespace WebApplication.Controllers
     public class HomeController : Controller
     {
         public const string youtubeSubscriptionKey = "AIzaSyAFKde_KX47mFd7g2YkG3oa9RbmMztq74g";
-        public const string emotionSubscriptionKey = "2cc6f73902d74e08b3d7e0e32af04a3f";
-        public const string faceSubscriptionKey = "37d014179cb44f308fadb3517e97db77";
-        public const string visionSubscriptionKey = "070cf781e8b14db9a4415966072e1de8";
-        public const string speechSubscriptionKey = "f48aefc9b8cb447cbc947db53a7757ee";
-        public const string nalyticstextASubscriptionKey = "cd82f8aab44e410cb2f4b1bd2d1228e3";
-        public const string beyondVerbalSubscriptionKey = "055d0416-7a5d-4e66-a249-19956d25b3f3";
+       
 
         public async Task<ActionResult> DashboardV0()
         {
@@ -36,13 +28,16 @@ namespace WebApplication.Controllers
             //await its.TextToSpeach();
 
             //IBM Alchemy API 
-            string text = "Watched protests yesterday but was under the impression that we just had an election! Why didn’t these people vote? Celebs hurt cause badly.";
-            await IbmTextAnalisys.MakeRequests(text);
+            //string text = "Testing the product is the most important stage of a project because here you can see if the result matches the specifications. Based on which project methodology techniques you are going to apply which in this case is Agile the testing is similar only the moment of testing will fluctuate (for example if you are using Waterfall technique you perform the same sets of tests only that at the end of development). \r\nIn this project testing will be done all along the development and all sets of tests will be noted and saved, because in this way you can see the flow of the project the improvements and will help you in the final analyze. \r\nThis project is tested by respecting the standard procedures which are presented in (Luo) document and follows the examples from MSDN (Network, 2016) : \r\na)\tUnit testing: the lowest level of testing where every unit of software will be tested. \r\nb)\tIntegration testing: many units will be tested together to check the structure of the system.\r\nc)\tSystem testing: is the stage when you check the final condition of the system where the non- functional attributes of the system are tested. \r\nd)\tAcceptance testing: the system will be tested with some potential users to check the acceptance of those. \r\n\r\nTo make sure that all these methodologies are respected and the project can accede a good standard a Quality Assurance Plan on the project have been made. It can be found in Annex \r\n";
+            //await IbmTextAnalisys.MakeRequests(text);
 
 
             //Beyond verbal anlisys
             //await BeyondVerbal.RunAnalisys();
 
+
+            //IbmSpeechToText
+            //await IbmSpeechToText.SpeeechToText();
 
             return View();
         }
@@ -125,70 +120,7 @@ namespace WebApplication.Controllers
         }
 
 
-        public async Task<VideoEmotionRecognitionOperation> VidAnalisys()
-        {
-            EmotionServiceClient emotionServiceClient = new EmotionServiceClient(emotionSubscriptionKey);
-            VideoEmotionRecognitionOperation videoOperation;
-
-            var videoUrl =
-                "https://d2v9y0dukr6mq2.cloudfront.net/video/preview/VGqRaYUogil0szy2p/sad-face-of-young-guy-man-cry-with-tears_rbrfjci8__PM.mp4";
-
-            Debug.WriteLine("Video Analyse starting________________________________________________________");
-            videoOperation = await emotionServiceClient.RecognizeInVideoAsync(videoUrl);
-            return videoOperation;
-        }
-
-        public async Task<VideoOperationResult> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
-        {
-            EmotionServiceClient emotionServiceClient = new EmotionServiceClient(emotionSubscriptionKey);
-            VideoOperationResult operationResult;
-
-            Debug.WriteLine("Uploaded Analisys starting________________________________________________________");
-            while (true)
-            {
-                operationResult = await emotionServiceClient.GetOperationResultAsync(videoOperation);
-                if (operationResult.Status == VideoOperationStatus.Succeeded ||
-                    operationResult.Status == VideoOperationStatus.Failed)
-                {
-                    break;
-                }
-                else if (operationResult.Status == VideoOperationStatus.Running)
-                {
-                    Debug.WriteLine("Analisys still running please wait");
-                }
-
-                Task.Delay(30000).Wait(); //(0.5 min)
-            }
-
-            var operationResultemotionRecognitionJsonString =
-                ((VideoOperationInfoResult<VideoAggregateRecognitionResult>) operationResult).ProcessingResult;
-
-
-            Debug.WriteLine("Sentiments :" + operationResultemotionRecognitionJsonString);
-
-            foreach (var frag in operationResultemotionRecognitionJsonString.Fragments)
-            {
-                if (frag.Events != null)
-                {
-                    foreach (var x in frag.Events)
-                    {
-                        foreach (var y in x)
-                        {
-                            Debug.WriteLine("Anger " + y.WindowMeanScores.Anger);
-                            Debug.WriteLine("Contempt " + y.WindowMeanScores.Contempt);
-                            Debug.WriteLine("Disgust " + y.WindowMeanScores.Disgust);
-                            Debug.WriteLine("Fear " + y.WindowMeanScores.Fear);
-                            Debug.WriteLine("Happiness " + y.WindowMeanScores.Happiness);
-                            Debug.WriteLine("Neutral " + y.WindowMeanScores.Neutral);
-                            Debug.WriteLine("Sadness " + y.WindowMeanScores.Sadness);
-                            Debug.WriteLine("Surprise " + y.WindowMeanScores.Surprise);
-                        }
-                    }
-                }
-            }
-
-            return operationResult;
-        }
+        
     }
 
 

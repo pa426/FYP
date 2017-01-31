@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 
-namespace WebApplication.CognitiveServicesAuthorizationProvider
+namespace WebApplication.ApiManager
 {
-    public static class IbmTextAnalisys
+    public static class MicrosoftTextAnalytics
     {
 
-        private const string BaseUrl = "https://gateway-a.watsonplatform.net/calls/";
-        private const string AccountKey = "18f89f43ce81f33be88e3c4067acc8cd895c3a6e";
-        private const int NumLanguages = 1;
-
+        private const string BaseUrl = "https://westus.api.cognitive.microsoft.com/";
+      
 
         public static async Task MakeRequests(string speechToText)
         {
@@ -24,15 +20,16 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
                 client.BaseAddress = new Uri(BaseUrl);
 
                 // Request headers.
-                client.DefaultRequestHeaders.Add("API_KEY", AccountKey);
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ApiKeys.microsoftTextAnalitycsSubKey);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Request body. Insert your text data here in JSON format.
-                byte[] byteData = Encoding.UTF8.GetBytes("text\":\"" + speechToText + "\"}");
+                byte[] byteData = Encoding.UTF8.GetBytes("{\"documents\":[" +
+                    "{\"id\":\"1\",\"text\":\"" + speechToText + "\"},]}");
                 // Detect sentiment:
-                var uri = "text/TextGetEmotion";
+                var uri = "text/analytics/v2.0/sentiment";
                 var response = await CallEndpoint(client, uri, byteData);
-                Debug.WriteLine("\n****Detect emotions response:\n****" + response);
+                Debug.WriteLine("\n****Detect sentiment response:\n****" + response);
             }
         }
 

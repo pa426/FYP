@@ -1,17 +1,15 @@
 ﻿
-namespace WebApplication.CognitiveServicesAuthorizationProvider
-{
-    using System;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Diagnostics;
-    using Microsoft.Bing.Speech;
+using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using Microsoft.Bing.Speech;
 
-    /// <summary>
-    /// This sample program shows how to use <see cref="SpeechClient"/> APIs to perform speech recognition.
-    /// </summary>
-    public class SpeechToText
+namespace WebApplication.ApiManager
+{
+
+    public class MicrosoftSpeechToText
     {
         private static readonly Uri ShortPhraseUrl = new Uri(@"wss://speech.platform.bing.com/api/service/recognition");
 
@@ -57,11 +55,11 @@ namespace WebApplication.CognitiveServicesAuthorizationProvider
         }
 
 
-        public async Task SpeechToTextTransformation(string audioFile, string locale, string subscriptionKey)
+        public async Task SpeechToTextTransformation(string audioFile, string locale)
         {
             // create the preferences object
             var preferences = new Preferences(locale, LongDictationUrl,
-                new CognitiveServicesAuthorizationProvider(subscriptionKey));
+                new MicrosoftCSAP());
 
             // Create a a speech client
             using (var speechClient = new SpeechClient(preferences))

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -7,19 +6,18 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 
-namespace WebApplication.CognitiveServicesAuthorizationProvider
+namespace WebApplication.ApiManager
 {
     public class BeyondVerbal
     {
         private const string tokenUrl = "https://token.beyondverbal.com/token";
-        private const string apiKey = "055d0416-7a5d-4e66-a249-19956d25b3f3";
         private const string startUrl = "https://testapiv3.beyondverbal.com/v3/recording/";
         private const string postFilePath = @"C:\Users\Alexandru\Desktop\test3.wav";
 
         public static async Task RunAnalisys()
         {
 
-            var requestData = "apiKey=" + apiKey + "&grant_type=client_credentials";
+            var requestData = "apiKey=" + ApiKeys.beyondVerbalSubscriptionKey + "&grant_type=client_credentials";
             //auth
             var token = authRequest(tokenUrl, Encoding.UTF8.GetBytes(requestData));
 
