@@ -6,7 +6,6 @@ using Microsoft.Bing.Speech;
 
 namespace WebApplication.ApiManager
 {
-  
     public sealed class MicrosoftCSAP : IAuthorizationProvider
     {
         private const string FetchTokenUri = "https://api.cognitive.microsoft.com/sts/v1.0";

@@ -20,8 +20,8 @@
 
 
 @*Start timeline*@
-<div class="row">
-    @using (Html.BeginForm("CheckAll", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+<div id="searchVideo" class="row">
+    @using (Html.BeginForm("DashboardV0", "Home", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
     {
     <div class="box-body">
         <button id="checkAllBtn" name="checkAllBtn" class="btn btn-app" value="">
@@ -46,14 +46,14 @@
                     <span class="time"><i class="fa fa-clock-o"> @vid.PublishedAt</i> </span>
                     <div class="timeline-body">
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/@vid.VideoId" frameborder="0" allowfullscreen></iframe>
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/@vid.VideoId" frameborder="0"  allowfullscreen></iframe>
                         </div>
                     </div>
                     <div class="timeline-footer">
                         <a href="#" class="btn btn-xs bg-maroon">See comments</a>
                         <div >
                             @Html.LabelFor(m => m.AddVideoCb)
-                            @Html.CheckBoxFor(m => m.AddVideoCb)
+                            @Html.CheckBoxFor(m => m.AddVideoCb, new { @checked = "checked" })
                             @**@
                             @*<input type="checkbox" id="@string.Format("videoCb{0}", i)" name="" value="1"/>*@
                             @*<label for="@string.Format("videoCb{0}", i++)"></label>*@

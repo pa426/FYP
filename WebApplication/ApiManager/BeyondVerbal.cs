@@ -16,13 +16,13 @@ namespace WebApplication.ApiManager
 
         public static async Task RunAnalisys()
         {
-
             var requestData = "apiKey=" + ApiKeys.beyondVerbalSubscriptionKey + "&grant_type=client_credentials";
             //auth
             var token = authRequest(tokenUrl, Encoding.UTF8.GetBytes(requestData));
 
             //start
-            var startResponseString = CreateWebRequest(startUrl + "start", Encoding.UTF8.GetBytes("{ dataFormat: { type: \"WAV\" } }"), token);
+            var startResponseString = CreateWebRequest(startUrl + "start",
+                Encoding.UTF8.GetBytes("{ dataFormat: { type: \"WAV\" } }"), token);
 
             var startResponseObj = JsonConvert.DeserializeObject<dynamic>(startResponseString);
             if (startResponseObj.status != "success")
@@ -41,12 +41,14 @@ namespace WebApplication.ApiManager
             dynamic parsedJson = JsonConvert.DeserializeObject(analysisResponseString);
             string jstring = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
             Debug.WriteLine(jstring);
-
         }
 
         private static string authRequest(string url, byte[] data)
         {
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { Formatting = Formatting.Indented };
+            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented
+            };
             HttpWebRequest request = HttpWebRequest.Create(url) as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
@@ -71,13 +73,15 @@ namespace WebApplication.ApiManager
                 var res = streamReader.ReadToEnd();
                 dynamic responceContent = JsonConvert.DeserializeObject(res, jsonSerializerSettings);
                 return responceContent.access_token;
-
             }
         }
 
         private static string CreateWebRequest(string url, byte[] data, string token = null)
         {
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { Formatting = Formatting.Indented };
+            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented
+            };
             HttpWebRequest request = HttpWebRequest.Create(url) as HttpWebRequest;
             request.Method = "POST";
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
@@ -104,6 +108,5 @@ namespace WebApplication.ApiManager
                 return streamReader.ReadToEnd();
             }
         }
-
     }
 }

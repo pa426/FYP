@@ -9,9 +9,8 @@ namespace WebApplication.ApiManager
 {
     public static class MicrosoftTextAnalytics
     {
-
         private const string BaseUrl = "https://westus.api.cognitive.microsoft.com/";
-      
+
 
         public static async Task MakeRequests(string speechToText)
         {
@@ -25,7 +24,7 @@ namespace WebApplication.ApiManager
 
                 // Request body. Insert your text data here in JSON format.
                 byte[] byteData = Encoding.UTF8.GetBytes("{\"documents\":[" +
-                    "{\"id\":\"1\",\"text\":\"" + speechToText + "\"},]}");
+                                                         "{\"id\":\"1\",\"text\":\"" + speechToText + "\"},]}");
                 // Detect sentiment:
                 var uri = "text/analytics/v2.0/sentiment";
                 var response = await CallEndpoint(client, uri, byteData);

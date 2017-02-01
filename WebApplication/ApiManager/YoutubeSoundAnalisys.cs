@@ -11,7 +11,6 @@ namespace WebApplication.ApiManager
 {
     public class YoutubeSoundAnalisys
     {
-      
         public async Task TextToSpeach()
         {
             IEnumerable<VideoInfo> videoInfos =
@@ -43,9 +42,8 @@ namespace WebApplication.ApiManager
 
         private static async Task Mp4ToWav(string path)
         {
-
             FFMPEG ffmpeg = new FFMPEG();
-            
+
             // Convert to wav.
             string wavPath = path.Replace(".mp4", ".wav");
             ffmpeg.RunCommand("-i \"" + path + "\" -acodec pcm_s16le -ac 1 -ar 16000 \"" + wavPath + "\"");
@@ -65,7 +63,6 @@ namespace WebApplication.ApiManager
             // Cleanup.
             File.Delete(path);
             File.Delete(wavPath);
-
         }
     }
 }

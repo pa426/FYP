@@ -1,11 +1,13 @@
 ﻿@{
     ViewBag.Title = "Dashboard v0";
+    dynamic search = Url.Encode("/#searchVideo");
 }
 
 @section Menu {
     @Scripts.Render("~/Scripts/Home/DashboardV0/menu")
 }
 
+@using System.Web.Services.Protocols
 @model WebApplication.Models.VideoModels
 
 @Styles.Render("~/AdminLTE/plugins/daterangepicker/css")

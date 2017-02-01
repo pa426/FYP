@@ -8,8 +8,6 @@ namespace WebApplication.ApiManager
 {
     public class MicrosoftVideoEmotion
     {
-
-
         public async Task<VideoEmotionRecognitionOperation> VidAnalisys()
         {
             EmotionServiceClient emotionServiceClient = new EmotionServiceClient(ApiKeys.microsoftEmotionSubKey);
@@ -46,7 +44,7 @@ namespace WebApplication.ApiManager
             }
 
             var operationResultemotionRecognitionJsonString =
-                ((VideoOperationInfoResult<VideoAggregateRecognitionResult>)operationResult).ProcessingResult;
+                ((VideoOperationInfoResult<VideoAggregateRecognitionResult>) operationResult).ProcessingResult;
 
 
             Debug.WriteLine("Sentiments :" + operationResultemotionRecognitionJsonString);
@@ -74,6 +72,5 @@ namespace WebApplication.ApiManager
 
             return operationResult;
         }
-
     }
 }

@@ -10,7 +10,6 @@ namespace WebApplication.ApiManager
     {
         private const string BaseUrl = "https://watson-api-explorer.mybluemix.net/alchemy-api/calls/text/TextGetEmotion";
 
-
         public static async Task MakeRequests(string getEmo)
         {
             string getUrl = BaseUrl + "?apikey=" + ApiKeys.ibmTextAnalisysSubKey + "&text=" + getEmo;

@@ -1,9 +1,7 @@
-﻿
-namespace WebApplication.ApiManager
+﻿namespace WebApplication.ApiManager
 {
     public static class ApiKeys
     {
-
         public const string ibmSpeechToTextUsername = "a9f5ed6b-f30f-49f3-b31d-8d80c827c553";
         public const string ibmSpeechToTextPassword = "WBvEdeKM0RSW";
         public const string ibmTextAnalisysSubKey = "18f89f43ce81f33be88e3c4067acc8cd895c3a6e";
@@ -14,5 +12,6 @@ namespace WebApplication.ApiManager
 
         public const string beyondVerbalSubscriptionKey = "055d0416-7a5d-4e66-a249-19956d25b3f3";
 
+        public const string youtubeSubscriptionKey = "AIzaSyAFKde_KX47mFd7g2YkG3oa9RbmMztq74g";
     }
 }

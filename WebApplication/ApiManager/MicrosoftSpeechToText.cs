@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +7,6 @@ using Microsoft.Bing.Speech;
 
 namespace WebApplication.ApiManager
 {
-
     public class MicrosoftSpeechToText
     {
         private static readonly Uri ShortPhraseUrl = new Uri(@"wss://speech.platform.bing.com/api/service/recognition");
@@ -48,8 +46,6 @@ namespace WebApplication.ApiManager
                     Debug.WriteLine("{0} (Confidence:{1})", result.DisplayText, result.Confidence);
 
                     //await TextAnalytics.MakeRequests(result.DisplayText);
-
-
                 }
             }
         }
