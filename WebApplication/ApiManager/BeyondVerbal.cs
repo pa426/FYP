@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json.Linq;
+using WebApplication.Models;
 
 namespace WebApplication.ApiManager
 {
@@ -12,10 +14,11 @@ namespace WebApplication.ApiManager
     {
         private const string tokenUrl = "https://token.beyondverbal.com/token";
         private const string startUrl = "https://testapiv3.beyondverbal.com/v3/recording/";
-        private const string postFilePath = @"C:\Users\Alexandru\Desktop\test3.wav";
 
-        public static async Task RunAnalisys()
+        public static async Task<SoundEmotions> RunAnalisys(string postFilePath)
         {
+            var sa = new SoundEmotions();
+
             var requestData = "apiKey=" + ApiKeys.beyondVerbalSubscriptionKey + "&grant_type=client_credentials";
             //auth
             var token = authRequest(tokenUrl, Encoding.UTF8.GetBytes(requestData));
@@ -28,7 +31,7 @@ namespace WebApplication.ApiManager
             if (startResponseObj.status != "success")
             {
                 Debug.WriteLine("Response Status: " + startResponseObj.status);
-                return;
+
             }
             var recordingId = startResponseObj.recordingId.Value;
 
@@ -36,11 +39,58 @@ namespace WebApplication.ApiManager
             string analysisUrl = startUrl + recordingId;
             var bytes = File.ReadAllBytes(postFilePath);
             var analysisResponseString = CreateWebRequest(analysisUrl, bytes, token);
-            Debug.WriteLine(analysisResponseString);
 
-            dynamic parsedJson = JsonConvert.DeserializeObject(analysisResponseString);
-            string jstring = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
-            Debug.WriteLine(jstring);
+            var parsedJson = JObject.Parse(analysisResponseString);
+
+
+            for (int i = 0; i < parsedJson["result"]["analysisSegments"].Count(); i++)
+            {
+                var ses = new SoundEmotionsSegment();
+
+                ses.Offset = (float)parsedJson["result"]["analysisSegments"][i]["offset"];
+                ses.Duration = (float)parsedJson["result"]["analysisSegments"][i]["duration"];
+                ses.TemperVal =
+                    (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Temper"]["Value"];
+                ses.TemperMode =
+                    (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Temper"]["Group"];
+                ses.ValenceVal =
+                    (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Valence"]["Value"];
+                ses.ValenceMode =
+                    (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Valence"]["Group"];
+                ses.ArousalVal =
+                    (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Arousal"]["Value"];
+                ses.ArousalMode =
+                    (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Arousal"]["Group"];
+                ses.Gender =
+                    (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Gender"]["Group"];
+                ses.MoodPrimary =
+                    (string)
+                    parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Group11"]["Primary"]["Phrase"];
+                ses.MoodSecondary =
+                    (string)
+                    parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Group11"]["Secondary"]["Phrase"];
+                ses.CompositePrimary =
+                    (string)
+                    parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Composite"]["Primary"]["Phrase"];
+                ses.CompositeSecondary =
+                    (string)
+                    parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Composite"]["Secondary"]["Phrase"];
+
+                sa.SegmentsList.Add(ses);
+
+            }
+
+
+            sa.TemperMeanVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mean"];
+            sa.TemperMeanMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mode"];
+            sa.ValenceMeanVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mean"];
+            sa.ValenceMeanMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mode"];
+            sa.ArousalMeanVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mean"];
+            sa.ArousalMeanMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mode"];
+
+            return sa;
+
+
         }
 
         private static string authRequest(string url, byte[] data)

@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using WebApplication.Models;
 
 
 namespace WebApplication.ApiManager
@@ -16,8 +21,11 @@ namespace WebApplication.ApiManager
         static readonly Task CompletedTask = Task.FromResult(true);
 
 
-        public static async Task SpeeechToText(string file)
+        public static async Task<List<TextFromSpeech>> SpeeechToText(string file)
         {
+            List<TextFromSpeech> responseList = new List<TextFromSpeech>();
+           
+
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Clear();
@@ -37,10 +45,18 @@ namespace WebApplication.ApiManager
                         .Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    var res = response.Content.ReadAsStringAsync().Result;
-                    Debug.WriteLine(res);
+                    var res = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+
+                    for (int i = 0; i < res["results"].Count(); i++)
+                    {
+                        TextFromSpeech resTfs = new TextFromSpeech();
+                        resTfs.Transcript = (string) res["results"][i]["alternatives"][0]["transcript"];
+                        resTfs.Confidence = (decimal) res["results"][i]["alternatives"][0]["confidence"];
+                        responseList.Add(resTfs);
+                    }
                 }
             }
+            return responseList;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.ProjectOxford.Common.Contract;
 using Microsoft.ProjectOxford.Emotion;
@@ -8,21 +10,25 @@ namespace WebApplication.ApiManager
 {
     public class MicrosoftVideoEmotion
     {
-        public async Task<VideoEmotionRecognitionOperation> VidAnalisys()
+        public static async Task<List<Models.VideoEmotions>> GetVideoEmotions(string videoUrl)
+        {
+            var upload = await VidAnalisys(videoUrl);
+            return await VidAnalisysResult(upload);
+        }
+
+        public static async Task<VideoEmotionRecognitionOperation> VidAnalisys(string videoUrl)
         {
             EmotionServiceClient emotionServiceClient = new EmotionServiceClient(ApiKeys.microsoftEmotionSubKey);
             VideoEmotionRecognitionOperation videoOperation;
-
-            var videoUrl =
-                "https://d2v9y0dukr6mq2.cloudfront.net/video/preview/VGqRaYUogil0szy2p/sad-face-of-young-guy-man-cry-with-tears_rbrfjci8__PM.mp4";
-
             Debug.WriteLine("Video Analyse starting________________________________________________________");
             videoOperation = await emotionServiceClient.RecognizeInVideoAsync(videoUrl);
             return videoOperation;
         }
 
-        public async Task<VideoOperationResult> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
+        public static async Task<List<Models.VideoEmotions>> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
         {
+            var videoEmotionsList = new List<Models.VideoEmotions>();
+            var videoEmotions = new Models.VideoEmotions();
             EmotionServiceClient emotionServiceClient = new EmotionServiceClient(ApiKeys.microsoftEmotionSubKey);
             VideoOperationResult operationResult;
 
@@ -57,20 +63,21 @@ namespace WebApplication.ApiManager
                     {
                         foreach (var y in x)
                         {
-                            Debug.WriteLine("Anger " + y.WindowMeanScores.Anger);
-                            Debug.WriteLine("Contempt " + y.WindowMeanScores.Contempt);
-                            Debug.WriteLine("Disgust " + y.WindowMeanScores.Disgust);
-                            Debug.WriteLine("Fear " + y.WindowMeanScores.Fear);
-                            Debug.WriteLine("Happiness " + y.WindowMeanScores.Happiness);
-                            Debug.WriteLine("Neutral " + y.WindowMeanScores.Neutral);
-                            Debug.WriteLine("Sadness " + y.WindowMeanScores.Sadness);
-                            Debug.WriteLine("Surprise " + y.WindowMeanScores.Surprise);
+                            videoEmotions.Anger = float.Parse(y.WindowMeanScores.Anger.ToString());
+                            videoEmotions.Contempt = float.Parse(y.WindowMeanScores.Contempt.ToString());
+                            videoEmotions.Disgust = float.Parse(y.WindowMeanScores.Disgust.ToString());
+                            videoEmotions.Fear = float.Parse(y.WindowMeanScores.Fear.ToString());
+                            videoEmotions.Happiness = float.Parse(y.WindowMeanScores.Happiness.ToString());
+                            videoEmotions.Neutral = float.Parse(y.WindowMeanScores.Neutral.ToString());
+                            videoEmotions.Sadness = float.Parse(y.WindowMeanScores.Sadness.ToString());
+                            videoEmotions.Surprise = float.Parse(y.WindowMeanScores.Surprise.ToString());
+                            videoEmotionsList.Add(videoEmotions);
                         }
                     }
                 }
             }
 
-            return operationResult;
+            return videoEmotionsList;
         }
     }
 }

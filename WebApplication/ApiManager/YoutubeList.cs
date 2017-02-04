@@ -11,9 +11,9 @@ namespace WebApplication.ApiManager
     public class YoutubeList
     {
 
-        public async Task <List<VideoModels>> GetYoutubeList(string videoQuery, string videoNr, string videoDates)
+        public async Task<List<VideoModel>> GetYoutubeList(string videoQuery, string videoNr, string videoDates)
         {
-            List<VideoModels> videos = new List<VideoModels>();
+            List<VideoModel> videos = new List<VideoModel>();
 
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
@@ -40,7 +40,7 @@ namespace WebApplication.ApiManager
             // matching videos, channels, and playlists.
             foreach (var searchResult in searchListResponse.Items)
             {
-                VideoModels vid = new VideoModels();
+                VideoModel vid = new VideoModel();
 
                 switch (searchResult.Id.Kind)
                 {
@@ -67,6 +67,7 @@ namespace WebApplication.ApiManager
             }
 
             return videos;
+
         }
 
         private DateTime[] SeparateDates(string videoDates)
@@ -77,10 +78,6 @@ namespace WebApplication.ApiManager
 
             dates[0] = DateTime.ParseExact(date1[0], "dd/MM/yyyy", null);
             dates[1] = DateTime.ParseExact(date1[1], "dd/MM/yyyy", null);
-
-            Debug.WriteLine(date1[0] + dates[1]);
-            Debug.WriteLine(dates[0]);
-            Debug.WriteLine(dates[1]);
 
             return dates;
         }

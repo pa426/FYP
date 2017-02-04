@@ -1,14 +1,12 @@
 ﻿@{
     ViewBag.Title = "Dashboard v0";
-    dynamic search = Url.Encode("/#searchVideo");
 }
 
 @section Menu {
     @Scripts.Render("~/Scripts/Home/DashboardV0/menu")
 }
 
-@using System.Web.Services.Protocols
-@model WebApplication.Models.VideoModels
+@model WebApplication.Models.VideoModelList
 
 @Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
 @Styles.Render("~/AdminLTE/plugins/icheck/css")
@@ -31,25 +29,25 @@
             ;
             <div class="form-group">
                 <div class="col-sm-6">
-                    @Html.TextBoxFor(m => m.VideoNr, new { @class = "form-control", type = "text", id = "range_5", name = "range_5", value = "" })
+                    @Html.TextBoxFor(m => m.VidModList[0].VideoNr, new { @class = "form-control", type = "text", id = "range_5", name = "range_5", value = "" })
                 </div>
             </div>
             <div id="datePickerSearch" class="form-group pull-right">
                 <label>Date range button:</label>
                 <div class="input-group">
                     <span class="fa fa-calendar" style="margin-right: 10px;" aria-hidden="true"></span>
-                    @Html.TextBoxFor(m => m.VideoDates, new {@class = "btn btn-default", type = "text", id = "daterange-btn", placeholder = "Chose date range "})
+                    @Html.TextBoxFor(m => m.VidModList[0].VideoDates, new {@class = "btn btn-default", type = "text", id = "daterange-btn", placeholder = "Chose date range "})
                 </div>
             </div>
             <div class="form-group pull-left">
                 <div class="input-group margin">
-                    @Html.TextBoxFor(m => m.VideoQuery, new { @class = "form-control", type = "text", placeholder = "Inser description!"})
+                    @Html.TextBoxFor(m => m.VidModList[0].VideoQuery, new { @class = "form-control", type = "text", placeholder = "Inser description!"})
                     <span class="input-group-btn">
                         <input type="submit" class="btn btn-info btn-flat" name="searchVideo-btn" value="GO!" />
                     </span>
                 </div>
                 <div class="input-group margin">
-                    @Html.ValidationMessageFor(m => m.VideoQuery, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => m.VidModList[0].VideoQuery, "", new { @class = "text-danger" })
                 </div>
             </div>
         }

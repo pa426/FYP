@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace WebApplication.ApiManager
 {
     public class MicrosoftSpeechToText
     {
+        private List<string> responseList = new List<string>();
+
         private static readonly Uri ShortPhraseUrl = new Uri(@"wss://speech.platform.bing.com/api/service/recognition");
 
         private static readonly Uri LongDictationUrl =
@@ -34,6 +37,7 @@ namespace WebApplication.ApiManager
         {
             var response = args;
 
+
             Debug.WriteLine("--- Phrase result received by OnRecognitionResult ---");
 
             // Print the recognition status.
@@ -44,15 +48,19 @@ namespace WebApplication.ApiManager
                 {
                     // Print the recognition phrase display text.
                     Debug.WriteLine("{0} (Confidence:{1})", result.DisplayText, result.Confidence);
+                    responseList.Add("TEXT:" + result.DisplayText+ "CONFIDENCE:" + result.Confidence);
 
                     //await TextAnalytics.MakeRequests(result.DisplayText);
                 }
             }
+
         }
 
 
-        public async Task SpeechToTextTransformation(string audioFile, string locale)
+        public async Task<List<string>> SpeechToTextTransformation(string audioFile, string locale)
         {
+            List<string> responseList = new List<string>();
+
             // create the preferences object
             var preferences = new Preferences(locale, LongDictationUrl,
                 new MicrosoftCSAP());
@@ -76,6 +84,7 @@ namespace WebApplication.ApiManager
                         .ConfigureAwait(false);
                 }
             }
+            return responseList;
         }
     }
 }
