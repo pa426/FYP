@@ -145,7 +145,7 @@ namespace WebApplication.ApiManager
              Debug.WriteLine("Mean Sound Analisys TemperMeanVal    --->" + am.se.TemperMeanVal);
              Debug.WriteLine("Mean Sound Analisys ValenceMeanMode  --->" + am.se.ValenceMeanMode);
              Debug.WriteLine("Mean Sound Analisys ValenceMeanVal)  --->" + am.se.ValenceMeanVal);
-
+            //szdasdas
 
             // Cleanup.
             File.Delete(path);
