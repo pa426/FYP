@@ -13,9 +13,8 @@ namespace WebApplication.Controllers
 
         public async Task<ActionResult> DashboardV0()
         {
-            //Beyond verbal anlisys
-            var va = await BeyondVerbal.RunAnalisys(@"C:\Users\Alexandru\Desktop\Obama Reacts to Trump's Muslim Ban.wav");
-
+            var path = @"C:\Users\Alexandru\Desktop\test4.wav";
+            var speeToText = IbmSpeechToText.SpeeechToText(path);
             return View();
         }
 
@@ -72,9 +71,9 @@ namespace WebApplication.Controllers
                         if (m.AddVideoCb == true)
                         {
                             Debug.WriteLine("***{0} Analise started for video {1}:", m.ChannelTitle, m.VideoId);
-                            //await YoutubeSoundAnalisys.TextToSpeach(m.VideoId);
+                            await YoutubeSoundAnalisys.TextToSpeach(m.VideoId);
 
-                            /////////////////////baga aicivideo id///////////////////
+
                         }
                     }
                     break;

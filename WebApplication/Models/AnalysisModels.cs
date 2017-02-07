@@ -7,13 +7,14 @@ namespace WebApplication.Models
 {
     public class AnalysisModels
     {
-        public VideoEmotions ve { get; set; }
-        public TextEmotions te { get; set; }
-        public SoundEmotions se { get; set; }
+        public List<VideoEmotions> ve { get; set; } = new List<VideoEmotions>();
+        public TextEmotions te { get; set; } = new TextEmotions();
+        public SoundEmotions se { get; set; } = new SoundEmotions();
     }
 
     public class VideoEmotions
     {
+        public int FrameIndex { get; set; }
         public float Anger { get; set; }
         public float Contempt { get; set; }
         public float Disgust { get; set; }
@@ -26,8 +27,8 @@ namespace WebApplication.Models
 
     public class TextEmotions
     {
-        public List<TextFromSpeech> TextFromSpeech { get; set; }
-        public EmotionsFormSpeech EmotionsFormSpeech { get; set; }
+        public List<TextFromSpeech> TextFromSpeech { get; set; } = new List<TextFromSpeech>();
+        public EmotionsFormSpeech EmotionsFormSpeech { get; set; } 
     }
 
     public class TextFromSpeech

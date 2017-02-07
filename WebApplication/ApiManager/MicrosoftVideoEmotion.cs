@@ -28,7 +28,7 @@ namespace WebApplication.ApiManager
         public static async Task<List<Models.VideoEmotions>> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
         {
             var videoEmotionsList = new List<Models.VideoEmotions>();
-            var videoEmotions = new Models.VideoEmotions();
+           
             EmotionServiceClient emotionServiceClient = new EmotionServiceClient(ApiKeys.microsoftEmotionSubKey);
             VideoOperationResult operationResult;
 
@@ -49,11 +49,12 @@ namespace WebApplication.ApiManager
                 Task.Delay(30000).Wait(); //(0.5 min)
             }
 
+
             var operationResultemotionRecognitionJsonString =
                 ((VideoOperationInfoResult<VideoAggregateRecognitionResult>) operationResult).ProcessingResult;
 
 
-            Debug.WriteLine("Sentiments :" + operationResultemotionRecognitionJsonString);
+            int i = 0;
 
             foreach (var frag in operationResultemotionRecognitionJsonString.Fragments)
             {
@@ -63,6 +64,8 @@ namespace WebApplication.ApiManager
                     {
                         foreach (var y in x)
                         {
+                            var videoEmotions = new Models.VideoEmotions();
+                            videoEmotions.FrameIndex = i++;
                             videoEmotions.Anger = float.Parse(y.WindowMeanScores.Anger.ToString());
                             videoEmotions.Contempt = float.Parse(y.WindowMeanScores.Contempt.ToString());
                             videoEmotions.Disgust = float.Parse(y.WindowMeanScores.Disgust.ToString());
@@ -71,7 +74,11 @@ namespace WebApplication.ApiManager
                             videoEmotions.Neutral = float.Parse(y.WindowMeanScores.Neutral.ToString());
                             videoEmotions.Sadness = float.Parse(y.WindowMeanScores.Sadness.ToString());
                             videoEmotions.Surprise = float.Parse(y.WindowMeanScores.Surprise.ToString());
-                            videoEmotionsList.Add(videoEmotions);
+                            if (videoEmotions.Anger != 0 && videoEmotions.Contempt != 0 && videoEmotions.Disgust != 0 && videoEmotions.Fear != 0 && videoEmotions.Happiness != 0 && videoEmotions.Neutral != 0 && videoEmotions.Sadness != 0 && videoEmotions.Surprise != 0)
+                            {
+                                videoEmotionsList.Add(videoEmotions);
+                            }
+                           
                         }
                     }
                 }
