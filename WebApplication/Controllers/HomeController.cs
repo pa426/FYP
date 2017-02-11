@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using WebApplication.ApiManager;
 using WebApplication.Models;
@@ -10,6 +12,7 @@ namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult DashboardV0()
         {
@@ -18,7 +21,15 @@ namespace WebApplication.Controllers
 
         public ActionResult DashboardV1()
         {
-            return View();
+            var videoId = "dMb669vLy68";
+
+            var rm = new ResultModels();
+            rm.VideoDetail = db.AspVideoDetails.Find(videoId);
+            rm.VideoAnalysisSegments = db.AspVideoAnalysisSegment.Where(r => r.VideoId == videoId).ToList();
+            rm.TextAnalisysSegments = db.AspTextAnalisysSegment.Where(r => r.VideoId == videoId).ToList();
+            rm.SoundAnalisysSegments = db.AspSoundAnalisysSegment.Where(r => r.VideoId == videoId).ToList();
+
+            return View(rm);
         }
 
         public ActionResult DashboardV2()
@@ -38,7 +49,8 @@ namespace WebApplication.Controllers
 
             var yl = new YoutubeList();
             var ml = new VideoModelList();
-            ml.VidModList = await yl.GetYoutubeList(model.VidModList[0].VideoQuery, model.VidModList[0].VideoNr, model.VidModList[0].VideoDates);
+            ml.VidModList = await yl.GetYoutubeList(model.VidModList[0].VideoQuery, model.VidModList[0].VideoNr,
+                model.VidModList[0].VideoDates);
 
             ModelState.Clear();
             return View(ml);
@@ -68,11 +80,19 @@ namespace WebApplication.Controllers
                     {
                         if (m.AddVideoCb == true)
                         {
-                            Debug.WriteLine("***{0} Analise started for video {1}:", m.ChannelTitle, m.VideoId);
-                            var yt = new YoutubeSoundAnalisys();
-                            m.UserId = User.Identity.GetUserId();
-                            await yt.TextToSpeach(m);
-                            //HostingEnvironment.QueueBackgroundWorkItem(ct => yt.TextToSpeach(m));
+                            var aspVideoDetail = db.AspVideoDetails.Find(m.VideoId);
+
+                            if (aspVideoDetail == null)
+                            {
+                                Debug.WriteLine("***{0} Analise started for video {1}:", m.ChannelTitle, m.VideoId);
+                                var yt = new YoutubeSoundAnalisys();
+                                m.UserId = User.Identity.GetUserId();
+                                HostingEnvironment.QueueBackgroundWorkItem(ct => yt.TextToSpeach(m));
+                            }
+                            else
+                            {
+                                Debug.WriteLine("####Analise for video {0}/{1} already in database!!!", m.ChannelTitle, m.VideoId);
+                            }
                         }
                     }
                     break;
@@ -80,6 +100,5 @@ namespace WebApplication.Controllers
 
             return View(newModel);
         }
-
     }
 }

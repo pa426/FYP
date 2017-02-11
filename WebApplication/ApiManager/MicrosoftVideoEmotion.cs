@@ -13,7 +13,7 @@ namespace WebApplication.ApiManager
 {
     public class MicrosoftVideoEmotion
     {
-        public static async Task<List<AspVideoAnalysisSegments>> GetVideoEmotions(string videoUrl)
+        public static async Task<List<AspVideoAnalysisSegment>> GetVideoEmotions(string videoUrl)
         {
             var upload = await VidAnalisys(videoUrl);
             return await VidAnalisysResult(upload);
@@ -27,9 +27,9 @@ namespace WebApplication.ApiManager
             return videoOperation;
         }
 
-        public static async Task<List<AspVideoAnalysisSegments>> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
+        public static async Task<List<AspVideoAnalysisSegment>> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
         {
-            var videoEmotionsList = new List<AspVideoAnalysisSegments>();
+            var videoEmotionsList = new List<AspVideoAnalysisSegment>();
            
             var emotionServiceClient = new EmotionServiceClient(ApiKeys.microsoftEmotionSubKey);
             VideoOperationResult operationResult;
@@ -63,7 +63,7 @@ namespace WebApplication.ApiManager
                 if (frag.Events == null) continue;
                 foreach (var x in frag.Events)
                 {
-                    videoEmotionsList.AddRange(x.Select(y => new AspVideoAnalysisSegments
+                    videoEmotionsList.AddRange(x.Select(y => new AspVideoAnalysisSegment
                     {
                         VideoSegmentIndex = i++, Anger = float.Parse(y.WindowMeanScores.Anger.ToString()), Contempt = float.Parse(y.WindowMeanScores.Contempt.ToString()), Disgust = float.Parse(y.WindowMeanScores.Disgust.ToString()), Fear = float.Parse(y.WindowMeanScores.Fear.ToString()), Happiness = float.Parse(y.WindowMeanScores.Happiness.ToString()), Neutral = float.Parse(y.WindowMeanScores.Neutral.ToString()), Sadness = float.Parse(y.WindowMeanScores.Sadness.ToString()), Surprise = float.Parse(y.WindowMeanScores.Surprise.ToString())
                     }).Where(videoEmotions => videoEmotions.Anger != 0 && videoEmotions.Contempt != 0 && videoEmotions.Disgust != 0 && videoEmotions.Fear != 0 && videoEmotions.Happiness != 0 && videoEmotions.Neutral != 0 && videoEmotions.Sadness != 0 && videoEmotions.Surprise != 0));

@@ -35,9 +35,9 @@ namespace WebApplication.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<WebApplication.Models.AspVideoDetails> AspVideoDetails { get; set; }
-        public System.Data.Entity.DbSet<WebApplication.Models.AspSoundAnalisysSegments> AspSoundAnalisysSegment { get; set; }
-        public System.Data.Entity.DbSet<WebApplication.Models.AspVideoAnalysisSegments> AspVideoAnalysisSegment { get; set; }
-        public System.Data.Entity.DbSet<WebApplication.Models.AspTextAnalisysSegments> AspTextAnalisysSegment { get; set; }
+        public System.Data.Entity.DbSet<WebApplication.Models.AspVideoDetail> AspVideoDetails { get; set; }
+        public System.Data.Entity.DbSet<WebApplication.Models.AspSoundAnalisysSegment> AspSoundAnalisysSegment { get; set; }
+        public System.Data.Entity.DbSet<WebApplication.Models.AspVideoAnalysisSegment> AspVideoAnalysisSegment { get; set; }
+        public System.Data.Entity.DbSet<WebApplication.Models.AspTextAnalisysSegment> AspTextAnalisysSegment { get; set; }
     }
 }

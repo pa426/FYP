@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c282724f48694b56b1056ba237048197" Name="Diagram1">
+        <EntityTypeShape EntityType="DefaultConnectionModel.AspSoundAnalisysSegment" Width="2.125" PointX="8.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefaultConnectionModel.AspTextAnalisysSegment" Width="2.125" PointX="3.375" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefaultConnectionModel.AspVideoAnalysisSegment" Width="2.125" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefaultConnectionModel.AspVideoDetail" Width="2.125" PointX="0.625" PointY="0.625" IsExpanded="true" />
+        <AssociationConnector Association="DefaultConnectionModel.FK_AspSoundAnalisysSegments_AspVideoDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="DefaultConnectionModel.FK_AspTextAnalisysSegments_AspVideoDetails" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2.75" PointY="2.1872460937500002" />
+          <ConnectorPoint PointX="3.375" PointY="2.1872460937500002" />
+        </AssociationConnector>
+        <AssociationConnector Association="DefaultConnectionModel.FK_AspVideoAnalysisSegments_AspVideoDetails" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -23,8 +23,8 @@ namespace WebApplication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspVideoDetails aspVideoDetail = db.AspVideoDetails.Find(id);
-            if (aspVideoDetail == null)
+            AspVideoDetail aspVideoDetail = db.AspVideoDetails.Find(id);
+            if (aspVideoDetail == null) 
             {
                 return HttpNotFound();
             }
@@ -42,16 +42,16 @@ namespace WebApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "VideoId,VideoTitle,ChannelId,ChannelTitle,PublishedAt,UserId")] AspVideoDetails aspVideoDetails)
+        public ActionResult Create([Bind(Include = "VideoId,VideoTitle,ChannelId,ChannelTitle,PublishedAt,UserId")] AspVideoDetail aspVideoDetail)
         {
             if (ModelState.IsValid)
             {
-                db.AspVideoDetails.Add(aspVideoDetails);
+                db.AspVideoDetails.Add(aspVideoDetail);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(aspVideoDetails);
+            return View(aspVideoDetail);
         }
 
         // GET: AspVideoDetails/Edit/5
@@ -61,7 +61,7 @@ namespace WebApplication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspVideoDetails aspVideoDetail = db.AspVideoDetails.Find(id);
+            AspVideoDetail aspVideoDetail = db.AspVideoDetails.Find(id);
             if (aspVideoDetail == null)
             {
                 return HttpNotFound();
@@ -92,7 +92,7 @@ namespace WebApplication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspVideoDetails aspVideoDetail = db.AspVideoDetails.Find(id);
+            AspVideoDetail aspVideoDetail = db.AspVideoDetails.Find(id);
             if (aspVideoDetail == null)
             {
                 return HttpNotFound();
@@ -105,7 +105,7 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            AspVideoDetails aspVideoDetail = db.AspVideoDetails.Find(id);
+            AspVideoDetail aspVideoDetail = db.AspVideoDetails.Find(id);
             db.AspVideoDetails.Remove(aspVideoDetail);
             db.SaveChanges();
             return RedirectToAction("Index");

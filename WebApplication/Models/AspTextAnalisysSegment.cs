@@ -7,13 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace WebApplication.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class AspTextAnalisysSegments
+    public partial class AspTextAnalisysSegment
     {
+        [Key]
         public int TextSegmentId { get; set; }
         public string VideoId { get; set; }
         public Nullable<int> TextSegmentIndex { get; set; }
@@ -24,6 +27,6 @@ namespace WebApplication.Models
         public Nullable<double> Joy { get; set; }
         public Nullable<double> Sadness { get; set; }
     
-        public virtual AspVideoDetails AspVideoDetail { get; set; }
+        public virtual AspVideoDetail AspVideoDetail { get; set; }
     }
 }

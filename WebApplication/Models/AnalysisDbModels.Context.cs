@@ -25,9 +25,9 @@ namespace WebApplication.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AspSoundAnalisysSegments> AspSoundAnalisysSegments1 { get; set; }
-        public virtual DbSet<AspTextAnalisysSegments> AspTextAnalisysSegments1 { get; set; }
-        public virtual DbSet<AspVideoAnalysisSegments> AspVideoAnalysisSegments1 { get; set; }
-        public virtual DbSet<AspVideoDetails> AspVideoDetails1 { get; set; }
+        public virtual DbSet<AspSoundAnalisysSegment> AspSoundAnalisysSegments { get; set; }
+        public virtual DbSet<AspTextAnalisysSegment> AspTextAnalisysSegments { get; set; }
+        public virtual DbSet<AspVideoAnalysisSegment> AspVideoAnalysisSegments { get; set; }
+        public virtual DbSet<AspVideoDetail> AspVideoDetails { get; set; }
     }
 }

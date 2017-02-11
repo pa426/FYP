@@ -11,9 +11,9 @@ namespace WebApplication.ApiManager
     {
         private const string BaseUrl = "https://watson-api-explorer.mybluemix.net/alchemy-api/calls/text/TextGetEmotion";
 
-        public static async Task<AspTextAnalisysSegments> MakeRequests(string getEmo , int i)
+        public static async Task<AspTextAnalisysSegment> MakeRequests(string getEmo , int i)
         {
-            var efs = new AspTextAnalisysSegments();  
+            var efs = new AspTextAnalisysSegment();  
 
             var getUrl = BaseUrl + "?apikey=" + ApiKeys.ibmTextAnalisysSubKey + "&text=" + getEmo;
             var request = WebRequest.Create(getUrl);

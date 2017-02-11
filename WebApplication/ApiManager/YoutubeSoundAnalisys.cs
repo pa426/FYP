@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -9,15 +8,6 @@ using System.Threading.Tasks;
 using Frapper;
 using WebApplication.Models;
 using YoutubeExtractor;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using WebApplication.Models;
-
 
 
 namespace WebApplication.ApiManager
@@ -26,7 +16,7 @@ namespace WebApplication.ApiManager
     {
         private static VideoInfo _downloadUrl;
         private ApplicationDbContext db = new ApplicationDbContext();
- 
+
         public async Task TextToSpeach(VideoModel vidmod)
         {
             IEnumerable<VideoInfo> videoInfos =
@@ -34,7 +24,6 @@ namespace WebApplication.ApiManager
 
             var path = DownloadAudioQuick(videoInfos);
             await Mp4ToWav(path, vidmod);
-
         }
 
         private static string RemoveIllegalPathCharacters(string path)
@@ -70,23 +59,20 @@ namespace WebApplication.ApiManager
             ffmpeg.RunCommand("-i \"" + path + "\" -acodec pcm_s16le -ac 1 -ar 16000 \"" + wavPath + "\"");
 
             //Add Video Detailsused for DB
-            var videoDetails = new AspVideoDetails();
+            var videoDetails = new AspVideoDetail();
             videoDetails.VideoId = vidmod.VideoId;
             videoDetails.VideoTitle = vidmod.VideoTitle;
             videoDetails.ChannelId = vidmod.ChannelId;
             videoDetails.ChannelTitle = vidmod.VideoId;
             videoDetails.UserId = vidmod.UserId;
             videoDetails.PublishedAt = Convert.ToDateTime(vidmod.PublishedAt);
-            
             db.AspVideoDetails.Add(videoDetails);
             db.SaveChanges();
 
+            //Start parallel threads for analisys
             var videoEmotion = MicrosoftVideoEmotion.GetVideoEmotions(_downloadUrl.DownloadUrl);
-
             var isttTextList = IbmSpeechToText.SpeeechToText(wavPath);
-
             var bva = BeyondVerbal.RunAnalisys(wavPath);
-
             await Task.WhenAll(videoEmotion, isttTextList, bva);
 
             //Video Analisys
@@ -94,7 +80,6 @@ namespace WebApplication.ApiManager
             Debug.WriteLine("###Video Analisys Response");
             foreach (var v in videoEmotionsSegments)
             {
-              
                 v.VideoId = vidmod.VideoId;
                 Debug.WriteLine("***Segment number    --->" + v.VideoSegmentIndex);
                 Debug.WriteLine("Anger from video     --->" + v.Anger);
@@ -109,7 +94,7 @@ namespace WebApplication.ApiManager
                 db.AspVideoAnalysisSegment.Add(v);
                 db.SaveChanges();
             }
-            var videoEmotionsMean = new AspVideoAnalysisSegments();
+            var videoEmotionsMean = new AspVideoAnalysisSegment();
             videoEmotionsMean.VideoSegmentIndex = -1;
             videoEmotionsMean.VideoId = vidmod.VideoId;
             videoEmotionsMean.Anger = videoEmotionsSegments.Average(item => item.Anger);
@@ -123,68 +108,62 @@ namespace WebApplication.ApiManager
             db.AspVideoAnalysisSegment.Add(videoEmotionsMean);
             db.SaveChanges();
 
-            //Speech to Text Microsoft
-            //var mstt = new MicrosoftSpeechToText();
-            //var msttTextList = await mstt.SpeechToTextTransformation(wavPath, "en-US");
-
-            //Text analitycs Microsoft
-            //foreach (var v in msttTextList)
-            //{
-            //    //return a string with the result for each string sent
-            //    var sentiment = await MicrosoftTextAnalytics.MakeRequests(v);
-            //}
-
             ////Text analitycs IBM
-            var textAnalisysSegments = new List<AspTextAnalisysSegments>();
+            var textAnalisysSegments = new List<AspTextAnalisysSegment>();
             int i = 0;
             foreach (var var in isttTextList.Result)
             {
                 if (var != "")
                 {
                     var textAnalisysSegment = await IbmTextAnalisys.MakeRequests(var, i);
-                    textAnalisysSegment.VideoId = vidmod.VideoId;
-                    Debug.WriteLine("###Text Analisys REsponse Segment:" + textAnalisysSegment.TextSegmentIndex);
-                    Debug.WriteLine("****Text due to analise ---> " + textAnalisysSegment.TextFromSpeech);
-                    Debug.WriteLine("            ");
-                    Debug.WriteLine("****Sentiments from text ");
-                    Debug.WriteLine("Anger    --->" + textAnalisysSegment.Anger.ToString());
-                    Debug.WriteLine("Disgust  --->" + textAnalisysSegment.Disgust.ToString());
-                    Debug.WriteLine("Fear     --->" + textAnalisysSegment.Fear.ToString());
-                    Debug.WriteLine("Joy      --->" + textAnalisysSegment.Joy.ToString());
-                    Debug.WriteLine("Sadness  --->" + textAnalisysSegment.Sadness.ToString());
-                    Debug.WriteLine("            ");
-                    i++;
-                    textAnalisysSegments.Add(textAnalisysSegment);
-                    db.AspTextAnalisysSegment.Add(textAnalisysSegment);
-                    db.SaveChanges();
+
+                    if (textAnalisysSegment.Anger != 0 && textAnalisysSegment.Disgust != 0 &&
+                        textAnalisysSegment.Fear != 0 && textAnalisysSegment.Joy != 0 &&
+                        textAnalisysSegment.Sadness != 0)
+                    {
+                        textAnalisysSegment.VideoId = vidmod.VideoId;
+                        Debug.WriteLine("###Text Analisys REsponse Segment:" + textAnalisysSegment.TextSegmentIndex);
+                        Debug.WriteLine("****Text due to analise ---> " + textAnalisysSegment.TextFromSpeech);
+                        Debug.WriteLine("            ");
+                        Debug.WriteLine("****Sentiments from text ");
+                        Debug.WriteLine("Anger    --->" + textAnalisysSegment.Anger.ToString());
+                        Debug.WriteLine("Disgust  --->" + textAnalisysSegment.Disgust.ToString());
+                        Debug.WriteLine("Fear     --->" + textAnalisysSegment.Fear.ToString());
+                        Debug.WriteLine("Joy      --->" + textAnalisysSegment.Joy.ToString());
+                        Debug.WriteLine("Sadness  --->" + textAnalisysSegment.Sadness.ToString());
+                        Debug.WriteLine("            ");
+                        i++;
+                        textAnalisysSegments.Add(textAnalisysSegment);
+                        db.AspTextAnalisysSegment.Add(textAnalisysSegment);
+                        db.SaveChanges();
+                    }
                 }
 
                 Task.Delay(3000).Wait();
             }
+            
+            if (i > 1)
+            {
+                var textAnalisysMean = new AspTextAnalisysSegment();
+                textAnalisysMean.TextSegmentIndex = -1;
+                textAnalisysMean.VideoId = vidmod.VideoId;
+                textAnalisysMean.Anger = textAnalisysSegments.Average(item => item.Anger);
+                textAnalisysMean.Disgust = textAnalisysSegments.Average(item => item.Disgust);
+                textAnalisysMean.Fear = textAnalisysSegments.Average(item => item.Fear);
+                textAnalisysMean.Joy = textAnalisysSegments.Average(item => item.Joy);
+                textAnalisysMean.Sadness = textAnalisysSegments.Average(item => item.Sadness);
+                db.AspTextAnalisysSegment.Add(textAnalisysMean);
+                db.SaveChanges();
 
-            var textAnalisysMean = new AspTextAnalisysSegments();
-            textAnalisysMean.TextSegmentIndex = -1;
-            textAnalisysMean.VideoId = vidmod.VideoId;
-            textAnalisysMean.Anger = textAnalisysSegments.Average(item => item.Anger);
-            textAnalisysMean.Disgust = textAnalisysSegments.Average(item => item.Disgust);
-            textAnalisysMean.Fear = textAnalisysSegments.Average(item => item.Fear);
-            textAnalisysMean.Joy = textAnalisysSegments.Average(item => item.Joy);
-            textAnalisysMean.Sadness = textAnalisysSegments.Average(item => item.Sadness);
-            db.AspTextAnalisysSegment.Add(textAnalisysMean);
-            db.SaveChanges();
-
-            Debug.WriteLine("Mean Text Analisys Anger MeanMode  --->" + textAnalisysMean.Anger);
-            Debug.WriteLine("Mean Text Analisys Disgust MeanVal   --->" + textAnalisysMean.Disgust);
-            Debug.WriteLine("Mean Text Analisys Fear MeanMode   --->" + textAnalisysMean.Fear);
-            Debug.WriteLine("Mean Text Analisys Joy aMeanVal    --->" + textAnalisysMean.Joy);
-            Debug.WriteLine("Mean Text Analisys Sadness MeanMode  --->" + textAnalisysMean.Sadness);
-
-
+                Debug.WriteLine("Mean Text Analisys Anger MeanMode  --->" + textAnalisysMean.Anger);
+                Debug.WriteLine("Mean Text Analisys Disgust MeanVal   --->" + textAnalisysMean.Disgust);
+                Debug.WriteLine("Mean Text Analisys Fear MeanMode   --->" + textAnalisysMean.Fear);
+                Debug.WriteLine("Mean Text Analisys Joy aMeanVal    --->" + textAnalisysMean.Joy);
+                Debug.WriteLine("Mean Text Analisys Sadness MeanMode  --->" + textAnalisysMean.Sadness);
+            }
+            
             //Beyond verbal anlisys
-
             Debug.WriteLine("###Sound Analisys Response");
-
-            i = 0;
             foreach (var s in bva.Result)
             {
                 s.VideoId = vidmod.VideoId;
@@ -207,11 +186,22 @@ namespace WebApplication.ApiManager
                 db.SaveChanges();
             }
 
-
             // Cleanup.
             File.Delete(path);
             File.Delete(wavPath);
-
         }
     }
 }
+
+
+
+//Speech to Text Microsoft
+//var mstt = new MicrosoftSpeechToText();
+//var msttTextList = await mstt.SpeechToTextTransformation(wavPath, "en-US");
+
+//Text analitycs Microsoft
+//foreach (var v in msttTextList)
+//{
+//    //return a string with the result for each string sent
+//    var sentiment = await MicrosoftTextAnalytics.MakeRequests(v);
+//}

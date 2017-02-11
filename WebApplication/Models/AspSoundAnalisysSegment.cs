@@ -7,13 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace WebApplication.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class AspSoundAnalisysSegments
+    public partial class AspSoundAnalisysSegment
     {
+        [Key]
         public int SoundSegmentId { get; set; }
         public string VideoId { get; set; }
         public Nullable<int> SoundSegmentIndex { get; set; }
@@ -31,6 +34,6 @@ namespace WebApplication.Models
         public string CompositePrimary { get; set; }
         public string CompositeSecondary { get; set; }
     
-        public virtual AspVideoDetails AspVideoDetail { get; set; }
+        public virtual AspVideoDetail AspVideoDetail { get; set; }
     }
 }

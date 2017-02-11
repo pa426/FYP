@@ -16,9 +16,9 @@ namespace WebApplication.ApiManager
         private const string tokenUrl = "https://token.beyondverbal.com/token";
         private const string startUrl = "https://testapiv3.beyondverbal.com/v3/recording/";
 
-        public static async Task<List<AspSoundAnalisysSegments>> RunAnalisys(string postFilePath)
+        public static async Task<List<AspSoundAnalisysSegment>> RunAnalisys(string postFilePath)
         {
-            var sa = new List<AspSoundAnalisysSegments>();
+            var sa = new List<AspSoundAnalisysSegment>();
 
             var requestData = "apiKey=" + ApiKeys.beyondVerbalSubscriptionKey + "&grant_type=client_credentials";
             //auth
@@ -43,10 +43,10 @@ namespace WebApplication.ApiManager
 
             var parsedJson = JObject.Parse(analysisResponseString);
 
-
-            for (int i = 0; i < parsedJson["result"]["analysisSegments"].Count(); i++)
+            int i;
+            for (i = 0; i < parsedJson["result"]["analysisSegments"].Count(); i++)
             {
-                var sesSegment = new AspSoundAnalisysSegments();
+                var sesSegment = new AspSoundAnalisysSegment();
 
                 sesSegment.SoundSegmentIndex = i;
                 sesSegment.Offset = (float)parsedJson["result"]["analysisSegments"][i]["offset"];
@@ -82,15 +82,18 @@ namespace WebApplication.ApiManager
 
             }
 
-            var sesMean = new AspSoundAnalisysSegments();
-            sesMean.SoundSegmentIndex = -1;
-            sesMean.TemperVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mean"];
-            sesMean.TemperMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mode"];
-            sesMean.ValenceVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Valence"]["Mean"];
-            sesMean.ValenceMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Valence"]["Mode"];
-            sesMean.ArousalVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Arousal"]["Mean"];
-            sesMean.ArousalMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Arousal"]["Mode"];
-            sa.Add(sesMean);
+            if (i > 1)
+            {
+                var sesMean = new AspSoundAnalisysSegment();
+                sesMean.SoundSegmentIndex = -1;
+                sesMean.TemperVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mean"];
+                sesMean.TemperMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mode"];
+                sesMean.ValenceVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Valence"]["Mean"];
+                sesMean.ValenceMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Valence"]["Mode"];
+                sesMean.ArousalVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Arousal"]["Mean"];
+                sesMean.ArousalMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Arousal"]["Mode"];
+                sa.Add(sesMean);
+            }
 
             return sa;
 
