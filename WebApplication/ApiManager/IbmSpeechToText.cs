@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebApplication.Models;
 
@@ -18,10 +16,10 @@ namespace WebApplication.ApiManager
     {
         //static string file = @"c:\Users\Alexandru\Desktop\test2long.wav";
 
-        public static async Task<List<TextFromSpeech>> SpeeechToText(string file)
+        public static async Task<List<string>> SpeeechToText(string file)
         {
-            var responseList = new List<TextFromSpeech>();
-
+            var responseList = new List<string>();
+            string text = "";
 
             using (var client = new HttpClient())
             {
@@ -47,13 +45,26 @@ namespace WebApplication.ApiManager
                     {
                         var res = JObject.Parse(response.Content.ReadAsStringAsync().Result);
 
-                        for (int i = 0; i < res["results"].Count(); i++)
+                        int i = 0;
+                        
+                        foreach (var v in res["results"]) 
                         {
-                            TextFromSpeech resTfs = new TextFromSpeech();
-                            resTfs.Transcript = (string) res["results"][i]["alternatives"][0]["transcript"];
-                            resTfs.Confidence = (decimal) res["results"][i]["alternatives"][0]["confidence"];
-                            responseList.Add(resTfs);
+                            if (i % 5 == 0 && i != 0)
+                            {
+                                text += (string) v["alternatives"][0]["transcript"] + " ";
+                                responseList.Add(text);
+                                text = "";
+                            }
+                            else
+                            {
+                                text += (string) v["alternatives"][0]["transcript"] + " ";
+                            }
+
+                            i++;
+
                         }
+
+                        responseList.Add(text);
                     }
                 }
             }

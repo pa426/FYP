@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebApplication.ApiManager;
 using WebApplication.Models;
-
+using Microsoft.AspNet.Identity;
 
 
 namespace WebApplication.Controllers
@@ -11,10 +11,8 @@ namespace WebApplication.Controllers
     public class HomeController : Controller
     {
 
-        public async Task<ActionResult> DashboardV0()
+        public ActionResult DashboardV0()
         {
-            var path = @"C:\Users\Alexandru\Desktop\test4.wav";
-            var speeToText = IbmSpeechToText.SpeeechToText(path);
             return View();
         }
 
@@ -71,9 +69,10 @@ namespace WebApplication.Controllers
                         if (m.AddVideoCb == true)
                         {
                             Debug.WriteLine("***{0} Analise started for video {1}:", m.ChannelTitle, m.VideoId);
-                            await YoutubeSoundAnalisys.TextToSpeach(m.VideoId);
-
-
+                            var yt = new YoutubeSoundAnalisys();
+                            m.UserId = User.Identity.GetUserId();
+                            await yt.TextToSpeach(m);
+                            //HostingEnvironment.QueueBackgroundWorkItem(ct => yt.TextToSpeach(m));
                         }
                     }
                     break;

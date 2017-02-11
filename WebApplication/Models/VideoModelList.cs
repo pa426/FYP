@@ -24,6 +24,7 @@ namespace WebApplication.Models
         public string ChannelId { get; set; }
         public string ChannelTitle { get; set; }
         public string PublishedAt { get; set; }
+        public string UserId { get; set; }
         [Display(Name = "Add video")]
         public bool AddVideoCb { get; set; }
 

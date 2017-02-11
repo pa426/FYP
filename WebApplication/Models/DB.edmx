@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DefaultConnectionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspVideoDetails">
+          <Key>
+            <PropertyRef Name="VideoId" />
+          </Key>
+          <Property Name="VideoId" Type="varchar" MaxLength="50" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="VideoTitle" Type="varchar" MaxLength="50" />
+          <Property Name="ChannelId" Type="varchar" MaxLength="50" />
+          <Property Name="ChannelTitle" Type="varchar" MaxLength="50" />
+          <Property Name="PublishedAt" Type="datetime" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityContainer Name="DefaultConnectionModelStoreContainer">
+          <EntitySet Name="AspVideoDetails" EntityType="Self.AspVideoDetails" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DefaultConnectionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspSoundAnalisysSegments">
+          <Key>
+            <PropertyRef Name="SoundSegmentId" />
+          </Key>
+          <Property Name="SoundSegmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VideoId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SoundSegmentIndex" Type="Int32" />
+          <Property Name="Offset" Type="Double" />
+          <Property Name="Duration" Type="Double" />
+          <Property Name="TemperVal" Type="Double" />
+          <Property Name="TemperMode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ValenceVal" Type="Double" />
+          <Property Name="ValenceMode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ArousalVal" Type="Double" />
+          <Property Name="ArousalMode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MoodPrimary" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MoodSecondary" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CompositePrimary" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CompositeSecondary" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspVideoDetail" Relationship="Self.FK_AspSoundAnalisysSegment_AspVideoDetails" FromRole="AspSoundAnalisysSegment" ToRole="AspVideoDetails" />
+        </EntityType>
+        <EntityType Name="AspTextAnalisysSegments">
+          <Key>
+            <PropertyRef Name="TextSegmentId" />
+          </Key>
+          <Property Name="TextSegmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VideoId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TextSegmentIndex" Type="Int32" />
+          <Property Name="TextFromSpeech" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Anger" Type="Double" />
+          <Property Name="Disgust" Type="Double" />
+          <Property Name="Fear" Type="Double" />
+          <Property Name="Joy" Type="Double" />
+          <Property Name="Sadness" Type="Double" />
+          <NavigationProperty Name="AspVideoDetail" Relationship="Self.FK_AspTextAnalisysSegment_AspVideoDetails" FromRole="AspTextAnalisysSegment" ToRole="AspVideoDetails" />
+        </EntityType>
+        <EntityType Name="AspVideoAnalysisSegments">
+          <Key>
+            <PropertyRef Name="VideoSegmentId" />
+          </Key>
+          <Property Name="VideoSegmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VideoId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VideoSegmentIndex" Type="Int32" />
+          <Property Name="Anger" Type="Double" />
+          <Property Name="Contempt" Type="Double" />
+          <Property Name="Disgust" Type="Double" />
+          <Property Name="Fear" Type="Double" />
+          <Property Name="Happiness" Type="Double" />
+          <Property Name="Neutral" Type="Double" />
+          <Property Name="Sadness" Type="Double" />
+          <Property Name="Surprise" Type="Double" />
+          <NavigationProperty Name="AspVideoDetail" Relationship="Self.FK_AspVideoAnalysisSegment_AspVideoDetails" FromRole="AspVideoAnalysisSegment" ToRole="AspVideoDetails" />
+        </EntityType>
+        <EntityType Name="AspVideoDetails">
+          <Key>
+            <PropertyRef Name="VideoId" />
+          </Key>
+          <Property Name="VideoId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="VideoTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChannelId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChannelTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PublishedAt" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspSoundAnalisysSegments" Relationship="Self.FK_AspSoundAnalisysSegment_AspVideoDetails" FromRole="AspVideoDetails" ToRole="AspSoundAnalisysSegment" />
+          <NavigationProperty Name="AspTextAnalisysSegments" Relationship="Self.FK_AspTextAnalisysSegment_AspVideoDetails" FromRole="AspVideoDetails" ToRole="AspTextAnalisysSegment" />
+          <NavigationProperty Name="AspVideoAnalysisSegments" Relationship="Self.FK_AspVideoAnalysisSegment_AspVideoDetails" FromRole="AspVideoDetails" ToRole="AspVideoAnalysisSegment" />
+        </EntityType>
+        <Association Name="FK_AspSoundAnalisysSegment_AspVideoDetails">
+          <End Role="AspVideoDetails" Type="DefaultConnectionModel.AspVideoDetails" Multiplicity="0..1" />
+          <End Role="AspSoundAnalisysSegment" Type="DefaultConnectionModel.AspSoundAnalisysSegments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspVideoDetails">
+              <PropertyRef Name="VideoId" />
+            </Principal>
+            <Dependent Role="AspSoundAnalisysSegment">
+              <PropertyRef Name="VideoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspTextAnalisysSegment_AspVideoDetails">
+          <End Role="AspVideoDetails" Type="DefaultConnectionModel.AspVideoDetails" Multiplicity="0..1" />
+          <End Role="AspTextAnalisysSegment" Type="DefaultConnectionModel.AspTextAnalisysSegments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspVideoDetails">
+              <PropertyRef Name="VideoId" />
+            </Principal>
+            <Dependent Role="AspTextAnalisysSegment">
+              <PropertyRef Name="VideoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspVideoAnalysisSegment_AspVideoDetails">
+          <End Role="AspVideoDetails" Type="DefaultConnectionModel.AspVideoDetails" Multiplicity="0..1" />
+          <End Role="AspVideoAnalysisSegment" Type="DefaultConnectionModel.AspVideoAnalysisSegments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspVideoDetails">
+              <PropertyRef Name="VideoId" />
+            </Principal>
+            <Dependent Role="AspVideoAnalysisSegment">
+              <PropertyRef Name="VideoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DefaultConnectionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspSoundAnalisysSegments1" EntityType="DefaultConnectionModel.AspSoundAnalisysSegments" />
+          <EntitySet Name="AspTextAnalisysSegments1" EntityType="DefaultConnectionModel.AspTextAnalisysSegments" />
+          <EntitySet Name="AspVideoAnalysisSegments1" EntityType="DefaultConnectionModel.AspVideoAnalysisSegments" />
+          <EntitySet Name="AspVideoDetails1" EntityType="DefaultConnectionModel.AspVideoDetails" />
+          <AssociationSet Name="FK_AspSoundAnalisysSegment_AspVideoDetails" Association="Self.FK_AspSoundAnalisysSegment_AspVideoDetails">
+            <End Role="AspVideoDetails" EntitySet="AspVideoDetails1" />
+            <End Role="AspSoundAnalisysSegment" EntitySet="AspSoundAnalisysSegments1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspTextAnalisysSegment_AspVideoDetails" Association="Self.FK_AspTextAnalisysSegment_AspVideoDetails">
+            <End Role="AspVideoDetails" EntitySet="AspVideoDetails1" />
+            <End Role="AspTextAnalisysSegment" EntitySet="AspTextAnalisysSegments1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspVideoAnalysisSegment_AspVideoDetails" Association="Self.FK_AspVideoAnalysisSegment_AspVideoDetails">
+            <End Role="AspVideoDetails" EntitySet="AspVideoDetails1" />
+            <End Role="AspVideoAnalysisSegment" EntitySet="AspVideoAnalysisSegments1" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DefaultConnectionModelStoreContainer" CdmEntityContainer="DefaultConnectionEntities">
+          <EntitySetMapping Name="AspVideoDetails1">
+            <EntityTypeMapping TypeName="DefaultConnectionModel.AspVideoDetails">
+              <MappingFragment StoreEntitySet="AspVideoDetails">
+                <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+                <ScalarProperty Name="VideoTitle" ColumnName="VideoTitle" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+                <ScalarProperty Name="ChannelTitle" ColumnName="ChannelTitle" />
+                <ScalarProperty Name="PublishedAt" ColumnName="PublishedAt" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

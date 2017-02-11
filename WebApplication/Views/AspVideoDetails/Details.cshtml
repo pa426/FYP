@@ -1,0 +1,58 @@
+﻿@model WebApplication.Models.AspVideoDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AspVideoDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VideoTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VideoTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChannelId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChannelId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChannelTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChannelTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PublishedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PublishedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VideoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
