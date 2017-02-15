@@ -339,6 +339,9 @@
       <DependentUpon>AnalysisDbModels.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\AnalysisModels.cs" />
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>AnalysisDbModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspSoundAnalisysSegment.cs">
       <DependentUpon>AnalysisDbModels.tt</DependentUpon>
     </Compile>
@@ -351,9 +354,9 @@
     <Compile Include="Models\AspVideoDetail.cs">
       <DependentUpon>AnalysisDbModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GraphDataModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ResultModels.cs" />
     <Compile Include="Models\VideoModelList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

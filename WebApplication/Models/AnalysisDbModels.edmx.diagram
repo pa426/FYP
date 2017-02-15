@@ -10,11 +10,11 @@
         <EntityTypeShape EntityType="DefaultConnectionModel.AspVideoAnalysisSegment" Width="2.125" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DefaultConnectionModel.AspVideoDetail" Width="2.125" PointX="0.625" PointY="0.625" IsExpanded="true" />
         <AssociationConnector Association="DefaultConnectionModel.FK_AspSoundAnalisysSegments_AspVideoDetails" ManuallyRouted="false" />
-        <AssociationConnector Association="DefaultConnectionModel.FK_AspTextAnalisysSegments_AspVideoDetails" ManuallyRouted="true" >
-          <ConnectorPoint PointX="2.75" PointY="2.1872460937500002" />
-          <ConnectorPoint PointX="3.375" PointY="2.1872460937500002" />
+        <AssociationConnector Association="DefaultConnectionModel.FK_AspTextAnalisysSegments_AspVideoDetails" ManuallyRouted="false" >
         </AssociationConnector>
         <AssociationConnector Association="DefaultConnectionModel.FK_AspVideoAnalysisSegments_AspVideoDetails" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DefaultConnectionModel.AspNetUser" Width="1.5" PointX="1" PointY="5.125" />
+        <AssociationConnector Association="DefaultConnectionModel.FK_AspVideoDetails_AspNetUsers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

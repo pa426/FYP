@@ -58,16 +58,26 @@ namespace WebApplication.ApiManager
             string wavPath = path.Replace(".mp4", ".wav");
             ffmpeg.RunCommand("-i \"" + path + "\" -acodec pcm_s16le -ac 1 -ar 16000 \"" + wavPath + "\"");
 
-            //Add Video Detailsused for DB
-            var videoDetails = new AspVideoDetail();
-            videoDetails.VideoId = vidmod.VideoId;
-            videoDetails.VideoTitle = vidmod.VideoTitle;
-            videoDetails.ChannelId = vidmod.ChannelId;
-            videoDetails.ChannelTitle = vidmod.VideoId;
-            videoDetails.UserId = vidmod.UserId;
-            videoDetails.PublishedAt = Convert.ToDateTime(vidmod.PublishedAt);
-            db.AspVideoDetails.Add(videoDetails);
-            db.SaveChanges();
+            try
+            {
+                //Add Video Details used for DB
+                var videoDetails = new AspVideoDetail
+                {
+                    VideoId = vidmod.VideoId,
+                    VideoTitle = vidmod.VideoTitle,
+                    ChannelId = vidmod.ChannelId,
+                    ChannelTitle = vidmod.VideoId,
+                    UserId = vidmod.UserId,
+                    PublishedAt = Convert.ToDateTime(vidmod.PublishedAt)
+                };
+                db.AspVideoDetails.Add(videoDetails);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             //Start parallel threads for analisys
             var videoEmotion = MicrosoftVideoEmotion.GetVideoEmotions(_downloadUrl.DownloadUrl);
@@ -91,7 +101,7 @@ namespace WebApplication.ApiManager
                 Debug.WriteLine("Sadness from video   --->" + v.Sadness);
                 Debug.WriteLine("Surprise from video  --->" + v.Surprise);
                 Debug.WriteLine("            ");
-                db.AspVideoAnalysisSegment.Add(v);
+                db.AspVideoAnalysisSegments.Add(v);
                 db.SaveChanges();
             }
             var videoEmotionsMean = new AspVideoAnalysisSegment();
@@ -105,7 +115,7 @@ namespace WebApplication.ApiManager
             videoEmotionsMean.Neutral = videoEmotionsSegments.Average(item => item.Neutral);
             videoEmotionsMean.Sadness = videoEmotionsSegments.Average(item => item.Sadness);
             videoEmotionsMean.Surprise = videoEmotionsSegments.Average(item => item.Surprise);
-            db.AspVideoAnalysisSegment.Add(videoEmotionsMean);
+            db.AspVideoAnalysisSegments.Add(videoEmotionsMean);
             db.SaveChanges();
 
             ////Text analitycs IBM
@@ -134,7 +144,7 @@ namespace WebApplication.ApiManager
                         Debug.WriteLine("            ");
                         i++;
                         textAnalisysSegments.Add(textAnalisysSegment);
-                        db.AspTextAnalisysSegment.Add(textAnalisysSegment);
+                        db.AspTextAnalisysSegments.Add(textAnalisysSegment);
                         db.SaveChanges();
                     }
                 }
@@ -152,7 +162,7 @@ namespace WebApplication.ApiManager
                 textAnalisysMean.Fear = textAnalisysSegments.Average(item => item.Fear);
                 textAnalisysMean.Joy = textAnalisysSegments.Average(item => item.Joy);
                 textAnalisysMean.Sadness = textAnalisysSegments.Average(item => item.Sadness);
-                db.AspTextAnalisysSegment.Add(textAnalisysMean);
+                db.AspTextAnalisysSegments.Add(textAnalisysMean);
                 db.SaveChanges();
 
                 Debug.WriteLine("Mean Text Analisys Anger MeanMode  --->" + textAnalisysMean.Anger);
@@ -182,7 +192,7 @@ namespace WebApplication.ApiManager
                 Debug.WriteLine("Segment sound analisys CompositePrimary    ---->" + s.CompositePrimary);
                 Debug.WriteLine("Segment sound analisys CompositeSecondary  ---->" + s.CompositeSecondary);
                 Debug.WriteLine("            ");
-                db.AspSoundAnalisysSegment.Add(s);
+                db.AspSoundAnalisysSegments.Add(s);
                 db.SaveChanges();
             }
 

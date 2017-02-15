@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
@@ -21,20 +21,17 @@ namespace WebApplication.Controllers
 
         public ActionResult DashboardV1()
         {
-            var videoId = "dMb669vLy68";
-
-            var rm = new ResultModels();
-            rm.VideoDetail = db.AspVideoDetails.Find(videoId);
-            rm.VideoAnalysisSegments = db.AspVideoAnalysisSegment.Where(r => r.VideoId == videoId).ToList();
-            rm.TextAnalisysSegments = db.AspTextAnalisysSegment.Where(r => r.VideoId == videoId).ToList();
-            rm.SoundAnalisysSegments = db.AspSoundAnalisysSegment.Where(r => r.VideoId == videoId).ToList();
-
+            var videoId = "5KW_piebJak";
+            var rm = db.AspVideoDetails.Find(videoId);
             return View(rm);
         }
 
         public ActionResult DashboardV2()
         {
-            return View();
+
+            var usrid = User.Identity.GetUserId();
+            var rm = db.AspNetUsers.Find(usrid);
+            return View(rm);
         }
 
         [HttpPost]
@@ -87,6 +84,7 @@ namespace WebApplication.Controllers
                                 Debug.WriteLine("***{0} Analise started for video {1}:", m.ChannelTitle, m.VideoId);
                                 var yt = new YoutubeSoundAnalisys();
                                 m.UserId = User.Identity.GetUserId();
+                                //await yt.TextToSpeach(m);
                                 HostingEnvironment.QueueBackgroundWorkItem(ct => yt.TextToSpeach(m));
                             }
                             else

@@ -24,7 +24,6 @@ namespace WebApplication.ApiManager
                 throw new ArgumentException(nameof(subscriptionKey));
             }
 
-            this.subscriptionKey = subscriptionKey;
         }
 
 

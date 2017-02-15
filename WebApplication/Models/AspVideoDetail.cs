@@ -38,5 +38,6 @@ namespace WebApplication.Models
         public virtual ICollection<AspTextAnalisysSegment> AspTextAnalisysSegments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspVideoAnalysisSegment> AspVideoAnalysisSegments { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }
