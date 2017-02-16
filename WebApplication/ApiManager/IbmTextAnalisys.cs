@@ -7,11 +7,11 @@ using WebApplication.Models;
 
 namespace WebApplication.ApiManager
 {
-    public static class IbmTextAnalisys
+    public class IbmTextAnalisys
     {
         private const string BaseUrl = "https://watson-api-explorer.mybluemix.net/alchemy-api/calls/text/TextGetEmotion";
 
-        public static async Task<AspTextAnalisysSegment> MakeRequests(string getEmo , int i)
+        public async Task<AspTextAnalisysSegment> MakeRequests(string getEmo , int i)
         {
             var efs = new AspTextAnalisysSegment();  
 

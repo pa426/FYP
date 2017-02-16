@@ -16,7 +16,7 @@ namespace WebApplication.ApiManager
         private const string tokenUrl = "https://token.beyondverbal.com/token";
         private const string startUrl = "https://testapiv3.beyondverbal.com/v3/recording/";
 
-        public static async Task<List<AspSoundAnalisysSegment>> RunAnalisys(string postFilePath)
+        public async Task<List<AspSoundAnalisysSegment>> RunAnalisys(string postFilePath)
         {
             var sa = new List<AspSoundAnalisysSegment>();
 
@@ -99,7 +99,7 @@ namespace WebApplication.ApiManager
 
         }
 
-        private static string authRequest(string url, byte[] data)
+        private string authRequest(string url, byte[] data)
         {
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
             {
@@ -132,7 +132,7 @@ namespace WebApplication.ApiManager
             }
         }
 
-        private static string CreateWebRequest(string url, byte[] data, string token = null)
+        private string CreateWebRequest(string url, byte[] data, string token = null)
         {
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
             {

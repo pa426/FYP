@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
@@ -19,18 +21,16 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        public ActionResult DashboardV1()
+        public ActionResult DashboardV1(string videoId)
         {
-            var videoId = "5KW_piebJak";
             var rm = db.AspVideoDetails.Find(videoId);
             return View(rm);
         }
 
         public ActionResult DashboardV2()
         {
-
             var usrid = User.Identity.GetUserId();
-            var rm = db.AspNetUsers.Find(usrid);
+            List<AspVideoDetail> rm = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid)).ToList();
             return View(rm);
         }
 

@@ -35,9 +35,8 @@ namespace WebApplication.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<WebApplication.Models.AspNetUser> AspNetUsers{ get; set; }
         public System.Data.Entity.DbSet<WebApplication.Models.AspVideoDetail> AspVideoDetails { get; set; }
-        public System.Data.Entity.DbSet<WebApplication.Models.AspSoundAnalisysSegment> AspSoundAnalisysSegments { get; set; }
+        public System.Data.Entity.DbSet<WebApplication.Models.AspSoundAnalisysSegment> AspSoundAnalisysSegments{ get; set; }
         public System.Data.Entity.DbSet<WebApplication.Models.AspVideoAnalysisSegment> AspVideoAnalysisSegments { get; set; }
         public System.Data.Entity.DbSet<WebApplication.Models.AspTextAnalisysSegment> AspTextAnalisysSegments { get; set; }
     }

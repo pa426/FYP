@@ -14,7 +14,7 @@ namespace WebApplication.ApiManager
 {
     public class YoutubeSoundAnalisys
     {
-        private static VideoInfo _downloadUrl;
+        private VideoInfo _downloadUrl;
         private ApplicationDbContext db = new ApplicationDbContext();
 
         public async Task TextToSpeach(VideoModel vidmod)
@@ -26,14 +26,14 @@ namespace WebApplication.ApiManager
             await Mp4ToWav(path, vidmod);
         }
 
-        private static string RemoveIllegalPathCharacters(string path)
+        private string RemoveIllegalPathCharacters(string path)
         {
             string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
             var r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
             return r.Replace(path, "");
         }
 
-        private static string DownloadAudioQuick(IEnumerable<VideoInfo> videoInfos)
+        private string DownloadAudioQuick(IEnumerable<VideoInfo> videoInfos)
         {
             _downloadUrl = videoInfos
                 .First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 360);
@@ -68,7 +68,8 @@ namespace WebApplication.ApiManager
                     ChannelId = vidmod.ChannelId,
                     ChannelTitle = vidmod.VideoId,
                     UserId = vidmod.UserId,
-                    PublishedAt = Convert.ToDateTime(vidmod.PublishedAt)
+                    PublishedAt = Convert.ToDateTime(vidmod.PublishedAt),
+                    Date = DateTime.Now
                 };
                 db.AspVideoDetails.Add(videoDetails);
                 db.SaveChanges();
@@ -80,9 +81,13 @@ namespace WebApplication.ApiManager
             }
 
             //Start parallel threads for analisys
-            var videoEmotion = MicrosoftVideoEmotion.GetVideoEmotions(_downloadUrl.DownloadUrl);
-            var isttTextList = IbmSpeechToText.SpeeechToText(wavPath);
-            var bva = BeyondVerbal.RunAnalisys(wavPath);
+            MicrosoftVideoEmotion ve =new MicrosoftVideoEmotion();
+            IbmSpeechToText te = new IbmSpeechToText();
+            BeyondVerbal se = new BeyondVerbal();
+
+            var videoEmotion = ve.GetVideoEmotions(_downloadUrl.DownloadUrl);
+            var isttTextList = te.SpeeechToText(wavPath);
+            var bva = se.RunAnalisys(wavPath);
             await Task.WhenAll(videoEmotion, isttTextList, bva);
 
             //Video Analisys
@@ -125,7 +130,8 @@ namespace WebApplication.ApiManager
             {
                 if (var != "")
                 {
-                    var textAnalisysSegment = await IbmTextAnalisys.MakeRequests(var, i);
+                    IbmTextAnalisys ia = new IbmTextAnalisys();
+                    var textAnalisysSegment = await ia.MakeRequests(var, i);
 
                     if (textAnalisysSegment.Anger != 0 && textAnalisysSegment.Disgust != 0 &&
                         textAnalisysSegment.Fear != 0 && textAnalisysSegment.Joy != 0 &&

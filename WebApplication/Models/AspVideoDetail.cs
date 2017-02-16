@@ -23,7 +23,7 @@ namespace WebApplication.Models
             this.AspTextAnalisysSegments = new HashSet<AspTextAnalisysSegment>();
             this.AspVideoAnalysisSegments = new HashSet<AspVideoAnalysisSegment>();
         }
-
+    
         [Key]
         public string VideoId { get; set; }
         public string VideoTitle { get; set; }
@@ -31,6 +31,7 @@ namespace WebApplication.Models
         public string ChannelTitle { get; set; }
         public Nullable<System.DateTime> PublishedAt { get; set; }
         public string UserId { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspSoundAnalisysSegment> AspSoundAnalisysSegments { get; set; }
@@ -38,6 +39,5 @@ namespace WebApplication.Models
         public virtual ICollection<AspTextAnalisysSegment> AspTextAnalisysSegments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspVideoAnalysisSegment> AspVideoAnalysisSegments { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

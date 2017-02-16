@@ -13,13 +13,13 @@ namespace WebApplication.ApiManager
 {
     public class MicrosoftVideoEmotion
     {
-        public static async Task<List<AspVideoAnalysisSegment>> GetVideoEmotions(string videoUrl)
+        public async Task<List<AspVideoAnalysisSegment>> GetVideoEmotions(string videoUrl)
         {
             var upload = await VidAnalisys(videoUrl);
             return await VidAnalisysResult(upload);
         }
 
-        public static async Task<VideoEmotionRecognitionOperation> VidAnalisys(string videoUrl)
+        public async Task<VideoEmotionRecognitionOperation> VidAnalisys(string videoUrl)
         {
             var emotionServiceClient = new EmotionServiceClient(ApiKeys.microsoftEmotionSubKey);
             Debug.WriteLine("Video Analyse starting________________________________________________________");
@@ -27,7 +27,7 @@ namespace WebApplication.ApiManager
             return videoOperation;
         }
 
-        public static async Task<List<AspVideoAnalysisSegment>> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
+        public async Task<List<AspVideoAnalysisSegment>> VidAnalisysResult(VideoEmotionRecognitionOperation videoOperation)
         {
             var videoEmotionsList = new List<AspVideoAnalysisSegment>();
            

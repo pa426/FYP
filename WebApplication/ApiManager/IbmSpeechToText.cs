@@ -16,7 +16,7 @@ namespace WebApplication.ApiManager
     {
         //static string file = @"c:\Users\Alexandru\Desktop\test2long.wav";
 
-        public static async Task<List<string>> SpeeechToText(string file)
+        public async Task<List<string>> SpeeechToText(string file)
         {
             var responseList = new List<string>();
             string text = "";

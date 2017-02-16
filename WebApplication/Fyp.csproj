@@ -323,36 +323,33 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AnalysisDbModels.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AnalysisDbModels.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AnalysisDbModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AnalysisDbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AnalysisDbModels.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AnalysisDbModels.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\AnalysisModels.cs" />
-    <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>AnalysisDbModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\AspSoundAnalisysSegment.cs">
-      <DependentUpon>AnalysisDbModels.tt</DependentUpon>
+      <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspTextAnalisysSegment.cs">
-      <DependentUpon>AnalysisDbModels.tt</DependentUpon>
+      <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspVideoAnalysisSegment.cs">
-      <DependentUpon>AnalysisDbModels.tt</DependentUpon>
+      <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspVideoDetail.cs">
-      <DependentUpon>AnalysisDbModels.tt</DependentUpon>
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbModels.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModels.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbModels.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbModels.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModels.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\GraphDataModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -554,15 +551,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\AnalysisDbModels.Context.tt">
+    <Content Include="Models\DbModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AnalysisDbModels.edmx</DependentUpon>
-      <LastGenOutput>AnalysisDbModels.Context.cs</LastGenOutput>
+      <DependentUpon>DbModels.edmx</DependentUpon>
+      <LastGenOutput>DbModels.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\AnalysisDbModels.tt">
+    <Content Include="Models\DbModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AnalysisDbModels.edmx</DependentUpon>
-      <LastGenOutput>AnalysisDbModels.cs</LastGenOutput>
+      <DependentUpon>DbModels.edmx</DependentUpon>
+      <LastGenOutput>DbModels.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\Account\Login.js" />
     <Content Include="Scripts\Account\Register.js" />
@@ -616,12 +613,12 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <EntityDeploy Include="Models\AnalysisDbModels.edmx">
+    <EntityDeploy Include="Models\DbModels.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AnalysisDbModels.Designer.cs</LastGenOutput>
+      <LastGenOutput>DbModels.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\AnalysisDbModels.edmx.diagram">
-      <DependentUpon>AnalysisDbModels.edmx</DependentUpon>
+    <Content Include="Models\DbModels.edmx.diagram">
+      <DependentUpon>DbModels.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />

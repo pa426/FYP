@@ -24,12 +24,10 @@ namespace WebApplication.Models
         {
             throw new UnintentionalCodeFirstException();
         }
-
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+    
         public virtual DbSet<AspSoundAnalisysSegment> AspSoundAnalisysSegments { get; set; }
         public virtual DbSet<AspTextAnalisysSegment> AspTextAnalisysSegments { get; set; }
         public virtual DbSet<AspVideoAnalysisSegment> AspVideoAnalysisSegments { get; set; }
         public virtual DbSet<AspVideoDetail> AspVideoDetails { get; set; }
-        
     }
 }
