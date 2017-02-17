@@ -53,16 +53,6 @@ namespace WebApplication.ApiManager
                         videos.Add(vid);
                         break;
 
-                        // Further development stages
-                        //case "youtube#channel":
-                        //    vid.channelName = (String.Format("{0}", searchResult.Snippet.Title));
-                        //    vid.channelId = (String.Format("{0}", searchResult.Id.ChannelId));
-                        //    break;
-
-                        //case "youtube#playlist":
-                        //    vid.playlistName = (String.Format("{0}", searchResult.Snippet.Title));
-                        //    vid.playlistId = (String.Format("{0}", searchResult.Id.PlaylistId));
-                        //    break;
                 }
             }
 
