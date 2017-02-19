@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Frapper;
+using Microsoft.AspNet.SignalR;
 using WebApplication.Models;
 using YoutubeExtractor;
 
@@ -201,6 +202,10 @@ namespace WebApplication.ApiManager
                 db.AspSoundAnalisysSegments.Add(s);
                 db.SaveChanges();
             }
+
+            //Push notification update
+            var myHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            myHub.Clients.All.notify("added");
 
             // Cleanup.
             File.Delete(path);

@@ -53,7 +53,6 @@ $(function() {
     }).on('click',
         function (i, row) {
             var newTime = (row['y'] / 2);
-            console.log(newTime);
             player.seekTo(newTime);
             player.pauseVideo();
             player.playVideo();
@@ -97,7 +96,6 @@ $(function() {
     }).on('click',
         function (i, row) {
             var tab = ("#tby_" + i);
-            console.log(tab);
             $(tab).click();
         });
 
@@ -133,7 +131,6 @@ $(function() {
     }).on('click',
         function (i, row) {
             var tab = ("#tbz_" + i);
-            console.log(tab);
             $(tab).click();
         });
 

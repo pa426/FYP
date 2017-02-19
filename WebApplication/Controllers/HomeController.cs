@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using WebApplication.ApiManager;
 using WebApplication.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 
 
 namespace WebApplication.Controllers
@@ -96,7 +97,11 @@ namespace WebApplication.Controllers
                     break;
             }
 
+            Response.Write("<script>alert('You will be notified as soon as the analysis is ready, it takes around 10 minutes for each minute submited for analisys!');</script>");
+
             return View(newModel);
         }
+
+       
     }
 }
