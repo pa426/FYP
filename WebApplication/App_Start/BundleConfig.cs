@@ -299,8 +299,7 @@ namespace WebApplication
 
             // plugins | datepicker
             bundles.Add(new ScriptBundle("~/AdminLTE/plugins/datepicker/js").Include(
-                                         "~/AdminLTE/plugins/datepicker/js/bootstrap-datepicker.js",
-                                         "~/AdminLTE/plugins/datepicker/js/locales/bootstrap-datepicker*"));
+                                         "~/AdminLTE/plugins/datepicker/js/bootstrap-datepicker.js"));
 
             bundles.Add(new StyleBundle("~/AdminLTE/plugins/datepicker/css").Include(
                                         "~/AdminLTE/plugins/datepicker/css/datepicker3.css"));

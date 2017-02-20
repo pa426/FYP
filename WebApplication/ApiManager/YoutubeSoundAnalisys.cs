@@ -40,7 +40,7 @@ namespace WebApplication.ApiManager
                 .First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 360);
 
             VideoInfo video = videoInfos.First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 0);
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            string path = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(),
                 RemoveIllegalPathCharacters(video.Title) + ".mp4");
             var audioDownloader = new VideoDownloader(video, path);
 
@@ -67,7 +67,7 @@ namespace WebApplication.ApiManager
                     VideoId = vidmod.VideoId,
                     VideoTitle = vidmod.VideoTitle,
                     ChannelId = vidmod.ChannelId,
-                    ChannelTitle = vidmod.VideoId,
+                    ChannelTitle = vidmod.ChannelTitle,
                     UserId = vidmod.UserId,
                     PublishedAt = Convert.ToDateTime(vidmod.PublishedAt),
                     Date = DateTime.Now

@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DefaultConnectionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="fypDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspSoundAnalisysSegments">
           <Key>
             <PropertyRef Name="SoundSegmentId" />
           </Key>
-          <Property Name="SoundSegmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SoundSegmentId" Type="int" Nullable="false" />
           <Property Name="VideoId" Type="varchar" MaxLength="255" />
           <Property Name="SoundSegmentIndex" Type="int" />
           <Property Name="Offset" Type="float" />
@@ -30,7 +30,7 @@
           <Key>
             <PropertyRef Name="TextSegmentId" />
           </Key>
-          <Property Name="TextSegmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TextSegmentId" Type="int" Nullable="false" />
           <Property Name="VideoId" Type="varchar" MaxLength="255" />
           <Property Name="TextSegmentIndex" Type="int" />
           <Property Name="TextFromSpeech" Type="text" />
@@ -44,7 +44,7 @@
           <Key>
             <PropertyRef Name="VideoSegmentId" />
           </Key>
-          <Property Name="VideoSegmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VideoSegmentId" Type="int" Nullable="false" />
           <Property Name="VideoId" Type="varchar" MaxLength="255" />
           <Property Name="VideoSegmentIndex" Type="int" />
           <Property Name="Anger" Type="float" />
@@ -64,9 +64,9 @@
           <Property Name="VideoTitle" Type="varchar" MaxLength="255" />
           <Property Name="ChannelId" Type="varchar" MaxLength="255" />
           <Property Name="ChannelTitle" Type="varchar" MaxLength="255" />
-          <Property Name="PublishedAt" Type="datetime" />
+          <Property Name="PublishedAt" Type="smalldatetime" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
-          <Property Name="Date" Type="datetime" />
+          <Property Name="Date" Type="smalldatetime" />
         </EntityType>
         <Association Name="FK_AspSoundAnalisysSegments_AspVideoDetails">
           <End Role="AspVideoDetails" Type="Self.AspVideoDetails" Multiplicity="0..1" />
@@ -104,7 +104,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DefaultConnectionModelStoreContainer">
+        <EntityContainer Name="fypDBModelStoreContainer">
           <EntitySet Name="AspSoundAnalisysSegments" EntityType="Self.AspSoundAnalisysSegments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspTextAnalisysSegments" EntityType="Self.AspTextAnalisysSegments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspVideoAnalysisSegments" EntityType="Self.AspVideoAnalysisSegments" Schema="dbo" store:Type="Tables" />
@@ -125,12 +125,12 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DefaultConnectionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="fypDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AspSoundAnalisysSegment">
           <Key>
             <PropertyRef Name="SoundSegmentId" />
           </Key>
-          <Property Name="SoundSegmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SoundSegmentId" Type="Int32" Nullable="false" />
           <Property Name="VideoId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="SoundSegmentIndex" Type="Int32" />
           <Property Name="Offset" Type="Double" />
@@ -146,13 +146,13 @@
           <Property Name="MoodSecondary" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CompositePrimary" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CompositeSecondary" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AspVideoDetail" Relationship="Self.FK_AspSoundAnalisysSegments_AspVideoDetails" FromRole="AspSoundAnalisysSegments" ToRole="AspVideoDetails" />
+          <NavigationProperty Name="AspVideoDetail" Relationship="fypDBModel.FK_AspSoundAnalisysSegments_AspVideoDetails" FromRole="AspSoundAnalisysSegment" ToRole="AspVideoDetail" />
         </EntityType>
         <EntityType Name="AspTextAnalisysSegment">
           <Key>
             <PropertyRef Name="TextSegmentId" />
           </Key>
-          <Property Name="TextSegmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextSegmentId" Type="Int32" Nullable="false" />
           <Property Name="VideoId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TextSegmentIndex" Type="Int32" />
           <Property Name="TextFromSpeech" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -161,13 +161,13 @@
           <Property Name="Fear" Type="Double" />
           <Property Name="Joy" Type="Double" />
           <Property Name="Sadness" Type="Double" />
-          <NavigationProperty Name="AspVideoDetail" Relationship="Self.FK_AspTextAnalisysSegments_AspVideoDetails" FromRole="AspTextAnalisysSegments" ToRole="AspVideoDetails" />
+          <NavigationProperty Name="AspVideoDetail" Relationship="fypDBModel.FK_AspTextAnalisysSegments_AspVideoDetails" FromRole="AspTextAnalisysSegment" ToRole="AspVideoDetail" />
         </EntityType>
         <EntityType Name="AspVideoAnalysisSegment">
           <Key>
             <PropertyRef Name="VideoSegmentId" />
           </Key>
-          <Property Name="VideoSegmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VideoSegmentId" Type="Int32" Nullable="false" />
           <Property Name="VideoId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VideoSegmentIndex" Type="Int32" />
           <Property Name="Anger" Type="Double" />
@@ -178,7 +178,7 @@
           <Property Name="Neutral" Type="Double" />
           <Property Name="Sadness" Type="Double" />
           <Property Name="Surprise" Type="Double" />
-          <NavigationProperty Name="AspVideoDetail" Relationship="Self.FK_AspVideoAnalysisSegments_AspVideoDetails" FromRole="AspVideoAnalysisSegments" ToRole="AspVideoDetails" />
+          <NavigationProperty Name="AspVideoDetail" Relationship="fypDBModel.FK_AspVideoAnalysisSegments_AspVideoDetails" FromRole="AspVideoAnalysisSegment" ToRole="AspVideoDetail" />
         </EntityType>
         <EntityType Name="AspVideoDetail">
           <Key>
@@ -188,75 +188,75 @@
           <Property Name="VideoTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ChannelId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ChannelTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="PublishedAt" Type="DateTime" Precision="3" />
+          <Property Name="PublishedAt" Type="DateTime" Precision="0" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspSoundAnalisysSegments" Relationship="Self.FK_AspSoundAnalisysSegments_AspVideoDetails" FromRole="AspVideoDetails" ToRole="AspSoundAnalisysSegments" />
-          <NavigationProperty Name="AspTextAnalisysSegments" Relationship="Self.FK_AspTextAnalisysSegments_AspVideoDetails" FromRole="AspVideoDetails" ToRole="AspTextAnalisysSegments" />
-          <NavigationProperty Name="AspVideoAnalysisSegments" Relationship="Self.FK_AspVideoAnalysisSegments_AspVideoDetails" FromRole="AspVideoDetails" ToRole="AspVideoAnalysisSegments" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="AspSoundAnalisysSegments" Relationship="fypDBModel.FK_AspSoundAnalisysSegments_AspVideoDetails" FromRole="AspVideoDetail" ToRole="AspSoundAnalisysSegment" />
+          <NavigationProperty Name="AspTextAnalisysSegments" Relationship="fypDBModel.FK_AspTextAnalisysSegments_AspVideoDetails" FromRole="AspVideoDetail" ToRole="AspTextAnalisysSegment" />
+          <NavigationProperty Name="AspVideoAnalysisSegments" Relationship="fypDBModel.FK_AspVideoAnalysisSegments_AspVideoDetails" FromRole="AspVideoDetail" ToRole="AspVideoAnalysisSegment" />
         </EntityType>
+        <EntityContainer Name="fypDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspSoundAnalisysSegments" EntityType="Self.AspSoundAnalisysSegment" />
+          <EntitySet Name="AspTextAnalisysSegments" EntityType="Self.AspTextAnalisysSegment" />
+          <EntitySet Name="AspVideoAnalysisSegments" EntityType="Self.AspVideoAnalysisSegment" />
+          <EntitySet Name="AspVideoDetails" EntityType="Self.AspVideoDetail" />
+          <AssociationSet Name="FK_AspSoundAnalisysSegments_AspVideoDetails" Association="fypDBModel.FK_AspSoundAnalisysSegments_AspVideoDetails">
+            <End Role="AspVideoDetail" EntitySet="AspVideoDetails" />
+            <End Role="AspSoundAnalisysSegment" EntitySet="AspSoundAnalisysSegments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspTextAnalisysSegments_AspVideoDetails" Association="fypDBModel.FK_AspTextAnalisysSegments_AspVideoDetails">
+            <End Role="AspVideoDetail" EntitySet="AspVideoDetails" />
+            <End Role="AspTextAnalisysSegment" EntitySet="AspTextAnalisysSegments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspVideoAnalysisSegments_AspVideoDetails" Association="fypDBModel.FK_AspVideoAnalysisSegments_AspVideoDetails">
+            <End Role="AspVideoDetail" EntitySet="AspVideoDetails" />
+            <End Role="AspVideoAnalysisSegment" EntitySet="AspVideoAnalysisSegments" />
+          </AssociationSet>
+        </EntityContainer>
         <Association Name="FK_AspSoundAnalisysSegments_AspVideoDetails">
-          <End Role="AspVideoDetails" Type="Self.AspVideoDetail" Multiplicity="0..1" />
-          <End Role="AspSoundAnalisysSegments" Type="Self.AspSoundAnalisysSegment" Multiplicity="*" />
+          <End Type="fypDBModel.AspVideoDetail" Role="AspVideoDetail" Multiplicity="0..1" />
+          <End Type="fypDBModel.AspSoundAnalisysSegment" Role="AspSoundAnalisysSegment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspVideoDetails">
+            <Principal Role="AspVideoDetail">
               <PropertyRef Name="VideoId" />
             </Principal>
-            <Dependent Role="AspSoundAnalisysSegments">
+            <Dependent Role="AspSoundAnalisysSegment">
               <PropertyRef Name="VideoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspTextAnalisysSegments_AspVideoDetails">
-          <End Role="AspVideoDetails" Type="Self.AspVideoDetail" Multiplicity="0..1" />
-          <End Role="AspTextAnalisysSegments" Type="Self.AspTextAnalisysSegment" Multiplicity="*" />
+          <End Type="fypDBModel.AspVideoDetail" Role="AspVideoDetail" Multiplicity="0..1" />
+          <End Type="fypDBModel.AspTextAnalisysSegment" Role="AspTextAnalisysSegment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspVideoDetails">
+            <Principal Role="AspVideoDetail">
               <PropertyRef Name="VideoId" />
             </Principal>
-            <Dependent Role="AspTextAnalisysSegments">
+            <Dependent Role="AspTextAnalisysSegment">
               <PropertyRef Name="VideoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspVideoAnalysisSegments_AspVideoDetails">
-          <End Role="AspVideoDetails" Type="Self.AspVideoDetail" Multiplicity="0..1" />
-          <End Role="AspVideoAnalysisSegments" Type="Self.AspVideoAnalysisSegment" Multiplicity="*" />
+          <End Type="fypDBModel.AspVideoDetail" Role="AspVideoDetail" Multiplicity="0..1" />
+          <End Type="fypDBModel.AspVideoAnalysisSegment" Role="AspVideoAnalysisSegment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspVideoDetails">
+            <Principal Role="AspVideoDetail">
               <PropertyRef Name="VideoId" />
             </Principal>
-            <Dependent Role="AspVideoAnalysisSegments">
+            <Dependent Role="AspVideoAnalysisSegment">
               <PropertyRef Name="VideoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DefaultConnectionEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspSoundAnalisysSegments" EntityType="Self.AspSoundAnalisysSegment" />
-          <EntitySet Name="AspTextAnalisysSegments" EntityType="Self.AspTextAnalisysSegment" />
-          <EntitySet Name="AspVideoAnalysisSegments" EntityType="Self.AspVideoAnalysisSegment" />
-          <EntitySet Name="AspVideoDetails" EntityType="Self.AspVideoDetail" />
-          <AssociationSet Name="FK_AspSoundAnalisysSegments_AspVideoDetails" Association="Self.FK_AspSoundAnalisysSegments_AspVideoDetails">
-            <End Role="AspVideoDetails" EntitySet="AspVideoDetails" />
-            <End Role="AspSoundAnalisysSegments" EntitySet="AspSoundAnalisysSegments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspTextAnalisysSegments_AspVideoDetails" Association="Self.FK_AspTextAnalisysSegments_AspVideoDetails">
-            <End Role="AspVideoDetails" EntitySet="AspVideoDetails" />
-            <End Role="AspTextAnalisysSegments" EntitySet="AspTextAnalisysSegments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspVideoAnalysisSegments_AspVideoDetails" Association="Self.FK_AspVideoAnalysisSegments_AspVideoDetails">
-            <End Role="AspVideoDetails" EntitySet="AspVideoDetails" />
-            <End Role="AspVideoAnalysisSegments" EntitySet="AspVideoAnalysisSegments" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DefaultConnectionModelStoreContainer" CdmEntityContainer="DefaultConnectionEntities">
+        <EntityContainerMapping StorageEntityContainer="fypDBModelStoreContainer" CdmEntityContainer="fypDBEntities">
           <EntitySetMapping Name="AspSoundAnalisysSegments">
-            <EntityTypeMapping TypeName="DefaultConnectionModel.AspSoundAnalisysSegment">
+            <EntityTypeMapping TypeName="fypDBModel.AspSoundAnalisysSegment">
               <MappingFragment StoreEntitySet="AspSoundAnalisysSegments">
                 <ScalarProperty Name="SoundSegmentId" ColumnName="SoundSegmentId" />
                 <ScalarProperty Name="VideoId" ColumnName="VideoId" />
@@ -278,7 +278,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspTextAnalisysSegments">
-            <EntityTypeMapping TypeName="DefaultConnectionModel.AspTextAnalisysSegment">
+            <EntityTypeMapping TypeName="fypDBModel.AspTextAnalisysSegment">
               <MappingFragment StoreEntitySet="AspTextAnalisysSegments">
                 <ScalarProperty Name="TextSegmentId" ColumnName="TextSegmentId" />
                 <ScalarProperty Name="VideoId" ColumnName="VideoId" />
@@ -293,7 +293,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspVideoAnalysisSegments">
-            <EntityTypeMapping TypeName="DefaultConnectionModel.AspVideoAnalysisSegment">
+            <EntityTypeMapping TypeName="fypDBModel.AspVideoAnalysisSegment">
               <MappingFragment StoreEntitySet="AspVideoAnalysisSegments">
                 <ScalarProperty Name="VideoSegmentId" ColumnName="VideoSegmentId" />
                 <ScalarProperty Name="VideoId" ColumnName="VideoId" />
@@ -310,15 +310,15 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspVideoDetails">
-            <EntityTypeMapping TypeName="DefaultConnectionModel.AspVideoDetail">
+            <EntityTypeMapping TypeName="fypDBModel.AspVideoDetail">
               <MappingFragment StoreEntitySet="AspVideoDetails">
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="VideoId" ColumnName="VideoId" />
                 <ScalarProperty Name="VideoTitle" ColumnName="VideoTitle" />
                 <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
                 <ScalarProperty Name="ChannelTitle" ColumnName="ChannelTitle" />
                 <ScalarProperty Name="PublishedAt" ColumnName="PublishedAt" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
