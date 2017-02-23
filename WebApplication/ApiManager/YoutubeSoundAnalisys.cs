@@ -5,22 +5,21 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Frapper;
 using Microsoft.AspNet.SignalR;
+using Microsoft.VisualStudio.Threading;
 using WebApplication.Models;
 using YoutubeExtractor;
-
 
 namespace WebApplication.ApiManager
 {
     public class YoutubeSoundAnalisys
     {
         private VideoInfo _downloadUrl;
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         public async Task TextToSpeach(VideoModel vidmod)
         {
-            IEnumerable<VideoInfo> videoInfos =
+            var videoInfos =
                 DownloadUrlResolver.GetDownloadUrls("https://www.youtube.com/watch?v=" + vidmod.VideoId, false);
 
             var path = DownloadAudioQuick(videoInfos);
@@ -29,7 +28,7 @@ namespace WebApplication.ApiManager
 
         private string RemoveIllegalPathCharacters(string path)
         {
-            string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+            var regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
             var r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
             return r.Replace(path, "");
         }
@@ -39,8 +38,8 @@ namespace WebApplication.ApiManager
             _downloadUrl = videoInfos
                 .First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 360);
 
-            VideoInfo video = videoInfos.First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 0);
-            string path = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(),
+            var video = videoInfos.First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 0);
+            var path = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(),
                 RemoveIllegalPathCharacters(video.Title) + ".mp4");
             var audioDownloader = new VideoDownloader(video, path);
 
@@ -52,39 +51,43 @@ namespace WebApplication.ApiManager
 
         private async Task Mp4ToWav(string path, VideoModel vidmod)
         {
-            FFMPEG ffmpeg = new FFMPEG();
+            var wavPath = path.Replace(".mp4", ".wav");
 
-
-            // Convert to wav.
-            string wavPath = path.Replace(".mp4", ".wav");
-            ffmpeg.RunCommand("-i \"" + path + "\" -acodec pcm_s16le -ac 1 -ar 16000 \"" + wavPath + "\"");
-
-            try
+            var psi = new ProcessStartInfo
             {
-                //Add Video Details used for DB
-                var videoDetails = new AspVideoDetail
-                {
-                    VideoId = vidmod.VideoId,
-                    VideoTitle = vidmod.VideoTitle,
-                    ChannelId = vidmod.ChannelId,
-                    ChannelTitle = vidmod.ChannelTitle,
-                    UserId = vidmod.UserId,
-                    PublishedAt = Convert.ToDateTime(vidmod.PublishedAt),
-                    Date = DateTime.Now
-                };
-                db.AspVideoDetails.Add(videoDetails);
-                db.SaveChanges();
-            }
-            catch (Exception e)
+                FileName = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), "ffmpeg.exe"),
+                Arguments = "-i \"" + path + "\" -acodec pcm_s16le -ac 1 -ar 16000 \"" + wavPath + "\"",
+                CreateNoWindow = true,
+                ErrorDialog = false,
+                UseShellExecute = false,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                RedirectStandardOutput = true,
+                RedirectStandardInput = false,
+                RedirectStandardError = true
+            };
+            var proc = Process.Start(psi);
+            await proc.WaitForExitAsync();
+            File.Delete(path);
+
+
+            //Add Video Details used for DB
+            var videoDetails = new AspVideoDetail
             {
-                Console.WriteLine(e);
-                throw;
-            }
+                VideoId = vidmod.VideoId,
+                VideoTitle = vidmod.VideoTitle,
+                ChannelId = vidmod.ChannelId,
+                ChannelTitle = vidmod.ChannelTitle,
+                UserId = vidmod.UserId,
+                PublishedAt = Convert.ToDateTime(vidmod.PublishedAt),
+                Date = DateTime.Now
+            };
+            db.AspVideoDetails.Add(videoDetails);
+            db.SaveChanges();
 
             //Start parallel threads for analisys
-            MicrosoftVideoEmotion ve =new MicrosoftVideoEmotion();
-            IbmSpeechToText te = new IbmSpeechToText();
-            BeyondVerbal se = new BeyondVerbal();
+            var ve = new MicrosoftVideoEmotion();
+            var te = new IbmSpeechToText();
+            var se = new BeyondVerbal();
 
             var videoEmotion = ve.GetVideoEmotions(_downloadUrl.DownloadUrl);
             var isttTextList = te.SpeeechToText(wavPath);
@@ -126,12 +129,12 @@ namespace WebApplication.ApiManager
 
             ////Text analitycs IBM
             var textAnalisysSegments = new List<AspTextAnalisysSegment>();
-            int i = 0;
+            var i = 0;
             foreach (var var in isttTextList.Result)
             {
                 if (var != "")
                 {
-                    IbmTextAnalisys ia = new IbmTextAnalisys();
+                    var ia = new IbmTextAnalisys();
                     var textAnalisysSegment = await ia.MakeRequests(var, i);
 
                     if (textAnalisysSegment.Anger != 0 && textAnalisysSegment.Disgust != 0 &&
@@ -143,11 +146,11 @@ namespace WebApplication.ApiManager
                         Debug.WriteLine("****Text due to analise ---> " + textAnalisysSegment.TextFromSpeech);
                         Debug.WriteLine("            ");
                         Debug.WriteLine("****Sentiments from text ");
-                        Debug.WriteLine("Anger    --->" + textAnalisysSegment.Anger.ToString());
-                        Debug.WriteLine("Disgust  --->" + textAnalisysSegment.Disgust.ToString());
-                        Debug.WriteLine("Fear     --->" + textAnalisysSegment.Fear.ToString());
-                        Debug.WriteLine("Joy      --->" + textAnalisysSegment.Joy.ToString());
-                        Debug.WriteLine("Sadness  --->" + textAnalisysSegment.Sadness.ToString());
+                        Debug.WriteLine("Anger    --->" + textAnalisysSegment.Anger);
+                        Debug.WriteLine("Disgust  --->" + textAnalisysSegment.Disgust);
+                        Debug.WriteLine("Fear     --->" + textAnalisysSegment.Fear);
+                        Debug.WriteLine("Joy      --->" + textAnalisysSegment.Joy);
+                        Debug.WriteLine("Sadness  --->" + textAnalisysSegment.Sadness);
                         Debug.WriteLine("            ");
                         i++;
                         textAnalisysSegments.Add(textAnalisysSegment);
@@ -158,7 +161,7 @@ namespace WebApplication.ApiManager
 
                 Task.Delay(3000).Wait();
             }
-            
+
             if (i > 1)
             {
                 var textAnalisysMean = new AspTextAnalisysSegment();
@@ -178,7 +181,7 @@ namespace WebApplication.ApiManager
                 Debug.WriteLine("Mean Text Analisys Joy aMeanVal    --->" + textAnalisysMean.Joy);
                 Debug.WriteLine("Mean Text Analisys Sadness MeanMode  --->" + textAnalisysMean.Sadness);
             }
-            
+
             //Beyond verbal anlisys
             Debug.WriteLine("###Sound Analisys Response");
             foreach (var s in bva.Result)
@@ -208,12 +211,11 @@ namespace WebApplication.ApiManager
             myHub.Clients.All.notify("added");
 
             // Cleanup.
-            File.Delete(path);
+
             File.Delete(wavPath);
         }
     }
 }
-
 
 
 //Speech to Text Microsoft

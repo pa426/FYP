@@ -320,7 +320,7 @@ $(function() {
     // hide notifications
     $('#notiList').click(function () {
         $('#viewList').remove();
-        window.location.href = "Home/DashboardV2";
+        window.location.href = "/Home/DashboardV2";
     });
 
 
