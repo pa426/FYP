@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Hosting;
@@ -8,7 +6,6 @@ using System.Web.Mvc;
 using WebApplication.ApiManager;
 using WebApplication.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.SignalR;
 
 
 namespace WebApplication.Controllers
@@ -31,7 +28,24 @@ namespace WebApplication.Controllers
         public ActionResult DashboardV2()
         {
             var usrid = User.Identity.GetUserId();
-            List<AspVideoDetail> rm = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid)).ToList();
+            var rm = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid)).OrderByDescending(x => x.Date).ToList();
+            return View(rm);
+        }
+
+        [HttpPost]
+        [ActionName("DashboardV2")]
+        [AllowAnonymous]
+        public ActionResult DeleteVideo(string videoId)
+        {
+            var vid = db.AspVideoDetails.Find(videoId);
+            db.AspVideoAnalysisSegments.RemoveRange(vid.AspVideoAnalysisSegments);
+            db.AspSoundAnalisysSegments.RemoveRange(vid.AspSoundAnalisysSegments);
+            db.AspTextAnalisysSegments.RemoveRange(vid.AspTextAnalisysSegments);
+            db.AspVideoDetails.Remove(vid);
+            db.SaveChanges();
+
+            var usrid = User.Identity.GetUserId();
+            var rm = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid)).OrderByDescending(x => x.Date).ToList();
             return View(rm);
         }
 
@@ -85,8 +99,8 @@ namespace WebApplication.Controllers
                                 Debug.WriteLine("***{0} Analise started for video {1}:", m.ChannelTitle, m.VideoId);
                                 var yt = new YoutubeSoundAnalisys();
                                 m.UserId = User.Identity.GetUserId();
-                                //await yt.TextToSpeach(m);
-                                HostingEnvironment.QueueBackgroundWorkItem(ct => yt.TextToSpeach(m));
+                                await yt.TextToSpeach(m);
+                                //HostingEnvironment.QueueBackgroundWorkItem(ct => yt.TextToSpeach(m));
                             }
                             else
                             {

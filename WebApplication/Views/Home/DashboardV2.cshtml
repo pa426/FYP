@@ -31,15 +31,30 @@
                     @{
                         foreach (var m in Model)
                         {
-                            <tr onclick="location.href = '@(Url.Action("DashboardV1", "Home", new { videoId = m.VideoId }))'">
+                            <tr>
                                 <td><a href="https://www.youtube.com/watch?v=@m.VideoId">@m.VideoTitle</a></td>
-                                @if(m.AspVideoAnalysisSegments.Count < 1 || m.AspTextAnalisysSegments.Count < 1 || m.AspSoundAnalisysSegments.Count < 1){
+                                @if (m.AspVideoAnalysisSegments.Count < 1 || m.AspTextAnalisysSegments.Count < 1 || m.AspSoundAnalisysSegments.Count < 1)
+                                {
                                     <td><span class="label label-warning">Pending</span></td>
-                                }else{
+                                }
+                                else
+                                {
                                     <td><span class="label label-success">Approved</span></td>
                                 }
                                 <td><a href="https://www.youtube.com/channel/@m.ChannelId">@m.ChannelTitle</a></td>
                                 <td>@m.Date</td>
+                                <td>
+                                    @using (Html.BeginForm("DashboardV1", "Home", new { videoId = m.VideoId }))
+                                    {
+                                        <button type="submit" class="btn btn-block btn-success">See analysis</button>
+                                    }
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("DashboardV2", "Home", new { videoId = m.VideoId }))
+                                    {
+                                        <button type="submit" class="btn btn-block btn-danger">Delete</button>
+                                    }
+                                </td>
                             </tr>
                         }
                     }
