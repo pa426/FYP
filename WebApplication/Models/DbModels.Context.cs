@@ -13,10 +13,10 @@ namespace WebApplication.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class fypDBEntities : DbContext
+    public partial class DefaultConnectionEntities : DbContext
     {
-        public fypDBEntities()
-            : base("name=fypDBEntities")
+        public DefaultConnectionEntities()
+            : base("name=DefaultConnectionEntities")
         {
         }
     
