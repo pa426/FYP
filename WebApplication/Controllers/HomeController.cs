@@ -3,16 +3,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using WebApplication.ApiManager;
 using WebApplication.Models;
-using Microsoft.AspNet.Identity;
-
 
 namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult DashboardV0()
         {
@@ -55,9 +54,7 @@ namespace WebApplication.Controllers
         {
             //Check if search text box is filled in
             if (!ModelState.IsValid)
-            {
                 return View();
-            }
 
             var yl = new YoutubeList();
             var ml = new VideoModelList();
@@ -70,27 +67,24 @@ namespace WebApplication.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         public async Task<ActionResult> _SearchVideo(VideoModelList model, string analyzeBtn)
+#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         {
             var newModel = model;
             switch (analyzeBtn)
             {
                 case "checkAllBtn":
                     foreach (var m in newModel.VidModList)
-                    {
                         m.AddVideoCb = true;
-                    }
                     break;
                 case "removeAllBtn":
                     foreach (var m in model.VidModList)
-                    {
                         m.AddVideoCb = false;
-                    }
                     break;
                 case "analiseBtn":
                     foreach (var m in model.VidModList)
-                    {
-                        if (m.AddVideoCb == true)
+                        if (m.AddVideoCb)
                         {
                             var aspVideoDetail = db.AspVideoDetails.Find(m.VideoId);
 
@@ -99,23 +93,22 @@ namespace WebApplication.Controllers
                                 Debug.WriteLine("***{0} Analise started for video {1}:", m.ChannelTitle, m.VideoId);
                                 var yt = new YoutubeSoundAnalisys();
                                 m.UserId = User.Identity.GetUserId();
-                                await yt.TextToSpeach(m);
-                                //HostingEnvironment.QueueBackgroundWorkItem(ct => yt.TextToSpeach(m));
+                                //await yt.TextToSpeach(m);
+                                HostingEnvironment.QueueBackgroundWorkItem(ct => yt.TextToSpeach(m));
                             }
                             else
                             {
-                                Debug.WriteLine("####Analise for video {0}/{1} already in database!!!", m.ChannelTitle, m.VideoId);
+                                Debug.WriteLine("####Analise for video {0}/{1} already in database!!!", m.ChannelTitle,
+                                    m.VideoId);
                             }
                         }
-                    }
                     break;
             }
 
-            Response.Write("<script>alert('You will be notified as soon as the analysis is ready, it takes around 10 minutes for each minute submited for analisys!');</script>");
+            Response.Write(
+                "<script>alert('You will be notified as soon as the analysis is ready, it takes around 10 minutes for each minute submited for analisys!');</script>");
 
             return View(newModel);
         }
-
-       
     }
 }

@@ -110,7 +110,7 @@
         "<p>Toggle between dark and light skins for the right sidebar</p>" +
         "</div>"
     );
-    var skins_list = $("<ul/>", { "class": 'list-unstyled clearfix' });
+    var skins_list = $("<ul/>", { "class": "list-unstyled clearfix" });
 
     //Dark sidebar skins
     var skin_blue =
@@ -184,7 +184,7 @@
         //Fix the problem with right sidebar and layout boxed
         if (cls == "layout-boxed")
             AdminLTE.controlSidebar._fix($(".control-sidebar-bg"));
-        if ($('body').hasClass('fixed') && cls == 'fixed') {
+        if ($("body").hasClass("fixed") && cls == "fixed") {
             AdminLTE.pushMenu.expandOnHover();
             AdminLTE.layout.activate();
         }
@@ -199,12 +199,12 @@
      */
     function change_skin(cls) {
         $.each(my_skins,
-            function(i) {
+            function (i) {
                 $("body").removeClass(my_skins[i]);
             });
 
         $("body").addClass(cls);
-        store('skin', cls);
+        store("skin", cls);
         return false;
     }
 
@@ -219,7 +219,7 @@
         if (typeof (Storage) !== "undefined") {
             localStorage.setItem(name, val);
         } else {
-            window.alert('Please use a modern browser to properly view this template!');
+            window.alert("Please use a modern browser to properly view this template!");
         }
     }
 
@@ -233,7 +233,7 @@
         if (typeof (Storage) !== "undefined") {
             return localStorage.getItem(name);
         } else {
-            window.alert('Please use a modern browser to properly view this template!');
+            window.alert("Please use a modern browser to properly view this template!");
         }
     }
 
@@ -243,109 +243,106 @@
      * @returns void
      */
     function setup() {
-        var tmp = get('skin');
+        var tmp = get("skin");
         if (tmp && $.inArray(tmp, my_skins))
             change_skin(tmp);
 
         //Add the change skin listener
-        $("[data-skin]").on('click',
-            function(e) {
+        $("[data-skin]").on("click",
+            function (e) {
                 e.preventDefault();
-                change_skin($(this).data('skin'));
+                change_skin($(this).data("skin"));
             });
 
         //Add the layout manager
-        $("[data-layout]").on('click',
-            function() {
-                change_layout($(this).data('layout'));
+        $("[data-layout]").on("click",
+            function () {
+                change_layout($(this).data("layout"));
             });
 
-        $("[data-controlsidebar]").on('click',
-            function() {
-                change_layout($(this).data('controlsidebar'));
+        $("[data-controlsidebar]").on("click",
+            function () {
+                change_layout($(this).data("controlsidebar"));
                 var slide = !AdminLTE.options.controlSidebarOptions.slide;
                 AdminLTE.options.controlSidebarOptions.slide = slide;
                 if (!slide)
-                    $('.control-sidebar').removeClass('control-sidebar-open');
+                    $(".control-sidebar").removeClass("control-sidebar-open");
             });
 
-        $("[data-sidebarskin='toggle']").on('click',
-            function() {
+        $("[data-sidebarskin='toggle']").on("click",
+            function () {
                 var sidebar = $(".control-sidebar");
                 if (sidebar.hasClass("control-sidebar-dark")) {
-                    sidebar.removeClass("control-sidebar-dark")
-                    sidebar.addClass("control-sidebar-light")
+                    sidebar.removeClass("control-sidebar-dark");
+                    sidebar.addClass("control-sidebar-light");
                 } else {
-                    sidebar.removeClass("control-sidebar-light")
-                    sidebar.addClass("control-sidebar-dark")
+                    sidebar.removeClass("control-sidebar-light");
+                    sidebar.addClass("control-sidebar-dark");
                 }
             });
 
-        $("[data-enable='expandOnHover']").on('click',
-            function() {
-                $(this).attr('disabled', true);
+        $("[data-enable='expandOnHover']").on("click",
+            function () {
+                $(this).attr("disabled", true);
                 AdminLTE.pushMenu.expandOnHover();
-                if (!$('body').hasClass('sidebar-collapse'))
+                if (!$("body").hasClass("sidebar-collapse"))
                     $("[data-layout='sidebar-collapse']").click();
             });
 
         // Reset options
-        if ($('body').hasClass('fixed')) {
-            $("[data-layout='fixed']").attr('checked', 'checked');
+        if ($("body").hasClass("fixed")) {
+            $("[data-layout='fixed']").attr("checked", "checked");
         }
-        if ($('body').hasClass('layout-boxed')) {
-            $("[data-layout='layout-boxed']").attr('checked', 'checked');
+        if ($("body").hasClass("layout-boxed")) {
+            $("[data-layout='layout-boxed']").attr("checked", "checked");
         }
-        if ($('body').hasClass('sidebar-collapse')) {
-            $("[data-layout='sidebar-collapse']").attr('checked', 'checked');
+        if ($("body").hasClass("sidebar-collapse")) {
+            $("[data-layout='sidebar-collapse']").attr("checked", "checked");
         }
-
-        
 
 
     }
 })(jQuery, $.AdminLTE);
 
-$(function() {
+$(function () {
     // Click on notification icon for show notification
-    $('#marcel').click(function(e) {
+    $("#marcel").click(function (e) {
         var count = 0;
-        count = parseInt($('span.count').html()) || 0;
-        $('span.count', this).html('&nbsp;');
+        count = parseInt($("span.count").html()) || 0;
+        $("span.count", this).html("&nbsp;");
         var d = document.getElementById("count1");
         d.className = "count";
-        
+
     });
 
     // hide notifications
-    $('#notiList').click(function () {
-        $('#viewList').remove();
-        window.location.href = "/Home/DashboardV2";
+    $("#notiList").click(function () {
+        $("#viewList").remove();
+        window.location.href = "/DashboardV2";
     });
 
 
     // update notification count
     function updateNotificationCount() {
         var count = 0;
-        count = parseInt($('span.count').html()) || 0;
+        count = parseInt($("span.count").html()) || 0;
         count++;
-        $('span.count').html(count);
+        $("span.count").html(count);
         var d = document.getElementById("count1");
         d.className += " label label-success";
-        $('#notiList').append($('<li id="viewList" class="footer"><a>View all</a></li>'));
+        $("#notiList").append($('<li id="viewList" class="footer"><a>View all</a></li>'));
     }
 
     // signalr js code for start hub and send receive notification
     var notificationHub = $.connection.notificationHub;
-    $.connection.hub.start().done(function() {
-        console.log('Notification hub started');
+    $.connection.hub.start().done(function () {
+        console.log("Notification hub started");
     });
 
     //signalr method for push server message to client
-    notificationHub.client.notify = function(message) {
+    notificationHub.client.notify = function (message) {
         if (message && message.toLowerCase() == "added") {
             updateNotificationCount();
         }
-    }
-
+    };
 });

@@ -5,7 +5,7 @@
  *      This is a demo file used only for the main dashboard
  **/
 
-$(function() {
+$(function () {
 
     "use strict";
 
@@ -30,7 +30,7 @@ $(function() {
     /* jQueryKnob */
     $(".knob").knob();
 
- 
+
     //SLIMSCROLL FOR CHAT WIDGET
     $('#chat-box').slimScroll({
         height: '250px'
@@ -193,9 +193,9 @@ $(function() {
         ],
         hideHover: 'auto'
     }).js;
-   
 
-    
+
+
 });
 
 ///Youtube video frame
