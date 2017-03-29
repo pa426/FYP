@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="fypDB" Class="DbModelDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=alexpopafyp.database.windows.net;Initial Catalog=fypDB;User ID=pa426;MultipleActiveResultSets=True;Application Name=EntityFramework" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="fypDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.AspSoundAnalisysSegments" Member="AspSoundAnalisysSegments">
+    <Type Name="AspSoundAnalisysSegment">
+      <Column Name="SoundSegmentId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="VideoId" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="SoundSegmentIndex" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Offset" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Duration" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="TemperVal" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="TemperMode" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ValenceVal" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ValenceMode" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ArousalVal" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ArousalMode" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MoodPrimary" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="MoodSecondary" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CompositePrimary" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CompositeSecondary" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="AspVideoDetail_AspSoundAnalisysSegment" Member="AspVideoDetail" ThisKey="VideoId" OtherKey="VideoId" Type="AspVideoDetail" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspTextAnalisysSegments" Member="AspTextAnalisysSegments">
+    <Type Name="AspTextAnalisysSegment">
+      <Column Name="TextSegmentId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="VideoId" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="TextSegmentIndex" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TextFromSpeech" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Anger" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Disgust" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Fear" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Joy" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Sadness" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="AspVideoDetail_AspTextAnalisysSegment" Member="AspVideoDetail" ThisKey="VideoId" OtherKey="VideoId" Type="AspVideoDetail" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspVideoAnalysisSegments" Member="AspVideoAnalysisSegments">
+    <Type Name="AspVideoAnalysisSegment">
+      <Column Name="VideoSegmentId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="VideoId" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="VideoSegmentIndex" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Anger" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Contempt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Disgust" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Fear" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Happiness" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Neutral" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Sadness" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Surprise" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="AspVideoDetail_AspVideoAnalysisSegment" Member="AspVideoDetail" ThisKey="VideoId" OtherKey="VideoId" Type="AspVideoDetail" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspVideoDetails" Member="AspVideoDetails">
+    <Type Name="AspVideoDetail">
+      <Column Name="VideoId" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="VideoTitle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="ChannelId" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="ChannelTitle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="PublishedAt" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="VideoGroupID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Association Name="AspVideoDetail_AspSoundAnalisysSegment" Member="AspSoundAnalisysSegments" ThisKey="VideoId" OtherKey="VideoId" Type="AspSoundAnalisysSegment" />
+      <Association Name="AspVideoDetail_AspTextAnalisysSegment" Member="AspTextAnalisysSegments" ThisKey="VideoId" OtherKey="VideoId" Type="AspTextAnalisysSegment" />
+      <Association Name="AspVideoDetail_AspVideoAnalysisSegment" Member="AspVideoAnalysisSegments" ThisKey="VideoId" OtherKey="VideoId" Type="AspVideoAnalysisSegment" />
+      <Association Name="AspVideoGroup_AspVideoDetail" Member="AspVideoGroup" ThisKey="VideoGroupID" OtherKey="VideoGroupID" Type="AspVideoGroup" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspVideoGroups" Member="AspVideoGroups">
+    <Type Name="AspVideoGroup">
+      <Column Name="VideoGroupID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="AspVideoGroup_AspVideoDetail" Member="AspVideoDetails" ThisKey="VideoGroupID" OtherKey="VideoGroupID" Type="AspVideoDetail" />
+    </Type>
+  </Table>
+</Database>

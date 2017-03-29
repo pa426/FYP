@@ -318,7 +318,7 @@ $(function () {
     // hide notifications
     $("#notiList").click(function () {
         $("#viewList").remove();
-        window.location.href = "/DashboardV2";
+        window.location.href = "/Home/DashboardV2";
     });
 
 

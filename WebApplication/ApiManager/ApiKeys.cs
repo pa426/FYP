@@ -10,7 +10,7 @@
         public const string microsoftSpeechToTextSubKey = "f48aefc9b8cb447cbc947db53a7757ee";
         public const string microsoftTextAnalitycsSubKey = "cd82f8aab44e410cb2f4b1bd2d1228e3";
 
-        public const string beyondVerbalSubscriptionKey = "055d0416-7a5d-4e66-a249-19956d25b3f3";
+        public const string beyondVerbalSubscriptionKey = "50396767-f784-48eb-be25-466fb0a5c3ac";
 
         public const string youtubeSubscriptionKey = "AIzaSyAFKde_KX47mFd7g2YkG3oa9RbmMztq74g";
     }

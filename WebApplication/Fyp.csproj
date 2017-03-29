@@ -97,8 +97,8 @@
       <HintPath>..\packages\Google.Apis.1.21.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Google.Apis.Speech.v1beta1, Version=1.21.0.778, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Speech.v1beta1.1.21.0.778\lib\net45\Google.Apis.Speech.v1beta1.dll</HintPath>
+    <Reference Include="Google.Apis.Speech.v1beta1, Version=1.21.0.792, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Speech.v1beta1.1.21.0.792\lib\net45\Google.Apis.Speech.v1beta1.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.Apis.YouTube.v3, Version=1.21.0.760, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
@@ -162,6 +162,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
@@ -317,32 +318,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AspSoundAnalisysSegment.cs">
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspTextAnalisysSegment.cs">
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspVideoAnalysisSegment.cs">
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspVideoDetail.cs">
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DbModels.Context.cs">
+    <Compile Include="Models\DbModel.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DbModels.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DbModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DbModels.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbModels.edmx</DependentUpon>
+      <DependentUpon>DbModel.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\GraphDataModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -545,16 +524,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\DbModels.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DbModels.edmx</DependentUpon>
-      <LastGenOutput>DbModels.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\DbModels.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DbModels.edmx</DependentUpon>
-      <LastGenOutput>DbModels.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\Account\Login.js" />
     <Content Include="Scripts\Account\Register.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -573,12 +542,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <EntityDeploy Include="Models\DbModels.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DbModels.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\DbModels.edmx.diagram">
-      <DependentUpon>DbModels.edmx</DependentUpon>
+    <Content Include="Models\DbModel.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DbModel.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\alexpopafyp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Fyp20170219103005 - Web Deploy.pubxml" />
@@ -662,8 +629,14 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\DbModel.dbml.layout">
+      <DependentUpon>DbModel.dbml</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

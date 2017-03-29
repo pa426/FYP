@@ -11,7 +11,7 @@ namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext db = new ApplicationDbContext();
+        private readonly DbModelDataContext db = new DbModelDataContext();
 
         public ActionResult DashboardV0()
         {
@@ -20,7 +20,7 @@ namespace WebApplication.Controllers
 
         public ActionResult DashboardV1(string videoId)
         {
-            var rm = db.AspVideoDetails.Find(videoId);
+            var rm = db.AspVideoDetails.FirstOrDefault(x => x.VideoId == videoId);
             return View(rm);
         }
 
@@ -36,12 +36,12 @@ namespace WebApplication.Controllers
         [AllowAnonymous]
         public ActionResult DeleteVideo(string videoId)
         {
-            var vid = db.AspVideoDetails.Find(videoId);
-            db.AspVideoAnalysisSegments.RemoveRange(vid.AspVideoAnalysisSegments);
-            db.AspSoundAnalisysSegments.RemoveRange(vid.AspSoundAnalisysSegments);
-            db.AspTextAnalisysSegments.RemoveRange(vid.AspTextAnalisysSegments);
-            db.AspVideoDetails.Remove(vid);
-            db.SaveChanges();
+            var vid = db.AspVideoDetails.FirstOrDefault(x => x.VideoId == videoId);
+            db.AspVideoAnalysisSegments.DeleteAllOnSubmit(vid.AspVideoAnalysisSegments);
+            db.AspSoundAnalisysSegments.DeleteAllOnSubmit(vid.AspSoundAnalisysSegments);
+            db.AspTextAnalisysSegments.DeleteAllOnSubmit(vid.AspTextAnalisysSegments);
+            db.AspVideoDetails.DeleteOnSubmit(vid);
+            db.SubmitChanges();
 
             var usrid = User.Identity.GetUserId();
             var rm = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid)).OrderByDescending(x => x.Date).ToList();
@@ -86,7 +86,7 @@ namespace WebApplication.Controllers
                     foreach (var m in model.VidModList)
                         if (m.AddVideoCb)
                         {
-                            var aspVideoDetail = db.AspVideoDetails.Find(m.VideoId);
+                            var aspVideoDetail = db.AspVideoDetails.FirstOrDefault(x => x.VideoId == m.VideoId);
 
                             if (aspVideoDetail == null)
                             {

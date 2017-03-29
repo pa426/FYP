@@ -15,7 +15,7 @@ namespace WebApplication.ApiManager
     public class YoutubeSoundAnalisys
     {
         private VideoInfo _downloadUrl;
-        private readonly ApplicationDbContext db = new ApplicationDbContext();
+        private readonly DbModelDataContext db = new DbModelDataContext();
 
         public async Task TextToSpeach(VideoModel vidmod)
         {
@@ -81,8 +81,8 @@ namespace WebApplication.ApiManager
                 PublishedAt = Convert.ToDateTime(vidmod.PublishedAt),
                 Date = DateTime.Now
             };
-            db.AspVideoDetails.Add(videoDetails);
-            db.SaveChanges();
+            db.AspVideoDetails.InsertOnSubmit(videoDetails);
+            db.SubmitChanges();
 
             //Start parallel threads for analisys
             var ve = new MicrosoftVideoEmotion();
@@ -110,8 +110,8 @@ namespace WebApplication.ApiManager
                 Debug.WriteLine("Sadness from video   --->" + v.Sadness);
                 Debug.WriteLine("Surprise from video  --->" + v.Surprise);
                 Debug.WriteLine("            ");
-                db.AspVideoAnalysisSegments.Add(v);
-                db.SaveChanges();
+                db.AspVideoAnalysisSegments.InsertOnSubmit(v);
+                db.SubmitChanges();
             }
             var videoEmotionsMean = new AspVideoAnalysisSegment();
             videoEmotionsMean.VideoSegmentIndex = -1;
@@ -124,8 +124,8 @@ namespace WebApplication.ApiManager
             videoEmotionsMean.Neutral = videoEmotionsSegments.Average(item => item.Neutral);
             videoEmotionsMean.Sadness = videoEmotionsSegments.Average(item => item.Sadness);
             videoEmotionsMean.Surprise = videoEmotionsSegments.Average(item => item.Surprise);
-            db.AspVideoAnalysisSegments.Add(videoEmotionsMean);
-            db.SaveChanges();
+            db.AspVideoAnalysisSegments.InsertOnSubmit(videoEmotionsMean);
+            db.SubmitChanges();
 
             ////Text analitycs IBM
             var textAnalisysSegments = new List<AspTextAnalisysSegment>();
@@ -154,8 +154,8 @@ namespace WebApplication.ApiManager
                         Debug.WriteLine("            ");
                         i++;
                         textAnalisysSegments.Add(textAnalisysSegment);
-                        db.AspTextAnalisysSegments.Add(textAnalisysSegment);
-                        db.SaveChanges();
+                        db.AspTextAnalisysSegments.InsertOnSubmit(textAnalisysSegment);
+                        db.SubmitChanges();
                     }
                 }
 
@@ -172,8 +172,8 @@ namespace WebApplication.ApiManager
                 textAnalisysMean.Fear = textAnalisysSegments.Average(item => item.Fear);
                 textAnalisysMean.Joy = textAnalisysSegments.Average(item => item.Joy);
                 textAnalisysMean.Sadness = textAnalisysSegments.Average(item => item.Sadness);
-                db.AspTextAnalisysSegments.Add(textAnalisysMean);
-                db.SaveChanges();
+                db.AspTextAnalisysSegments.InsertOnSubmit(textAnalisysMean);
+                db.SubmitChanges();
 
                 Debug.WriteLine("Mean Text Analisys Anger MeanMode  --->" + textAnalisysMean.Anger);
                 Debug.WriteLine("Mean Text Analisys Disgust MeanVal   --->" + textAnalisysMean.Disgust);
@@ -202,8 +202,8 @@ namespace WebApplication.ApiManager
                 Debug.WriteLine("Segment sound analisys CompositePrimary    ---->" + s.CompositePrimary);
                 Debug.WriteLine("Segment sound analisys CompositeSecondary  ---->" + s.CompositeSecondary);
                 Debug.WriteLine("            ");
-                db.AspSoundAnalisysSegments.Add(s);
-                db.SaveChanges();
+                db.AspSoundAnalisysSegments.InsertOnSubmit(s);
+                db.SubmitChanges();
             }
 
             //Push notification update
