@@ -1,0 +1,206 @@
+﻿@using Newtonsoft.Json
+@using WebApplication.Models
+
+@{
+    ViewBag.Title = "Dashboard";
+
+    var videosCount = 0;
+    var negativeCount = 0;
+    var neutralCount = 0;
+    var positiveCount = 0;
+
+    foreach (var m in Model)
+    {
+        videosCount += 1;
+        if (m.MainSentiment == 0)
+        {
+            negativeCount += 1;
+        }
+        else if (m.MainSentiment == 1)
+        {
+            neutralCount += 1;
+        }
+        else if (m.MainSentiment == 2)
+        {
+            positiveCount += 1;
+        }
+    }
+
+    //Seriali
+    JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+    {
+        PreserveReferencesHandling = PreserveReferencesHandling.All,
+        ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+    };
+
+    List<AspVideoDetail> data = new List<AspVideoDetail>();
+
+
+    foreach (var m in Model)
+    {
+        var  d = new AspVideoDetail();
+        d.VideoTitle = m.VideoTitle;
+        d.VideoId = m.VideoId;
+        d.VideoLocation = m.VideoLocation;
+        d.MainSentiment = m.MainSentiment;
+        d.AspVideoGroup = m.AspVideoGroup;
+        data.Add(d);
+    }
+
+}   
+
+@section Menu {
+    @Scripts.Render("~/Scripts/Home/Dashboard/menu")
+}
+
+<script>
+
+    var datax = @Html.Raw(@JsonConvert.SerializeObject(data));
+    console.log(datax);
+
+</script>
+
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-video-camera"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Videos</span>
+                <span class="info-box-number">@videosCount<small></small></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-frown-o"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Negative Videos</span>
+                <span class="info-box-number">@negativeCount</span>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix visible-sm-block"></div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-meh-o"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Neutral Videos</span>
+                <span class="info-box-number">@neutralCount</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-smile-o"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Positive Videos</span>
+                <span class="info-box-number">@positiveCount</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Monthly Recap Report</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-wrench"></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="chart">
+                            <canvas id="salesChart" style="height: 180px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">Videos locations</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pad">
+                            <div id="world-map-markers" style="height: 325px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Browser Usage</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="chart-responsive">
+                            <canvas id="pieChart" height="250"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="chart-legend clearfix">
+                            <li><i class="fa fa-circle-o text-red"></i> Chrome</li>
+                            <li><i class="fa fa-circle-o text-green"></i> IE</li>
+                            <li><i class="fa fa-circle-o text-yellow"></i> FireFox</li>
+                            <li><i class="fa fa-circle-o text-aqua"></i> Safari</li>
+                            <li><i class="fa fa-circle-o text-light-blue"></i> Opera</li>
+                            <li><i class="fa fa-circle-o text-gray"></i> Navigator</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/AdminLTE/plugins/jquery-ui/js")
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+
+    @Scripts.Render("~/AdminLTE/plugins/chartjs/js")
+    @Scripts.Render("~/AdminLTE/plugins/jvectormap/js")
+    @Scripts.Render("~/AdminLTE/plugins/sparkline/js")
+    @Scripts.Render("~/Scripts/Home/Dashboard")
+}
+

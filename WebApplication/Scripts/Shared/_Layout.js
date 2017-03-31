@@ -318,19 +318,20 @@ $(function () {
     // hide notifications
     $("#notiList").click(function () {
         $("#viewList").remove();
-        window.location.href = "/Home/DashboardV2";
     });
 
 
     // update notification count
-    function updateNotificationCount() {
+    function updateNotificationCount(message) {
         var count = 0;
         count = parseInt($("span.count").html()) || 0;
         count++;
         $("span.count").html(count);
         var d = document.getElementById("count1");
+        var newLbl = document.getElementById("newAddedLabel");
+        newLbl.className = "label pull-right bg-green";
         d.className += " label label-success";
-        $("#notiList").append($('<li id="viewList" class="footer"><a>View all</a></li>'));
+        $("#notiList").append($('<li id="viewList" class="footer"><a href="/Home/DashboardV1?videoId=' + message + '">View new analisys</a></li>'));
     }
 
     // signalr js code for start hub and send receive notification
@@ -341,8 +342,8 @@ $(function () {
 
     //signalr method for push server message to client
     notificationHub.client.notify = function (message) {
-        if (message && message.toLowerCase() == "added") {
-            updateNotificationCount();
+        if (message) {
+            updateNotificationCount(message);
         }
     };
 });

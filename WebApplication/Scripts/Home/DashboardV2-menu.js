@@ -1,6 +1,4 @@
 ﻿$(function () {
-    var menuItem = $('#left-sidebar-menu-dashboard');
+    var menuItem = $('#left-sidebar-menu-charts');
     menuItem.addClass('active');
-    var subMenuItem = menuItem.find('#left-sidebar-menu-dashboard-dashboardV2');
-    subMenuItem.addClass('active');
 });

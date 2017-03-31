@@ -528,6 +528,8 @@
     <Content Include="Scripts\Account\Register.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Home\Dashboard.js" />
+    <Content Include="Scripts\Home\Dashboard-menu.js" />
     <Content Include="Scripts\Home\DashboardV0-menu.js" />
     <Content Include="Scripts\Home\DashboardV0.js" />
     <Content Include="Scripts\Home\DashboardV1-menu.js" />
@@ -607,6 +609,7 @@
     <Content Include="Views\Home\_SearchVideo.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

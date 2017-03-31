@@ -203,6 +203,11 @@ namespace WebApplication
 
         private static void RegisterHome(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/Scripts/Home/Dashboard").Include(
+                "~/Scripts/Home/Dashboard.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Home/Dashboard/menu").Include(
+                "~/Scripts/Home/Dashboard-menu.js"));
+
             bundles.Add(new ScriptBundle("~/Scripts/Home/DashboardV0").Include(
                 "~/Scripts/Home/DashboardV0.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Home/DashboardV0/menu").Include(

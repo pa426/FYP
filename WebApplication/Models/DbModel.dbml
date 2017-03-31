@@ -51,6 +51,13 @@
       <Association Name="AspVideoDetail_AspVideoAnalysisSegment" Member="AspVideoDetail" ThisKey="VideoId" OtherKey="VideoId" Type="AspVideoDetail" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.AspVideoGroups" Member="AspVideoGroups">
+    <Type Name="AspVideoGroup">
+      <Column Name="VideoGroupID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="AspVideoGroup_AspVideoDetail" Member="AspVideoDetails" ThisKey="VideoGroupID" OtherKey="VideoGroupID" Type="AspVideoDetail" />
+    </Type>
+  </Table>
   <Table Name="dbo.AspVideoDetails" Member="AspVideoDetails">
     <Type Name="AspVideoDetail">
       <Column Name="VideoId" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -60,18 +67,13 @@
       <Column Name="PublishedAt" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
       <Column Name="UserId" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
       <Column Name="VideoGroupID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MainSentiment" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VideoLocation" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="Date" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
       <Association Name="AspVideoDetail_AspSoundAnalisysSegment" Member="AspSoundAnalisysSegments" ThisKey="VideoId" OtherKey="VideoId" Type="AspSoundAnalisysSegment" />
       <Association Name="AspVideoDetail_AspTextAnalisysSegment" Member="AspTextAnalisysSegments" ThisKey="VideoId" OtherKey="VideoId" Type="AspTextAnalisysSegment" />
       <Association Name="AspVideoDetail_AspVideoAnalysisSegment" Member="AspVideoAnalysisSegments" ThisKey="VideoId" OtherKey="VideoId" Type="AspVideoAnalysisSegment" />
       <Association Name="AspVideoGroup_AspVideoDetail" Member="AspVideoGroup" ThisKey="VideoGroupID" OtherKey="VideoGroupID" Type="AspVideoGroup" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.AspVideoGroups" Member="AspVideoGroups">
-    <Type Name="AspVideoGroup">
-      <Column Name="VideoGroupID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="GroupName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Association Name="AspVideoGroup_AspVideoDetail" Member="AspVideoDetails" ThisKey="VideoGroupID" OtherKey="VideoGroupID" Type="AspVideoDetail" />
     </Type>
   </Table>
 </Database>

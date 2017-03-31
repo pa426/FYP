@@ -39,12 +39,12 @@ namespace WebApplication.Models
     partial void InsertAspVideoAnalysisSegment(AspVideoAnalysisSegment instance);
     partial void UpdateAspVideoAnalysisSegment(AspVideoAnalysisSegment instance);
     partial void DeleteAspVideoAnalysisSegment(AspVideoAnalysisSegment instance);
-    partial void InsertAspVideoDetail(AspVideoDetail instance);
-    partial void UpdateAspVideoDetail(AspVideoDetail instance);
-    partial void DeleteAspVideoDetail(AspVideoDetail instance);
     partial void InsertAspVideoGroup(AspVideoGroup instance);
     partial void UpdateAspVideoGroup(AspVideoGroup instance);
     partial void DeleteAspVideoGroup(AspVideoGroup instance);
+    partial void InsertAspVideoDetail(AspVideoDetail instance);
+    partial void UpdateAspVideoDetail(AspVideoDetail instance);
+    partial void DeleteAspVideoDetail(AspVideoDetail instance);
     #endregion
 		
 		public DbModelDataContext() : 
@@ -101,19 +101,19 @@ namespace WebApplication.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<AspVideoDetail> AspVideoDetails
-		{
-			get
-			{
-				return this.GetTable<AspVideoDetail>();
-			}
-		}
-		
 		public System.Data.Linq.Table<AspVideoGroup> AspVideoGroups
 		{
 			get
 			{
 				return this.GetTable<AspVideoGroup>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AspVideoDetail> AspVideoDetails
+		{
+			get
+			{
+				return this.GetTable<AspVideoDetail>();
 			}
 		}
 	}
@@ -1219,6 +1219,120 @@ namespace WebApplication.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspVideoGroups")]
+	public partial class AspVideoGroup : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _VideoGroupID;
+		
+		private string _GroupName;
+		
+		private EntitySet<AspVideoDetail> _AspVideoDetails;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnVideoGroupIDChanging(int value);
+    partial void OnVideoGroupIDChanged();
+    partial void OnGroupNameChanging(string value);
+    partial void OnGroupNameChanged();
+    #endregion
+		
+		public AspVideoGroup()
+		{
+			this._AspVideoDetails = new EntitySet<AspVideoDetail>(new Action<AspVideoDetail>(this.attach_AspVideoDetails), new Action<AspVideoDetail>(this.detach_AspVideoDetails));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VideoGroupID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int VideoGroupID
+		{
+			get
+			{
+				return this._VideoGroupID;
+			}
+			set
+			{
+				if ((this._VideoGroupID != value))
+				{
+					this.OnVideoGroupIDChanging(value);
+					this.SendPropertyChanging();
+					this._VideoGroupID = value;
+					this.SendPropertyChanged("VideoGroupID");
+					this.OnVideoGroupIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GroupName", DbType="VarChar(50)")]
+		public string GroupName
+		{
+			get
+			{
+				return this._GroupName;
+			}
+			set
+			{
+				if ((this._GroupName != value))
+				{
+					this.OnGroupNameChanging(value);
+					this.SendPropertyChanging();
+					this._GroupName = value;
+					this.SendPropertyChanged("GroupName");
+					this.OnGroupNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspVideoGroup_AspVideoDetail", Storage="_AspVideoDetails", ThisKey="VideoGroupID", OtherKey="VideoGroupID")]
+		public EntitySet<AspVideoDetail> AspVideoDetails
+		{
+			get
+			{
+				return this._AspVideoDetails;
+			}
+			set
+			{
+				this._AspVideoDetails.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_AspVideoDetails(AspVideoDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.AspVideoGroup = this;
+		}
+		
+		private void detach_AspVideoDetails(AspVideoDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.AspVideoGroup = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspVideoDetails")]
 	public partial class AspVideoDetail : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1238,6 +1352,10 @@ namespace WebApplication.Models
 		private string _UserId;
 		
 		private System.Nullable<int> _VideoGroupID;
+		
+		private System.Nullable<int> _MainSentiment;
+		
+		private string _VideoLocation;
 		
 		private System.Nullable<System.DateTime> _Date;
 		
@@ -1267,6 +1385,10 @@ namespace WebApplication.Models
     partial void OnUserIdChanged();
     partial void OnVideoGroupIDChanging(System.Nullable<int> value);
     partial void OnVideoGroupIDChanged();
+    partial void OnMainSentimentChanging(System.Nullable<int> value);
+    partial void OnMainSentimentChanged();
+    partial void OnVideoLocationChanging(string value);
+    partial void OnVideoLocationChanged();
     partial void OnDateChanging(System.Nullable<System.DateTime> value);
     partial void OnDateChanged();
     #endregion
@@ -1424,6 +1546,46 @@ namespace WebApplication.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MainSentiment", DbType="Int")]
+		public System.Nullable<int> MainSentiment
+		{
+			get
+			{
+				return this._MainSentiment;
+			}
+			set
+			{
+				if ((this._MainSentiment != value))
+				{
+					this.OnMainSentimentChanging(value);
+					this.SendPropertyChanging();
+					this._MainSentiment = value;
+					this.SendPropertyChanged("MainSentiment");
+					this.OnMainSentimentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VideoLocation", DbType="VarChar(255)")]
+		public string VideoLocation
+		{
+			get
+			{
+				return this._VideoLocation;
+			}
+			set
+			{
+				if ((this._VideoLocation != value))
+				{
+					this.OnVideoLocationChanging(value);
+					this.SendPropertyChanging();
+					this._VideoLocation = value;
+					this.SendPropertyChanged("VideoLocation");
+					this.OnVideoLocationChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="SmallDateTime")]
 		public System.Nullable<System.DateTime> Date
 		{
@@ -1571,120 +1733,6 @@ namespace WebApplication.Models
 		{
 			this.SendPropertyChanging();
 			entity.AspVideoDetail = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspVideoGroups")]
-	public partial class AspVideoGroup : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _VideoGroupID;
-		
-		private string _GroupName;
-		
-		private EntitySet<AspVideoDetail> _AspVideoDetails;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnVideoGroupIDChanging(int value);
-    partial void OnVideoGroupIDChanged();
-    partial void OnGroupNameChanging(string value);
-    partial void OnGroupNameChanged();
-    #endregion
-		
-		public AspVideoGroup()
-		{
-			this._AspVideoDetails = new EntitySet<AspVideoDetail>(new Action<AspVideoDetail>(this.attach_AspVideoDetails), new Action<AspVideoDetail>(this.detach_AspVideoDetails));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VideoGroupID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int VideoGroupID
-		{
-			get
-			{
-				return this._VideoGroupID;
-			}
-			set
-			{
-				if ((this._VideoGroupID != value))
-				{
-					this.OnVideoGroupIDChanging(value);
-					this.SendPropertyChanging();
-					this._VideoGroupID = value;
-					this.SendPropertyChanged("VideoGroupID");
-					this.OnVideoGroupIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GroupName", DbType="VarChar(50)")]
-		public string GroupName
-		{
-			get
-			{
-				return this._GroupName;
-			}
-			set
-			{
-				if ((this._GroupName != value))
-				{
-					this.OnGroupNameChanging(value);
-					this.SendPropertyChanging();
-					this._GroupName = value;
-					this.SendPropertyChanged("GroupName");
-					this.OnGroupNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspVideoGroup_AspVideoDetail", Storage="_AspVideoDetails", ThisKey="VideoGroupID", OtherKey="VideoGroupID")]
-		public EntitySet<AspVideoDetail> AspVideoDetails
-		{
-			get
-			{
-				return this._AspVideoDetails;
-			}
-			set
-			{
-				this._AspVideoDetails.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_AspVideoDetails(AspVideoDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.AspVideoGroup = this;
-		}
-		
-		private void detach_AspVideoDetails(AspVideoDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.AspVideoGroup = null;
 		}
 	}
 }

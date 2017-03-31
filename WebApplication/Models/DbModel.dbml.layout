@@ -20,44 +20,44 @@
         <elementListCompartment Id="f68aff15-9597-495c-a89f-9704b0a1e8f1" absoluteBounds="6.265, 5.085, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="53c60ec6-99f5-4270-9ab8-8900a1f18169" absoluteBounds="3.5, 5.625, 2, 2.3478011067708344">
-      <DataClassMoniker Name="/DbModelDataContext/AspVideoDetail" />
-      <nestedChildShapes>
-        <elementListCompartment Id="50ea62c8-d7b2-44c4-8100-82b1f8411543" absoluteBounds="3.515, 6.085, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="bdcd1217-4077-4178-8079-948d69b82063" absoluteBounds="0.75, 6.25, 2, 1.1939925130208344">
+    <classShape Id="bdcd1217-4077-4178-8079-948d69b82063" absoluteBounds="0.75, 5.375, 2, 1.1939925130208344">
       <DataClassMoniker Name="/DbModelDataContext/AspVideoGroup" />
       <nestedChildShapes>
-        <elementListCompartment Id="de68ee8c-5ba5-4d39-ac45-ca876e5e6750" absoluteBounds="0.765, 6.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="de68ee8c-5ba5-4d39-ac45-ca876e5e6750" absoluteBounds="0.765, 5.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4.5 : 7.97280110677083); (4.5 : 10.3181062825521); (6.25 : 10.3181062825521)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <classShape Id="58a67c50-215a-42ae-82f8-69a4b3e139b4" absoluteBounds="3.625, 4.625, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/DbModelDataContext/AspVideoDetail" />
+      <nestedChildShapes>
+        <elementListCompartment Id="952e3251-87b7-41c6-8c15-f06583727423" absoluteBounds="3.6399999999999997, 5.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.625 : 7.35740397135417); (4.625 : 10.3181062825521); (6.25 : 10.3181062825521)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DbModelDataContext/AspVideoDetail/AspVideoDetail_AspSoundAnalisysSegment" />
       <nodes>
-        <classShapeMoniker Id="53c60ec6-99f5-4270-9ab8-8900a1f18169" />
+        <classShapeMoniker Id="58a67c50-215a-42ae-82f8-69a4b3e139b4" />
         <classShapeMoniker Id="bddce4e4-49a8-4b90-8a64-e4750dcc8a04" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.5 : 5.625); (4.5 : 2.64505126953125); (6.25 : 2.64505126953125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.625 : 4.625); (4.625 : 2.64505126953125); (6.25 : 2.64505126953125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DbModelDataContext/AspVideoDetail/AspVideoDetail_AspTextAnalisysSegment" />
       <nodes>
-        <classShapeMoniker Id="53c60ec6-99f5-4270-9ab8-8900a1f18169" />
+        <classShapeMoniker Id="58a67c50-215a-42ae-82f8-69a4b3e139b4" />
         <classShapeMoniker Id="03c6d74b-f63a-42dd-8110-eb159ae14ae1" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 6.58735270182292); (6.25 : 6.58735270182292)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.625 : 5.99120198567708); (6.25 : 5.99120198567708)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DbModelDataContext/AspVideoDetail/AspVideoDetail_AspVideoAnalysisSegment" />
       <nodes>
-        <classShapeMoniker Id="53c60ec6-99f5-4270-9ab8-8900a1f18169" />
+        <classShapeMoniker Id="58a67c50-215a-42ae-82f8-69a4b3e139b4" />
         <classShapeMoniker Id="88af6d21-9765-45a6-b701-b943c195f90a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 6.84699625651042); (3.5 : 6.84699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 5.97199625651042); (3.625 : 5.97199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DbModelDataContext/AspVideoGroup/AspVideoGroup_AspVideoDetail" />
       <nodes>
         <classShapeMoniker Id="bdcd1217-4077-4178-8079-948d69b82063" />
-        <classShapeMoniker Id="53c60ec6-99f5-4270-9ab8-8900a1f18169" />
+        <classShapeMoniker Id="58a67c50-215a-42ae-82f8-69a4b3e139b4" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

@@ -67,7 +67,7 @@ namespace WebApplication.ApiManager
             };
             var proc = Process.Start(psi);
             await proc.WaitForExitAsync();
-            File.Delete(path);
+            File.Delete(path);  
 
 
             //Add Video Details used for DB
@@ -79,6 +79,7 @@ namespace WebApplication.ApiManager
                 ChannelTitle = vidmod.ChannelTitle,
                 UserId = vidmod.UserId,
                 PublishedAt = Convert.ToDateTime(vidmod.PublishedAt),
+                VideoLocation = vidmod.VideoLocation,
                 Date = DateTime.Now
             };
             db.AspVideoDetails.InsertOnSubmit(videoDetails);
@@ -162,25 +163,23 @@ namespace WebApplication.ApiManager
                 Task.Delay(3000).Wait();
             }
 
-            if (i > 1)
-            {
-                var textAnalisysMean = new AspTextAnalisysSegment();
-                textAnalisysMean.TextSegmentIndex = -1;
-                textAnalisysMean.VideoId = vidmod.VideoId;
-                textAnalisysMean.Anger = textAnalisysSegments.Average(item => item.Anger);
-                textAnalisysMean.Disgust = textAnalisysSegments.Average(item => item.Disgust);
-                textAnalisysMean.Fear = textAnalisysSegments.Average(item => item.Fear);
-                textAnalisysMean.Joy = textAnalisysSegments.Average(item => item.Joy);
-                textAnalisysMean.Sadness = textAnalisysSegments.Average(item => item.Sadness);
-                db.AspTextAnalisysSegments.InsertOnSubmit(textAnalisysMean);
-                db.SubmitChanges();
+            var textAnalisysMean = new AspTextAnalisysSegment();
+            textAnalisysMean.TextSegmentIndex = -1;
+            textAnalisysMean.VideoId = vidmod.VideoId;
+            textAnalisysMean.Anger = textAnalisysSegments.Average(item => item.Anger);
+            textAnalisysMean.Disgust = textAnalisysSegments.Average(item => item.Disgust);
+            textAnalisysMean.Fear = textAnalisysSegments.Average(item => item.Fear);
+            textAnalisysMean.Joy = textAnalisysSegments.Average(item => item.Joy);
+            textAnalisysMean.Sadness = textAnalisysSegments.Average(item => item.Sadness);
+            db.AspTextAnalisysSegments.InsertOnSubmit(textAnalisysMean);
+            db.SubmitChanges();
 
-                Debug.WriteLine("Mean Text Analisys Anger MeanMode  --->" + textAnalisysMean.Anger);
-                Debug.WriteLine("Mean Text Analisys Disgust MeanVal   --->" + textAnalisysMean.Disgust);
-                Debug.WriteLine("Mean Text Analisys Fear MeanMode   --->" + textAnalisysMean.Fear);
-                Debug.WriteLine("Mean Text Analisys Joy aMeanVal    --->" + textAnalisysMean.Joy);
-                Debug.WriteLine("Mean Text Analisys Sadness MeanMode  --->" + textAnalisysMean.Sadness);
-            }
+            Debug.WriteLine("Mean Text Analisys Anger MeanMode  --->" + textAnalisysMean.Anger);
+            Debug.WriteLine("Mean Text Analisys Disgust MeanVal   --->" + textAnalisysMean.Disgust);
+            Debug.WriteLine("Mean Text Analisys Fear MeanMode   --->" + textAnalisysMean.Fear);
+            Debug.WriteLine("Mean Text Analisys Joy aMeanVal    --->" + textAnalisysMean.Joy);
+            Debug.WriteLine("Mean Text Analisys Sadness MeanMode  --->" + textAnalisysMean.Sadness);
+
 
             //Beyond verbal anlisys
             Debug.WriteLine("###Sound Analisys Response");
@@ -206,13 +205,82 @@ namespace WebApplication.ApiManager
                 db.SubmitChanges();
             }
 
+            //Add main Sentiment for video
+            var mainSent = GetMainSentiment(videoEmotionsMean, textAnalisysMean, bva.Result[0]);
+            videoDetails.MainSentiment = mainSent;
+            db.SubmitChanges();
+            Debug.WriteLine("Main sentiment for video" + videoDetails.VideoTitle + " : " + videoDetails.MainSentiment);
+            Debug.WriteLine("Analisys Finished for video: " + videoDetails.VideoTitle);
+
             //Push notification update
             var myHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            myHub.Clients.All.notify("added");
+            myHub.Clients.All.notify(videoDetails.VideoId);
 
             // Cleanup.
-
             File.Delete(wavPath);
+        }
+
+        private int GetMainSentiment(AspVideoAnalysisSegment x, AspTextAnalisysSegment y , AspSoundAnalisysSegment z)
+        {
+            var vidMean = 0;
+            if ((x.Anger + x.Contempt + x.Disgust + x.Fear) > (x.Neutral + x.Sadness) && (x.Anger + x.Contempt + x.Disgust + x.Fear) > (x.Happiness + x.Surprise))
+            {
+                vidMean = 1;
+            }
+            else if ((x.Neutral + x.Sadness) > (x.Anger + x.Contempt + x.Disgust + x.Fear) && (x.Neutral + x.Sadness) > (x.Happiness + x.Surprise))
+            {
+                vidMean = 2;
+            }
+            else if ((x.Happiness + x.Surprise) > (x.Anger + x.Contempt + x.Disgust + x.Fear) && (x.Happiness + x.Surprise) > (x.Neutral + x.Sadness))
+            {
+                vidMean = 3;
+            }
+
+
+            var textMean = 0;
+            if ((y.Anger + y.Disgust + y.Fear) > y.Sadness && (y.Anger + y.Disgust + y.Fear) > y.Joy)
+            {
+                textMean = 1;
+            }
+            else if (y.Sadness > (y.Anger + y.Disgust + y.Fear) && y.Sadness > y.Joy)
+            {
+                textMean = 2;
+            }
+            else if (y.Joy > (y.Anger + y.Disgust + y.Fear) && y.Joy > y.Sadness)
+            {
+                textMean = 3;
+            }
+
+
+            var soundMean = 0;
+            if (z.TemperVal > z.ValenceVal && z.TemperVal > z.ArousalVal)
+            {
+                soundMean = 1;
+            }
+            else if (z.ValenceVal > z.TemperVal && z.ValenceVal > z.ArousalVal)
+            {
+                soundMean = 2;
+            }
+            else if (z.ArousalVal > z.TemperVal && z.ArousalVal > z.ValenceVal)
+            {
+                soundMean = 3;
+            }
+
+            var meanmean = 0;
+            if ((vidMean + textMean + soundMean) <= 5)
+            {
+                meanmean = 0;
+            }
+            else if ((vidMean + textMean + soundMean) == 6)
+            {
+                meanmean = 1;
+            }
+            else if ((vidMean + textMean + soundMean) >= 7)
+            {
+                meanmean = 2;
+            }
+
+            return meanmean;
         }
     }
 }

@@ -56,6 +56,14 @@ namespace WebApplication.ApiManager
                 }
             }
 
+            foreach (var v in videos)
+            {
+                var getLocation = youtubeService.Channels.List("snippet");
+                getLocation.Id = v.ChannelId;
+                var getLocationResponse = await getLocation.ExecuteAsync();
+                v.VideoLocation = getLocationResponse.Items[0].Snippet.Country;
+            }
+
             return videos;
 
         }

@@ -7,11 +7,19 @@ using Microsoft.AspNet.Identity;
 using WebApplication.ApiManager;
 using WebApplication.Models;
 
+
 namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
         private readonly DbModelDataContext db = new DbModelDataContext();
+
+        public ActionResult Dashboard()
+        {
+            var usrid = User.Identity.GetUserId();
+            var allVideos = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid));
+            return View(allVideos);
+        }
 
         public ActionResult DashboardV0()
         {

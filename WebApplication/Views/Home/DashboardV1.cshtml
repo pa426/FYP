@@ -3,7 +3,7 @@
 @using WebApplication.Models
 
 @{
-    ViewBag.Title = "Dashboard v1";
+    ViewBag.Title = "Video Analisys";
 
     var vidMed = new AspVideoAnalysisSegment();
     var textMed = new AspTextAnalisysSegment();
@@ -66,62 +66,6 @@
     var soundGraph = jsonSerializer.Serialize(dataList3);
 
 
-    var vidMean = 0;
-    if ((vidMed.Anger + vidMed.Contempt + vidMed.Disgust + vidMed.Fear) > (vidMed.Neutral + vidMed.Sadness) && (vidMed.Anger + vidMed.Contempt + vidMed.Disgust + vidMed.Fear) > (vidMed.Happiness + vidMed.Surprise))
-    {
-        vidMean = 1;
-    }else if ((vidMed.Neutral + vidMed.Sadness) > (vidMed.Anger + vidMed.Contempt + vidMed.Disgust + vidMed.Fear) && (vidMed.Neutral + vidMed.Sadness) > (vidMed.Happiness + vidMed.Surprise))
-    {
-        vidMean = 2;
-    }else if ((vidMed.Happiness + vidMed.Surprise) > (vidMed.Anger + vidMed.Contempt + vidMed.Disgust + vidMed.Fear) && (vidMed.Happiness + vidMed.Surprise) > (vidMed.Neutral + vidMed.Sadness))
-    {
-        vidMean = 3;
-    }
-
-
-    var textMean = 0;
-    if ((textMed.Anger + textMed.Disgust + textMed.Fear) > textMed.Sadness && (textMed.Anger + textMed.Disgust + textMed.Fear) > textMed.Joy)
-    {
-        textMean = 1;
-    }
-    else if (textMed.Sadness > (textMed.Anger + textMed.Disgust + textMed.Fear) && textMed.Sadness > textMed.Joy)
-    {
-        textMean = 2;
-    }
-    else if (textMed.Joy > (textMed.Anger + textMed.Disgust + textMed.Fear)  && textMed.Joy > textMed.Sadness)
-    {
-        textMean = 3;
-    }
-
-
-    var soundMean = 0;
-    if (soundMed.TemperVal > soundMed.ValenceVal && soundMed.TemperVal > soundMed.ArousalVal)
-    {
-        soundMean = 1;
-    }
-    else if (soundMed.ValenceVal > soundMed.TemperVal && soundMed.ValenceVal > soundMed.ArousalVal)
-    {
-        soundMean = 2;
-    }
-    else if (soundMed.ArousalVal > soundMed.TemperVal && soundMed.ArousalVal > soundMed.ValenceVal)
-    {
-        soundMean = 3;
-    }
-
-    var meanmean = 0;
-    if ((vidMean + textMean + soundMean) <= 5)
-    {
-        meanmean = 1;
-    }
-    else if ((vidMean + textMean + soundMean) == 6)
-    {
-        meanmean = 2;
-    }
-    else if ((vidMean + textMean + soundMean) >= 7)
-    {
-        meanmean = 3;
-    }
-
 }
 
 @section Menu {
@@ -163,7 +107,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="timeline-item">
-                            <h4 class="timeline-header videoHeader">
+        @Model.MainSentiment                    <h4 class="timeline-header videoHeader">
                                 <a href="https://www.youtube.com/channel/@Model.ChannelId"> @Model.ChannelTitle</a> shared a video
                             </h4>
                             <span class="time">
@@ -181,17 +125,17 @@
                             <div class="col-md-12">
                                 <h3 class="box-title" style="text-align: center">Overall Sentiment</h3>
                                 @{
-                                    if (meanmean == 1)
+                                    if (@Model.MainSentiment == 0)
                                     {
                                         <i class="fa fa-frown-o fa-5x" aria-hidden="true" style="color: red; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
                                         <h2 style="text-align: center">Negative</h2>
                                     }
-                                    else if (meanmean == 2)
+                                    else if (@Model.MainSentiment == 1)
                                     {
                                         <i class="fa fa-meh-o fa-5x" aria-hidden="true" style="color: grey; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
                                         <h2 style="text-align: center">Neutral</h2>
                                     }
-                                    else if (meanmean == 3)
+                                    else if (@Model.MainSentiment == 2)
                                     {
                                         <i class="fa fa-smile-o fa-5x" aria-hidden="true" style="color: green; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
                                         <h2 style="text-align: center">Positive</h2>
