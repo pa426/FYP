@@ -13,7 +13,7 @@
 
     var groups = new Array();
     for (var i = 0; i < datax.$values.length; i++) {
-        if (datax.$values[i].GroupName == '   ') {
+        if (datax.$values[i].GroupName === '   ') {
             groups.push('OtherVideos');
         } else {
             groups.push(datax.$values[i].GroupName);
@@ -21,23 +21,23 @@
         
     }
     var uniqueGroups = groups.filter(function (item, pos) {
-         return groups.indexOf(item) == pos;
+         return groups.indexOf(item) === pos;
     });
 
     console.log(uniqueGroups);
     var listOfValues = new Array();
     var listOfNames = new Array();
 
-    for (var i = 0; i < uniqueGroups.length; i++) {
+    for (var ij = 0; ij < uniqueGroups.length; ij++) {
         var z = 1;
         var listVideosForGroup = new Array();
         var listNamesForGroup = new Array();
         for (var j = 0; j < datax.$values.length; j++) {
-            if (datax.$values[j].GroupName == uniqueGroups[i]) {
+            if (datax.$values[j].GroupName === uniqueGroups[ij]) {
                 listVideosForGroup.push(datax.$values[j].MainSentiment);
                 listNamesForGroup.push('Video ' + [z]);
                 z++;
-            } else if (datax.$values[j].GroupName == '   ' && uniqueGroups[i] == 'OtherVideos') {
+            } else if (datax.$values[j].GroupName === '   ' && uniqueGroups[ij] === 'OtherVideos') {
                 listVideosForGroup.push(datax.$values[j].MainSentiment);
                 listNamesForGroup.push('Video ' + [z]);
                 z++;
@@ -102,18 +102,18 @@
     var canvasArray = [];
     var dataArray = [];
 
-    for (var i = 0; i < uniqueGroups.length; i++) {
+    for (var ix = 0; ix < uniqueGroups.length; ix++) {
 
-        document.getElementById("chartContainer").innerHTML += "<h3><center>" + uniqueGroups[i] + " Group Statistics </center></h3>";
-        document.getElementById("chartContainer").innerHTML += "<canvas id=\"" + uniqueGroups[i] + "\" style='height: 140px;'></canvas>";
-        var ctxPrep = "#" + uniqueGroups[i];
+        document.getElementById("chartContainer").innerHTML += "<h3><center>" + uniqueGroups[ix] + " Group Statistics </center></h3>";
+        document.getElementById("chartContainer").innerHTML += "<canvas id=\"" + uniqueGroups[ix] + "\" style='height: 140px;'></canvas>";
+        var ctxPrep = "#" + uniqueGroups[ix];
         canvasArray.push(ctxPrep);
 
         var colour = "#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); });
 
         var salesChartData = {
           
-            labels: listOfNames[i],
+            labels: listOfNames[ix],
             datasets: [
                 {
                     fillColor: colour,
@@ -122,7 +122,7 @@
                     pointStrokeColor: colour,
                     pointHighlightFill: colour,
                     pointHighlightStroke: colour,
-                    data: listOfValues[i]
+                    data: listOfValues[ix]
                 }
             ]
         };
@@ -147,11 +147,11 @@
 
 
     var countries = new Array();
-    for (var i = 0; i < datax.$values.length; i++) {
-        countries.push(datax.$values[i].VideoLocation);
+    for (var ik = 0; ik < datax.$values.length; ik++) {
+        countries.push(datax.$values[ik].VideoLocation);
     }
     var uniqueCountries = countries.filter(function (item, pos) {
-        return countries.indexOf(item) == pos;
+        return countries.indexOf(item) === pos;
     });
 
     var markers = [
@@ -402,11 +402,11 @@
 
     var newMarkers = new Array();
    
-    for (var i = 0; i < uniqueCountries.length; i++) {
-        var key = uniqueCountries[i];
-        for (var j = 0; j < markers.length; j++) {
-            if (markers[j]["name"] == key) {
-                newMarkers.push(markers[j]);
+    for (var ip = 0; ip < uniqueCountries.length; ip++) {
+        var key = uniqueCountries[ip];
+        for (var jj = 0; jj < markers.length; jj++) {
+            if (markers[jj]["name"] === key) {
+                newMarkers.push(markers[jj]);
             }
         }
     }
@@ -450,9 +450,9 @@
 
     var listX = new Array();
 
-    for (var i = 0; i < uniqueCountries.length; i++) {
-        var colour = "#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); });
-        var xkey = uniqueCountries[i];
+    for (var iz = 0; iz < uniqueCountries.length; iz++) {
+        var colourx = "#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); });
+        var xkey = uniqueCountries[iz];
         var xyz = new Object();
         xyz.value = datax.$values.filter(function (d) { return d.VideoLocation === xkey; }).length;
         var label = datax.$values.filter(function (d) { return d.VideoLocation === xkey; })[0].VideoLocation;
@@ -463,8 +463,8 @@
             xyz.label = "unknown location";
         }
         
-        xyz.color = colour;
-        xyz.highlight = colour;
+        xyz.color = colourx;
+        xyz.highlight = colourx;
         listX.push(xyz);
 
     }

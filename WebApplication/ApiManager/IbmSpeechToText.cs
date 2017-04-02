@@ -61,9 +61,7 @@ namespace WebApplication.ApiManager
                             }
 
                             i++;
-
                         }
-
                         responseList.Add(text);
                     }
                 }
