@@ -12,40 +12,29 @@
     foreach (var m in Model)
     {
         videosCount += 1;
-        if (m.MainSentiment == 0)
+
+        if (m.MainSentiment.Equals("0"))
         {
             negativeCount += 1;
         }
-        else if (m.MainSentiment == 1)
+        else if (m.MainSentiment.Equals("1"))
         {
             neutralCount += 1;
         }
-        else if (m.MainSentiment == 2)
+        else if (m.MainSentiment.Equals("2"))
         {
             positiveCount += 1;
         }
+
     }
 
-    //Seriali
+    //Serializer Circular reference err handeling
     JsonConvert.DefaultSettings = () => new JsonSerializerSettings
     {
         PreserveReferencesHandling = PreserveReferencesHandling.All,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize
     };
 
-    List<AspVideoDetail> data = new List<AspVideoDetail>();
-
-
-    foreach (var m in Model)
-    {
-        var  d = new AspVideoDetail();
-        d.VideoTitle = m.VideoTitle;
-        d.VideoId = m.VideoId;
-        d.VideoLocation = m.VideoLocation;
-        d.MainSentiment = m.MainSentiment;
-        d.AspVideoGroup = m.AspVideoGroup;
-        data.Add(d);
-    }
 
 }   
 
@@ -55,7 +44,7 @@
 
 <script>
 
-    var datax = @Html.Raw(@JsonConvert.SerializeObject(data));
+    var datax = @Html.Raw(@JsonConvert.SerializeObject(Model));
     console.log(datax);
 
 </script>
@@ -82,7 +71,7 @@
     <div class="clearfix visible-sm-block"></div>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="fa fa-meh-o"></i></span>
+            <span class="info-box-icon bg-gray"><i class="fa fa-meh-o"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Neutral Videos</span>
                 <span class="info-box-number">@neutralCount</span>
@@ -91,7 +80,7 @@
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="fa fa-smile-o"></i></span>
+            <span class="info-box-icon bg-green"><i class="fa fa-smile-o"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Positive Videos</span>
                 <span class="info-box-number">@positiveCount</span>
@@ -101,33 +90,20 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="box">
+        <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Monthly Recap Report</h3>
+                <h3 class="box-title">Groups Trends</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                         <i class="fa fa-minus"></i>
                     </button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-wrench"></i>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="chart">
-                            <canvas id="salesChart" style="height: 180px;"></canvas>
+                        <div id="chartContainer" class="chart">
                         </div>
                     </div>
                 </div>
@@ -139,7 +115,7 @@
     <div class="col-md-8">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Videos locations</h3>
+                <h3 class="box-title">Videos Locations Map</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                         <i class="fa fa-minus"></i>
@@ -159,9 +135,9 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box box-default">
+        <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Browser Usage</h3>
+                <h3 class="box-title">Videos Location Chart</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                         <i class="fa fa-minus"></i>
@@ -171,20 +147,10 @@
             </div>
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="chart-responsive">
-                            <canvas id="pieChart" height="250"></canvas>
+                            <canvas id="pieChart" height="280"></canvas>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <ul class="chart-legend clearfix">
-                            <li><i class="fa fa-circle-o text-red"></i> Chrome</li>
-                            <li><i class="fa fa-circle-o text-green"></i> IE</li>
-                            <li><i class="fa fa-circle-o text-yellow"></i> FireFox</li>
-                            <li><i class="fa fa-circle-o text-aqua"></i> Safari</li>
-                            <li><i class="fa fa-circle-o text-light-blue"></i> Opera</li>
-                            <li><i class="fa fa-circle-o text-gray"></i> Navigator</li>
-                        </ul>
                     </div>
                 </div>
             </div>

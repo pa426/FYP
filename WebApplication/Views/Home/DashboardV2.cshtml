@@ -1,4 +1,5 @@
-﻿@{
+﻿@using WebApplication.Models
+@{
     ViewBag.Title = "Results";
 }
 
@@ -12,12 +13,15 @@
             <div class="box-header">
                 <h3 class="box-title">Responsive Hover Table</h3>
                 <div class="box-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-                        <div class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    @using (Html.BeginForm("InsertGroup", "Home", FormMethod.Post))
+                    {
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            @Html.TextBox("groupTextBox", null, new { type = "text", name = "table_search", @class="form-control pull-right", placeholder="Insert new Group" })
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-cloud-upload"></i></button>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
             <div class="box-body table-responsive no-padding">
@@ -26,6 +30,7 @@
                         <th>Video Title</th>
                         <th>Status</th>
                         <th>Video Channel</th>
+                        <th>Video Group</th>
                         <th>Analisys Date</th>
                     </tr>
                     @{
@@ -42,6 +47,13 @@
                                     <td><span class="label label-success">Approved</span></td>
                                 }
                                 <td><a href="https://www.youtube.com/channel/@m.ChannelId">@m.ChannelTitle</a></td>
+                                <td>
+                                    @using (Html.BeginForm("UpdateGroup", "Home", FormMethod.Post))
+                                    {
+                                        @Html.DropDownList("dropDown1", new SelectList(ViewBag.GroupSelection, "Value", "Text", m.VideoGroupID), new {@onchange = "this.form.submit();"})
+                                        @Html.Hidden("videoId", (string)m.VideoId)
+                                    }      
+                                </td>
                                 <td>@m.Date</td>
                                 <td>
                                     @using (Html.BeginForm("DashboardV1", "Home", new { videoId = m.VideoId }))
@@ -50,7 +62,7 @@
                                     }
                                 </td>
                                 <td>
-                                    @using (Html.BeginForm("DashboardV2", "Home", new { videoId = m.VideoId }))
+                                    @using (Html.BeginForm("DeleteVideo", "Home", new { videoId = m.VideoId }))
                                     {
                                         <button type="submit" class="btn btn-block btn-danger">Delete</button>
                                     }
@@ -70,6 +82,6 @@
     <script>
         $.widget.bridge('uibutton', $.ui.button);
     </script>
-    
+
     @Scripts.Render("~/Scripts/Home/DashboardV2")
 }

@@ -1,5 +1,4 @@
 ﻿@using System.Web.Script.Serialization
-@using Newtonsoft.Json
 @using WebApplication.Models
 
 @{
@@ -25,7 +24,7 @@
         dataList1.Add(data);
         if (m.VideoSegmentIndex == -1)
         {
-            vidMed = m; ;
+            vidMed = m;
         }
     }
     var jsonSerializer = new JavaScriptSerializer();
@@ -44,7 +43,7 @@
         dataList2.Add(data);
         if (m.TextSegmentIndex == -1)
         {
-            textMed = m; ;
+            textMed = m;
         }
     }
     var textGraph = jsonSerializer.Serialize(dataList2);
@@ -60,17 +59,18 @@
         dataList3.Add(data);
         if (m.SoundSegmentIndex == -1)
         {
-            soundMed = m; ;
+            soundMed = m;
         }
     }
     var soundGraph = jsonSerializer.Serialize(dataList3);
 
-
+    var selGrp = Model.VideoGroupID;
 }
 
 @section Menu {
     @Scripts.Render("~/Scripts/Home/DashboardV1/menu")
 }
+
 
 <script>
     var modelId = @Html.Raw(Json.Encode(Model.VideoId));
@@ -90,7 +90,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="box box-solid">
+        <div class="box box-success">
             <div class="box-header">
                 <i class="fa fa-bar-chart-o"></i>
                 <h3 class="box-title">Main Sentiments</h3>
@@ -107,7 +107,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="timeline-item">
-        @Model.MainSentiment                    <h4 class="timeline-header videoHeader">
+                            @Model.MainSentiment                    <h4 class="timeline-header videoHeader">
                                 <a href="https://www.youtube.com/channel/@Model.ChannelId"> @Model.ChannelTitle</a> shared a video
                             </h4>
                             <span class="time">
@@ -127,20 +127,20 @@
                                 @{
                                     if (@Model.MainSentiment == 0)
                                     {
-                                        <i class="fa fa-frown-o fa-5x" aria-hidden="true" style="color: red; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
-                                        <h2 style="text-align: center">Negative</h2>
+                                <i class="fa fa-frown-o fa-5x" aria-hidden="true" style="color: red; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
+                                <h2 style="text-align: center">Negative</h2>
                                     }
                                     else if (@Model.MainSentiment == 1)
                                     {
-                                        <i class="fa fa-meh-o fa-5x" aria-hidden="true" style="color: grey; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
-                                        <h2 style="text-align: center">Neutral</h2>
+                                <i class="fa fa-meh-o fa-5x" aria-hidden="true" style="color: grey; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
+                                <h2 style="text-align: center">Neutral</h2>
                                     }
                                     else if (@Model.MainSentiment == 2)
                                     {
-                                        <i class="fa fa-smile-o fa-5x" aria-hidden="true" style="color: green; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
-                                        <h2 style="text-align: center">Positive</h2>
+                                <i class="fa fa-smile-o fa-5x" aria-hidden="true" style="color: green; text-align: center; display: block; margin-left: auto; margin-right: auto;"></i>
+                                <h2 style="text-align: center">Positive</h2>
                                     }
-                                }   
+                                }
                             </div>
                         </div>
                         <div class="row">
@@ -162,122 +162,122 @@
             </div>
         </div>
     </div>
-
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box box-solid">
-            <div class="box-header">
-                <i class="fa fa-bar-chart-o"></i>
-                <h2 class="box-title">Video Analysis Graph</h2>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-default btn-sm" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm" data-widget="remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="nav-tabs-custom">
-                            <div class="chart tab-pane active" id="videoEmotion-chart" style="position: relative; height: 300px;"></div>
-                        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-success">
+                <div class="box-header">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h2 class="box-title">Video Analysis Graph</h2>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-default btn-sm" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
                     </div>
-                    <div class="col-md-4">
-                        <h3 class="box-title" style="text-align: center">Average values for Video Analysis</h3>
-                        <div class="chart tab-pane" id="videoEmotion-donut" style="position: relative; height: 300px;"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="nav-tabs-custom">
+                                <div class="chart tab-pane active" id="videoEmotion-chart" style="position: relative; height: 300px;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h3 class="box-title" style="text-align: center">Average values for Video Analysis</h3>
+                            <div class="chart tab-pane" id="videoEmotion-donut" style="position: relative; height: 300px;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box box-solid">
-            <div class="box-header">
-                <i class="fa fa-bar-chart-o"></i>
-                <h2 class="box-title">Text Analysis Graph</h2>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-default btn-sm" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm" data-widget="remove">
-                        <i class="fa fa-times"></i>
-                    </button>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-success">
+                <div class="box-header">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h2 class="box-title">Text Analysis Graph</h2>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-default btn-sm" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="nav-tabs-custom">
-                            <div class="chart tab-pane active" id="textEmotion-chart" style="position: relative; height: 300px;"></div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="nav-tabs-custom">
+                                <div class="chart tab-pane active" id="textEmotion-chart" style="position: relative; height: 300px;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h3 class="box-title" style="text-align: center">Average values for Text Analysis</h3>
+                            <div class="chart tab-pane" id="textEmotion-donut" style="position: relative; height: 300px;"></div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <h3 class="box-title" style="text-align: center">Average values for Text Analysis</h3>
-                        <div class="chart tab-pane" id="textEmotion-donut" style="position: relative; height: 300px;"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="nav-tabs-custom">
-                            <ul class="nav nav-tabs">
-                                @{
-                                    int i = 0;
-                                    foreach (var m in Model.AspTextAnalisysSegments)
-                                    {
-                                        if (m.TextSegmentIndex != -1)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    @{
+                                        int i = 0;
+                                        foreach (var m in Model.AspTextAnalisysSegments)
                                         {
-                                            if (i == 0)
+                                            if (m.TextSegmentIndex != -1)
                                             {
-                                                <li class="active">
-                                                    <a href="#tab_@(i + 1)" data-toggle="tab" id="tby_@i">
-                                                        <b>Segment @i</b>
-                                                    </a>
-                                                </li>
+                                                if (i == 0)
+                                                {
+                                                    <li class="active">
+                                                        <a href="#tab_@(i + 1)" data-toggle="tab" id="tby_@i">
+                                                            <b>Segment @i</b>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a href="#tab_@(i + 1)" data-toggle="tab" id="tby_@i">
+                                                            <b>Segment @i</b>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                i++;
                                             }
-                                            else
-                                            {
-                                                <li>
-                                                    <a href="#tab_@(i + 1)" data-toggle="tab" id="tby_@i">
-                                                        <b>Segment @i</b>
-                                                    </a>
-                                                </li>
-                                            }
-                                            i++;
                                         }
                                     }
-                                }
-                            </ul>
-                            <div class="tab-content">
-                                @{
-                                    i = 0;
-                                    foreach (var m in Model.AspTextAnalisysSegments)
-                                    {
-                                        if (m.TextSegmentIndex != -1)
+                                </ul>
+                                <div class="tab-content">
+                                    @{
+                                        i = 0;
+                                        foreach (var m in Model.AspTextAnalisysSegments)
                                         {
-                                            if (i == 0)
+                                            if (m.TextSegmentIndex != -1)
                                             {
-                                                <div class="tab-pane active" id="tab_@(i + 1)">
-                                                    <b>Text from Segment @i</b>
-                                                    <p>@m.TextFromSpeech </p>
-                                                </div>
+                                                if (i == 0)
+                                                {
+                                                    <div class="tab-pane active" id="tab_@(i + 1)">
+                                                        <b>Text from Segment @i</b>
+                                                        <p>@m.TextFromSpeech </p>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="tab-pane" id="tab_@(i + 1)">
+                                                        <b>Text from Segment @i</b>
+                                                        <p>@m.TextFromSpeech </p>
+                                                    </div>
+                                                }
+                                                i++;
                                             }
-                                            else
-                                            {
-                                                <div class="tab-pane" id="tab_@(i + 1)">
-                                                    <b>Text from Segment @i</b>
-                                                    <p>@m.TextFromSpeech </p>
-                                                </div>
-                                            }
-                                            i++;
                                         }
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -285,116 +285,116 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box box-solid">
-            <div class="box-header">
-                <i class="fa fa-bar-chart-o"></i>
-                <h2 class="box-title">Sound Analysis Graph</h2>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-default btn-sm" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm" data-widget="remove">
-                        <i class="fa fa-times"></i>
-                    </button>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-success">
+                <div class="box-header">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h2 class="box-title">Sound Analysis Graph</h2>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-default btn-sm" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="nav-tabs-custom">
-                            <div class="chart tab-pane active" id="soundEmotion-chart" style="position: relative; height: 300px;"></div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="nav-tabs-custom">
+                                <div class="chart tab-pane active" id="soundEmotion-chart" style="position: relative; height: 300px;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h3 class="box-title" style="text-align: center">Average values for Sound Analysis</h3>
+                            <div class="chart tab-pane" id="soundEmotion-donut" style="position: relative; height: 300px;"></div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <h3 class="box-title" style="text-align: center">Average values for Sound Analysis</h3>
-                        <div class="chart tab-pane" id="soundEmotion-donut" style="position: relative; height: 300px;"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="nav-tabs-custom">
-                            <ul class="nav nav-tabs">
-                                @{
-                                    i = 0;
-                                    foreach (var m in Model.AspSoundAnalisysSegments)
-                                    {
-                                        if (m.SoundSegmentIndex != -1)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    @{
+                                        i = 0;
+                                        foreach (var m in Model.AspSoundAnalisysSegments)
                                         {
-                                            if (i == 0)
+                                            if (m.SoundSegmentIndex != -1)
                                             {
-                                                <li class="active">
-                                                    <a href="#tab@(i + 1)" data-toggle="tab" id="tbz_@i">
-                                                        <b>Segment @i</b>
-                                                    </a>
-                                                </li>
+                                                if (i == 0)
+                                                {
+                                                    <li class="active">
+                                                        <a href="#tab@(i + 1)" data-toggle="tab" id="tbz_@i">
+                                                            <b>Segment @i</b>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a href="#tab@(i + 1)" data-toggle="tab" id="tbz_@i">
+                                                            <b>Segment @i</b>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                i++;
                                             }
-                                            else
-                                            {
-                                                <li>
-                                                    <a href="#tab@(i + 1)" data-toggle="tab" id="tbz_@i">
-                                                        <b>Segment @i</b>
-                                                    </a>
-                                                </li>
-                                            }
-                                            i++;
                                         }
                                     }
-                                }
-                            </ul>
-                            <div class="tab-content">
-                                @{
-                                    i = 0;
-                                    foreach (var m in Model.AspSoundAnalisysSegments)
-                                    {
-                                        if (m.SoundSegmentIndex != -1)
+                                </ul>
+                                <div class="tab-content">
+                                    @{
+                                        i = 0;
+                                        foreach (var m in Model.AspSoundAnalisysSegments)
                                         {
-                                            if (i == 0)
+                                            if (m.SoundSegmentIndex != -1)
                                             {
-                                                <div class="tab-pane active" id="tab@(i + 1)">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <b>Primary mood description from Segment @i</b>
-                                                            <p>@m.MoodPrimary </p>
-                                                            <b>Secondary mood description from Segment @i</b>
-                                                            <p>@m.MoodSecondary </p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <b>Primary composite description from Segment @i</b>
-                                                            <p>@m.CompositePrimary </p>
-                                                            <b>Secondary composite description from Segment @i</b>
-                                                            <p>@m.CompositeSecondary </p>
+                                                if (i == 0)
+                                                {
+                                                    <div class="tab-pane active" id="tab@(i + 1)">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <b>Primary mood description from Segment @i</b>
+                                                                <p>@m.MoodPrimary </p>
+                                                                <b>Secondary mood description from Segment @i</b>
+                                                                <p>@m.MoodSecondary </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <b>Primary composite description from Segment @i</b>
+                                                                <p>@m.CompositePrimary </p>
+                                                                <b>Secondary composite description from Segment @i</b>
+                                                                <p>@m.CompositeSecondary </p>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="tab-pane" id="tab@(i + 1)">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <b>Gender: @m.Gender</b>
-                                                            <b>Primary mood description from Segment @i</b>
-                                                            <p>@m.MoodPrimary </p>
-                                                            <b>Secondary mood description from Segment @i</b>
-                                                            <p>@m.MoodSecondary </p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <b>Gender: @m.Gender</b>
-                                                            <b>Primary composite description from Segment @i</b>
-                                                            <p>@m.CompositePrimary </p>
-                                                            <b>Secondary composite description from Segment @i</b>
-                                                            <p>@m.CompositeSecondary </p>
+                                                }
+                                                else
+                                                {
+                                                    <div class="tab-pane" id="tab@(i + 1)">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <b>Gender: @m.Gender</b>
+                                                                <b>Primary mood description from Segment @i</b>
+                                                                <p>@m.MoodPrimary </p>
+                                                                <b>Secondary mood description from Segment @i</b>
+                                                                <p>@m.MoodSecondary </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <b>Gender: @m.Gender</b>
+                                                                <b>Primary composite description from Segment @i</b>
+                                                                <p>@m.CompositePrimary </p>
+                                                                <b>Secondary composite description from Segment @i</b>
+                                                                <p>@m.CompositeSecondary </p>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                }
+                                                i++;
                                             }
-                                            i++;
                                         }
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -402,21 +402,20 @@
             </div>
         </div>
     </div>
-</div>
 
 
-@section Scripts {
-    @Scripts.Render("~/AdminLTE/plugins/jquery-ui/js")
-    <script>
-        $.widget.bridge('uibutton', $.ui.button);
-    </script>
+    @section Scripts {
+        @Scripts.Render("~/AdminLTE/plugins/jquery-ui/js")
+        <script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
 
-    @Scripts.Render("~/AdminLTE/plugins/bootstrap-wysihtml5/js")
-    @Scripts.Render("~/AdminLTE/plugins/sparkline/js")
-    @Scripts.Render("~/AdminLTE/plugins/jvectormap/js")
-    @Scripts.Render("~/AdminLTE/plugins/knob/js")
-    @Scripts.Render("~/AdminLTE/plugins/raphael/js")
-    @Scripts.Render("~/AdminLTE/plugins/morris/js")
-    @Scripts.Render("~/AdminLTE/plugins/chartjs/js")
-    @Scripts.Render("~/Scripts/Home/DashboardV1")
-}
+        @Scripts.Render("~/AdminLTE/plugins/bootstrap-wysihtml5/js")
+        @Scripts.Render("~/AdminLTE/plugins/sparkline/js")
+        @Scripts.Render("~/AdminLTE/plugins/jvectormap/js")
+        @Scripts.Render("~/AdminLTE/plugins/knob/js")
+        @Scripts.Render("~/AdminLTE/plugins/raphael/js")
+        @Scripts.Render("~/AdminLTE/plugins/morris/js")
+        @Scripts.Render("~/AdminLTE/plugins/chartjs/js")
+        @Scripts.Render("~/Scripts/Home/DashboardV1")
+    }

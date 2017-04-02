@@ -1,9 +1,13 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using WebApplication.ApiManager;
 using WebApplication.Models;
 
@@ -18,7 +22,27 @@ namespace WebApplication.Controllers
         {
             var usrid = User.Identity.GetUserId();
             var allVideos = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid));
-            return View(allVideos);
+
+
+            List<dynamic> lst = new List<dynamic>();
+            foreach (var y in allVideos)
+            {
+                dynamic expando = new ExpandoObject();
+                expando.VideoTitle = y.VideoTitle;
+                expando.VideoId = y.VideoId;
+                expando.VideoLocation = y.VideoLocation;
+                expando.MainSentiment = y.MainSentiment.ToString();
+                var grp = "";
+                if (y.AspVideoGroup != null)
+                {
+                    grp = y.AspVideoGroup.GroupName;
+                }
+
+                expando.GroupName = grp;
+                lst.Add(expando);
+            }
+
+            return View(lst);
         }
 
         public ActionResult DashboardV0()
@@ -32,18 +56,27 @@ namespace WebApplication.Controllers
             return View(rm);
         }
 
+     
         public ActionResult DashboardV2()
         {
+            ViewData.Clear();
             var usrid = User.Identity.GetUserId();
+
+            ViewBag.GroupSelection = db.AspVideoGroups.Select(y => new
+            {
+                Value = y.VideoGroupID,
+                Text = y.GroupName
+            }).ToList();
+
             var rm = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid)).OrderByDescending(x => x.Date).ToList();
             return View(rm);
         }
 
         [HttpPost]
-        [ActionName("DashboardV2")]
         [AllowAnonymous]
         public ActionResult DeleteVideo(string videoId)
         {
+
             var vid = db.AspVideoDetails.FirstOrDefault(x => x.VideoId == videoId);
             db.AspVideoAnalysisSegments.DeleteAllOnSubmit(vid.AspVideoAnalysisSegments);
             db.AspSoundAnalisysSegments.DeleteAllOnSubmit(vid.AspSoundAnalisysSegments);
@@ -51,9 +84,33 @@ namespace WebApplication.Controllers
             db.AspVideoDetails.DeleteOnSubmit(vid);
             db.SubmitChanges();
 
-            var usrid = User.Identity.GetUserId();
-            var rm = db.AspVideoDetails.Where(x => x.UserId.Equals(usrid)).OrderByDescending(x => x.Date).ToList();
-            return View(rm);
+            return RedirectToAction("DashboardV2", "Home");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult InsertGroup(string groupTextBox)
+        {
+
+            if (groupTextBox != null)
+            {
+                db.AspVideoGroups.InsertOnSubmit(new AspVideoGroup {GroupName = groupTextBox});
+                db.SubmitChanges();
+            }
+
+            return RedirectToAction("DashboardV2", "Home");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult UpdateGroup(string dropDown1, string videoId)
+        {
+  
+            var vid = db.AspVideoDetails.First(x => x.VideoId == videoId);
+            vid.VideoGroupID = Int32.Parse(dropDown1);
+            db.SubmitChanges();
+
+            return RedirectToAction("DashboardV2", "Home");
         }
 
         [HttpPost]
@@ -106,8 +163,8 @@ namespace WebApplication.Controllers
                             }
                             else
                             {
-                                Debug.WriteLine("####Analise for video {0}/{1} already in database!!!", m.ChannelTitle,
-                                    m.VideoId);
+                                Debug.WriteLine("####Analise for video {0}/{1} already in database!!!", m.ChannelTitle,m.VideoId);
+                                Response.Write("<script>alert('Analisys already done!');</script>");
                             }
                         }
                     break;

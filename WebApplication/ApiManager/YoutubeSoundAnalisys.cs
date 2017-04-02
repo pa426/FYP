@@ -78,6 +78,7 @@ namespace WebApplication.ApiManager
                 ChannelId = vidmod.ChannelId,
                 ChannelTitle = vidmod.ChannelTitle,
                 UserId = vidmod.UserId,
+                VideoGroupID = 1,
                 PublishedAt = Convert.ToDateTime(vidmod.PublishedAt),
                 VideoLocation = vidmod.VideoLocation,
                 Date = DateTime.Now
