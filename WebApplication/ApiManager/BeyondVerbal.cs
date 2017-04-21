@@ -43,57 +43,80 @@ namespace WebApplication.ApiManager
 
             var parsedJson = JObject.Parse(analysisResponseString);
 
-            int i;
-            for (i = 0; i < parsedJson["result"]["analysisSegments"].Count(); i++)
+            try
             {
-                var sesSegment = new AspSoundAnalisysSegment();
 
-                sesSegment.SoundSegmentIndex = i;
-                sesSegment.Offset = (float)parsedJson["result"]["analysisSegments"][i]["offset"];
-                sesSegment.Duration = (float)parsedJson["result"]["analysisSegments"][i]["duration"];
-                sesSegment.TemperVal =
-                    (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Temper"]["Value"];
-                sesSegment.TemperMode =
-                    (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Temper"]["Group"];
-                sesSegment.ValenceVal =
-                    (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Valence"]["Value"];
-                sesSegment.ValenceMode =
-                    (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Valence"]["Group"];
-                sesSegment.ArousalVal =
-                    (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Arousal"]["Value"];
-                sesSegment.ArousalMode =
-                    (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Arousal"]["Group"];
-                sesSegment.Gender =
-                    (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Gender"]["Group"];
-                sesSegment.MoodPrimary =
-                    (string)
-                    parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Group11"]["Primary"]["Phrase"];
-                sesSegment.MoodSecondary =
-                    (string)
-                    parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Group11"]["Secondary"]["Phrase"];
-                sesSegment.CompositePrimary =
-                    (string)
-                    parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Composite"]["Primary"]["Phrase"];
-                sesSegment.CompositeSecondary =
-                    (string)
-                    parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Composite"]["Secondary"]["Phrase"];
+                int i;
+                for (i = 0; i < parsedJson["result"]["analysisSegments"].Count(); i++)
+                {
+                    var sesSegment = new AspSoundAnalisysSegment();
 
-                sa.Add(sesSegment);
+                    sesSegment.SoundSegmentIndex = i;
+                    sesSegment.Offset = (float)parsedJson["result"]["analysisSegments"][i]["offset"];
+                    sesSegment.Duration = (float)parsedJson["result"]["analysisSegments"][i]["duration"];
+                    sesSegment.TemperVal =
+                        (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Temper"]["Value"];
+                    sesSegment.TemperMode =
+                        (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Temper"]["Group"];
+                    sesSegment.ValenceVal =
+                        (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Valence"]["Value"];
+                    sesSegment.ValenceMode =
+                        (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Valence"]["Group"];
+                    sesSegment.ArousalVal =
+                        (float)parsedJson["result"]["analysisSegments"][i]["analysis"]["Arousal"]["Value"];
+                    sesSegment.ArousalMode =
+                        (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Arousal"]["Group"];
+                    sesSegment.Gender =
+                        (string)parsedJson["result"]["analysisSegments"][i]["analysis"]["Gender"]["Group"];
+                    sesSegment.MoodPrimary =
+                        (string)
+                        parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Group11"]["Primary"]["Phrase"];
+                    sesSegment.MoodSecondary =
+                        (string)
+                        parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Group11"]["Secondary"]["Phrase"];
+                    sesSegment.CompositePrimary =
+                        (string)
+                        parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Composite"]["Primary"]["Phrase"];
+                    sesSegment.CompositeSecondary =
+                        (string)
+                        parsedJson["result"]["analysisSegments"][i]["analysis"]["Mood"]["Composite"]["Secondary"]["Phrase"];
 
+                    sa.Add(sesSegment);
+
+                }
+
+                if (i > 1)
+                {
+                    var sesMean = new AspSoundAnalisysSegment();
+                    sesMean.SoundSegmentIndex = -1;
+                    sesMean.TemperVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mean"];
+                    sesMean.TemperMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mode"];
+                    sesMean.ValenceVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Valence"]["Mean"];
+                    sesMean.ValenceMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Valence"]["Mode"];
+                    sesMean.ArousalVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Arousal"]["Mean"];
+                    sesMean.ArousalMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Arousal"]["Mode"];
+                   
+                    sa.Add(sesMean);
+                }
             }
-
-            if (i > 1)
+            catch
             {
                 var sesMean = new AspSoundAnalisysSegment();
-                sesMean.SoundSegmentIndex = -1;
-                sesMean.TemperVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mean"];
-                sesMean.TemperMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Temper"]["Mode"];
-                sesMean.ValenceVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Valence"]["Mean"];
-                sesMean.ValenceMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Valence"]["Mode"];
-                sesMean.ArousalVal = (float)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Arousal"]["Mean"];
-                sesMean.ArousalMode = (string)parsedJson["result"]["analysisSummary"]["AnalysisResult"]["Arousal"]["Mode"];
+                sesMean.SoundSegmentIndex = 0;
+                sesMean.TemperVal = 0;
+                sesMean.TemperMode = "The video is under 20 Second, we cant perform analisys";
+                sesMean.ValenceVal = 0;
+                sesMean.ValenceMode = "The video is under 20 Second, we cant perform analisys";
+                sesMean.ArousalVal = 0;
+                sesMean.ArousalMode = "The video is under 20 Second, we cant perform analisys";
+
+                sesMean.MoodPrimary = "The video is under 20 Second, we cant perform analisys";
+                sesMean.MoodSecondary = "The video is under 20 Second, we cant perform analisys";
+                sesMean.CompositePrimary = "The video is under 20 Second, we cant perform analisys";
+                sesMean.CompositeSecondary = "The video is under 20 Second, we cant perform analisys";
                 sa.Add(sesMean);
             }
+
 
             return sa;
 

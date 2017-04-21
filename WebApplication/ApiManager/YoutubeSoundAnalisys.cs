@@ -94,7 +94,16 @@ namespace WebApplication.ApiManager
             var videoEmotion = ve.GetVideoEmotions(_downloadUrl.DownloadUrl);
             var isttTextList = te.SpeeechToText(wavPath);
             var bva = se.RunAnalisys(wavPath);
-            await Task.WhenAll(videoEmotion, isttTextList, bva);
+
+            try
+            {
+                await Task.WhenAll(videoEmotion, isttTextList, bva);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
             //Video Analisys
             var videoEmotionsSegments = videoEmotion.Result;
@@ -202,8 +211,10 @@ namespace WebApplication.ApiManager
                 Debug.WriteLine("Segment sound analisys CompositePrimary    ---->" + s.CompositePrimary);
                 Debug.WriteLine("Segment sound analisys CompositeSecondary  ---->" + s.CompositeSecondary);
                 Debug.WriteLine("            ");
+
                 db.AspSoundAnalisysSegments.InsertOnSubmit(s);
                 db.SubmitChanges();
+
             }
 
             //Add main Sentiment for video
@@ -266,6 +277,7 @@ namespace WebApplication.ApiManager
             {
                 soundMean = 3;
             }
+
 
             var meanmean = 0;
             if ((vidMean + textMean + soundMean) <= 5)

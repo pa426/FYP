@@ -48,7 +48,7 @@ namespace WebApplication.ApiManager
                     Debug.WriteLine("Analisys still running please wait_");
                 }
 
-                Task.Delay(30000).Wait(); //(0.5 min)
+                Task.Delay(30000).Wait(); //(0.5/1 min)
             }
 
 

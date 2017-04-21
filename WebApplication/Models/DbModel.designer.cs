@@ -30,9 +30,6 @@ namespace WebApplication.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertAspSoundAnalisysSegment(AspSoundAnalisysSegment instance);
-    partial void UpdateAspSoundAnalisysSegment(AspSoundAnalisysSegment instance);
-    partial void DeleteAspSoundAnalisysSegment(AspSoundAnalisysSegment instance);
     partial void InsertAspTextAnalisysSegment(AspTextAnalisysSegment instance);
     partial void UpdateAspTextAnalisysSegment(AspTextAnalisysSegment instance);
     partial void DeleteAspTextAnalisysSegment(AspTextAnalisysSegment instance);
@@ -45,6 +42,9 @@ namespace WebApplication.Models
     partial void InsertAspVideoDetail(AspVideoDetail instance);
     partial void UpdateAspVideoDetail(AspVideoDetail instance);
     partial void DeleteAspVideoDetail(AspVideoDetail instance);
+    partial void InsertAspSoundAnalisysSegment(AspSoundAnalisysSegment instance);
+    partial void UpdateAspSoundAnalisysSegment(AspSoundAnalisysSegment instance);
+    partial void DeleteAspSoundAnalisysSegment(AspSoundAnalisysSegment instance);
     #endregion
 		
 		public DbModelDataContext() : 
@@ -75,14 +75,6 @@ namespace WebApplication.Models
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<AspSoundAnalisysSegment> AspSoundAnalisysSegments
-		{
-			get
-			{
-				return this.GetTable<AspSoundAnalisysSegment>();
-			}
 		}
 		
 		public System.Data.Linq.Table<AspTextAnalisysSegment> AspTextAnalisysSegments
@@ -116,467 +108,12 @@ namespace WebApplication.Models
 				return this.GetTable<AspVideoDetail>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspSoundAnalisysSegments")]
-	public partial class AspSoundAnalisysSegment : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _SoundSegmentId;
-		
-		private string _VideoId;
-		
-		private System.Nullable<int> _SoundSegmentIndex;
-		
-		private System.Nullable<double> _Offset;
-		
-		private System.Nullable<double> _Duration;
-		
-		private System.Nullable<double> _TemperVal;
-		
-		private string _TemperMode;
-		
-		private System.Nullable<double> _ValenceVal;
-		
-		private string _ValenceMode;
-		
-		private System.Nullable<double> _ArousalVal;
-		
-		private string _ArousalMode;
-		
-		private string _Gender;
-		
-		private string _MoodPrimary;
-		
-		private string _MoodSecondary;
-		
-		private string _CompositePrimary;
-		
-		private string _CompositeSecondary;
-		
-		private EntityRef<AspVideoDetail> _AspVideoDetail;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnSoundSegmentIdChanging(int value);
-    partial void OnSoundSegmentIdChanged();
-    partial void OnVideoIdChanging(string value);
-    partial void OnVideoIdChanged();
-    partial void OnSoundSegmentIndexChanging(System.Nullable<int> value);
-    partial void OnSoundSegmentIndexChanged();
-    partial void OnOffsetChanging(System.Nullable<double> value);
-    partial void OnOffsetChanged();
-    partial void OnDurationChanging(System.Nullable<double> value);
-    partial void OnDurationChanged();
-    partial void OnTemperValChanging(System.Nullable<double> value);
-    partial void OnTemperValChanged();
-    partial void OnTemperModeChanging(string value);
-    partial void OnTemperModeChanged();
-    partial void OnValenceValChanging(System.Nullable<double> value);
-    partial void OnValenceValChanged();
-    partial void OnValenceModeChanging(string value);
-    partial void OnValenceModeChanged();
-    partial void OnArousalValChanging(System.Nullable<double> value);
-    partial void OnArousalValChanged();
-    partial void OnArousalModeChanging(string value);
-    partial void OnArousalModeChanged();
-    partial void OnGenderChanging(string value);
-    partial void OnGenderChanged();
-    partial void OnMoodPrimaryChanging(string value);
-    partial void OnMoodPrimaryChanged();
-    partial void OnMoodSecondaryChanging(string value);
-    partial void OnMoodSecondaryChanged();
-    partial void OnCompositePrimaryChanging(string value);
-    partial void OnCompositePrimaryChanged();
-    partial void OnCompositeSecondaryChanging(string value);
-    partial void OnCompositeSecondaryChanged();
-    #endregion
-		
-		public AspSoundAnalisysSegment()
-		{
-			this._AspVideoDetail = default(EntityRef<AspVideoDetail>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoundSegmentId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int SoundSegmentId
+		public System.Data.Linq.Table<AspSoundAnalisysSegment> AspSoundAnalisysSegments
 		{
 			get
 			{
-				return this._SoundSegmentId;
-			}
-			set
-			{
-				if ((this._SoundSegmentId != value))
-				{
-					this.OnSoundSegmentIdChanging(value);
-					this.SendPropertyChanging();
-					this._SoundSegmentId = value;
-					this.SendPropertyChanged("SoundSegmentId");
-					this.OnSoundSegmentIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VideoId", DbType="VarChar(255)")]
-		public string VideoId
-		{
-			get
-			{
-				return this._VideoId;
-			}
-			set
-			{
-				if ((this._VideoId != value))
-				{
-					if (this._AspVideoDetail.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnVideoIdChanging(value);
-					this.SendPropertyChanging();
-					this._VideoId = value;
-					this.SendPropertyChanged("VideoId");
-					this.OnVideoIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoundSegmentIndex", DbType="Int")]
-		public System.Nullable<int> SoundSegmentIndex
-		{
-			get
-			{
-				return this._SoundSegmentIndex;
-			}
-			set
-			{
-				if ((this._SoundSegmentIndex != value))
-				{
-					this.OnSoundSegmentIndexChanging(value);
-					this.SendPropertyChanging();
-					this._SoundSegmentIndex = value;
-					this.SendPropertyChanged("SoundSegmentIndex");
-					this.OnSoundSegmentIndexChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Offset", DbType="Float")]
-		public System.Nullable<double> Offset
-		{
-			get
-			{
-				return this._Offset;
-			}
-			set
-			{
-				if ((this._Offset != value))
-				{
-					this.OnOffsetChanging(value);
-					this.SendPropertyChanging();
-					this._Offset = value;
-					this.SendPropertyChanged("Offset");
-					this.OnOffsetChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Duration", DbType="Float")]
-		public System.Nullable<double> Duration
-		{
-			get
-			{
-				return this._Duration;
-			}
-			set
-			{
-				if ((this._Duration != value))
-				{
-					this.OnDurationChanging(value);
-					this.SendPropertyChanging();
-					this._Duration = value;
-					this.SendPropertyChanged("Duration");
-					this.OnDurationChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TemperVal", DbType="Float")]
-		public System.Nullable<double> TemperVal
-		{
-			get
-			{
-				return this._TemperVal;
-			}
-			set
-			{
-				if ((this._TemperVal != value))
-				{
-					this.OnTemperValChanging(value);
-					this.SendPropertyChanging();
-					this._TemperVal = value;
-					this.SendPropertyChanged("TemperVal");
-					this.OnTemperValChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TemperMode", DbType="VarChar(50)")]
-		public string TemperMode
-		{
-			get
-			{
-				return this._TemperMode;
-			}
-			set
-			{
-				if ((this._TemperMode != value))
-				{
-					this.OnTemperModeChanging(value);
-					this.SendPropertyChanging();
-					this._TemperMode = value;
-					this.SendPropertyChanged("TemperMode");
-					this.OnTemperModeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValenceVal", DbType="Float")]
-		public System.Nullable<double> ValenceVal
-		{
-			get
-			{
-				return this._ValenceVal;
-			}
-			set
-			{
-				if ((this._ValenceVal != value))
-				{
-					this.OnValenceValChanging(value);
-					this.SendPropertyChanging();
-					this._ValenceVal = value;
-					this.SendPropertyChanged("ValenceVal");
-					this.OnValenceValChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValenceMode", DbType="VarChar(50)")]
-		public string ValenceMode
-		{
-			get
-			{
-				return this._ValenceMode;
-			}
-			set
-			{
-				if ((this._ValenceMode != value))
-				{
-					this.OnValenceModeChanging(value);
-					this.SendPropertyChanging();
-					this._ValenceMode = value;
-					this.SendPropertyChanged("ValenceMode");
-					this.OnValenceModeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArousalVal", DbType="Float")]
-		public System.Nullable<double> ArousalVal
-		{
-			get
-			{
-				return this._ArousalVal;
-			}
-			set
-			{
-				if ((this._ArousalVal != value))
-				{
-					this.OnArousalValChanging(value);
-					this.SendPropertyChanging();
-					this._ArousalVal = value;
-					this.SendPropertyChanged("ArousalVal");
-					this.OnArousalValChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArousalMode", DbType="VarChar(50)")]
-		public string ArousalMode
-		{
-			get
-			{
-				return this._ArousalMode;
-			}
-			set
-			{
-				if ((this._ArousalMode != value))
-				{
-					this.OnArousalModeChanging(value);
-					this.SendPropertyChanging();
-					this._ArousalMode = value;
-					this.SendPropertyChanged("ArousalMode");
-					this.OnArousalModeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="VarChar(50)")]
-		public string Gender
-		{
-			get
-			{
-				return this._Gender;
-			}
-			set
-			{
-				if ((this._Gender != value))
-				{
-					this.OnGenderChanging(value);
-					this.SendPropertyChanging();
-					this._Gender = value;
-					this.SendPropertyChanged("Gender");
-					this.OnGenderChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoodPrimary", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string MoodPrimary
-		{
-			get
-			{
-				return this._MoodPrimary;
-			}
-			set
-			{
-				if ((this._MoodPrimary != value))
-				{
-					this.OnMoodPrimaryChanging(value);
-					this.SendPropertyChanging();
-					this._MoodPrimary = value;
-					this.SendPropertyChanged("MoodPrimary");
-					this.OnMoodPrimaryChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoodSecondary", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string MoodSecondary
-		{
-			get
-			{
-				return this._MoodSecondary;
-			}
-			set
-			{
-				if ((this._MoodSecondary != value))
-				{
-					this.OnMoodSecondaryChanging(value);
-					this.SendPropertyChanging();
-					this._MoodSecondary = value;
-					this.SendPropertyChanged("MoodSecondary");
-					this.OnMoodSecondaryChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompositePrimary", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string CompositePrimary
-		{
-			get
-			{
-				return this._CompositePrimary;
-			}
-			set
-			{
-				if ((this._CompositePrimary != value))
-				{
-					this.OnCompositePrimaryChanging(value);
-					this.SendPropertyChanging();
-					this._CompositePrimary = value;
-					this.SendPropertyChanged("CompositePrimary");
-					this.OnCompositePrimaryChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompositeSecondary", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string CompositeSecondary
-		{
-			get
-			{
-				return this._CompositeSecondary;
-			}
-			set
-			{
-				if ((this._CompositeSecondary != value))
-				{
-					this.OnCompositeSecondaryChanging(value);
-					this.SendPropertyChanging();
-					this._CompositeSecondary = value;
-					this.SendPropertyChanged("CompositeSecondary");
-					this.OnCompositeSecondaryChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspVideoDetail_AspSoundAnalisysSegment", Storage="_AspVideoDetail", ThisKey="VideoId", OtherKey="VideoId", IsForeignKey=true)]
-		public AspVideoDetail AspVideoDetail
-		{
-			get
-			{
-				return this._AspVideoDetail.Entity;
-			}
-			set
-			{
-				AspVideoDetail previousValue = this._AspVideoDetail.Entity;
-				if (((previousValue != value) 
-							|| (this._AspVideoDetail.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._AspVideoDetail.Entity = null;
-						previousValue.AspSoundAnalisysSegments.Remove(this);
-					}
-					this._AspVideoDetail.Entity = value;
-					if ((value != null))
-					{
-						value.AspSoundAnalisysSegments.Add(this);
-						this._VideoId = value.VideoId;
-					}
-					else
-					{
-						this._VideoId = default(string);
-					}
-					this.SendPropertyChanged("AspVideoDetail");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this.GetTable<AspSoundAnalisysSegment>();
 			}
 		}
 	}
@@ -1359,11 +896,11 @@ namespace WebApplication.Models
 		
 		private System.Nullable<System.DateTime> _Date;
 		
-		private EntitySet<AspSoundAnalisysSegment> _AspSoundAnalisysSegments;
-		
 		private EntitySet<AspTextAnalisysSegment> _AspTextAnalisysSegments;
 		
 		private EntitySet<AspVideoAnalysisSegment> _AspVideoAnalysisSegments;
+		
+		private EntitySet<AspSoundAnalisysSegment> _AspSoundAnalisysSegments;
 		
 		private EntityRef<AspVideoGroup> _AspVideoGroup;
 		
@@ -1395,9 +932,9 @@ namespace WebApplication.Models
 		
 		public AspVideoDetail()
 		{
-			this._AspSoundAnalisysSegments = new EntitySet<AspSoundAnalisysSegment>(new Action<AspSoundAnalisysSegment>(this.attach_AspSoundAnalisysSegments), new Action<AspSoundAnalisysSegment>(this.detach_AspSoundAnalisysSegments));
 			this._AspTextAnalisysSegments = new EntitySet<AspTextAnalisysSegment>(new Action<AspTextAnalisysSegment>(this.attach_AspTextAnalisysSegments), new Action<AspTextAnalisysSegment>(this.detach_AspTextAnalisysSegments));
 			this._AspVideoAnalysisSegments = new EntitySet<AspVideoAnalysisSegment>(new Action<AspVideoAnalysisSegment>(this.attach_AspVideoAnalysisSegments), new Action<AspVideoAnalysisSegment>(this.detach_AspVideoAnalysisSegments));
+			this._AspSoundAnalisysSegments = new EntitySet<AspSoundAnalisysSegment>(new Action<AspSoundAnalisysSegment>(this.attach_AspSoundAnalisysSegments), new Action<AspSoundAnalisysSegment>(this.detach_AspSoundAnalisysSegments));
 			this._AspVideoGroup = default(EntityRef<AspVideoGroup>);
 			OnCreated();
 		}
@@ -1606,19 +1143,6 @@ namespace WebApplication.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspVideoDetail_AspSoundAnalisysSegment", Storage="_AspSoundAnalisysSegments", ThisKey="VideoId", OtherKey="VideoId")]
-		public EntitySet<AspSoundAnalisysSegment> AspSoundAnalisysSegments
-		{
-			get
-			{
-				return this._AspSoundAnalisysSegments;
-			}
-			set
-			{
-				this._AspSoundAnalisysSegments.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspVideoDetail_AspTextAnalisysSegment", Storage="_AspTextAnalisysSegments", ThisKey="VideoId", OtherKey="VideoId")]
 		public EntitySet<AspTextAnalisysSegment> AspTextAnalisysSegments
 		{
@@ -1642,6 +1166,19 @@ namespace WebApplication.Models
 			set
 			{
 				this._AspVideoAnalysisSegments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspVideoDetail_AspSoundAnalisysSegment", Storage="_AspSoundAnalisysSegments", ThisKey="VideoId", OtherKey="VideoId")]
+		public EntitySet<AspSoundAnalisysSegment> AspSoundAnalisysSegments
+		{
+			get
+			{
+				return this._AspSoundAnalisysSegments;
+			}
+			set
+			{
+				this._AspSoundAnalisysSegments.Assign(value);
 			}
 		}
 		
@@ -1699,18 +1236,6 @@ namespace WebApplication.Models
 			}
 		}
 		
-		private void attach_AspSoundAnalisysSegments(AspSoundAnalisysSegment entity)
-		{
-			this.SendPropertyChanging();
-			entity.AspVideoDetail = this;
-		}
-		
-		private void detach_AspSoundAnalisysSegments(AspSoundAnalisysSegment entity)
-		{
-			this.SendPropertyChanging();
-			entity.AspVideoDetail = null;
-		}
-		
 		private void attach_AspTextAnalisysSegments(AspTextAnalisysSegment entity)
 		{
 			this.SendPropertyChanging();
@@ -1733,6 +1258,481 @@ namespace WebApplication.Models
 		{
 			this.SendPropertyChanging();
 			entity.AspVideoDetail = null;
+		}
+		
+		private void attach_AspSoundAnalisysSegments(AspSoundAnalisysSegment entity)
+		{
+			this.SendPropertyChanging();
+			entity.AspVideoDetail = this;
+		}
+		
+		private void detach_AspSoundAnalisysSegments(AspSoundAnalisysSegment entity)
+		{
+			this.SendPropertyChanging();
+			entity.AspVideoDetail = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspSoundAnalisysSegments")]
+	public partial class AspSoundAnalisysSegment : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _SoundSegmentId;
+		
+		private string _VideoId;
+		
+		private System.Nullable<int> _SoundSegmentIndex;
+		
+		private System.Nullable<double> _Offset;
+		
+		private System.Nullable<double> _Duration;
+		
+		private System.Nullable<double> _TemperVal;
+		
+		private string _TemperMode;
+		
+		private System.Nullable<double> _ValenceVal;
+		
+		private string _ValenceMode;
+		
+		private System.Nullable<double> _ArousalVal;
+		
+		private string _ArousalMode;
+		
+		private string _Gender;
+		
+		private string _MoodPrimary;
+		
+		private string _MoodSecondary;
+		
+		private string _CompositePrimary;
+		
+		private string _CompositeSecondary;
+		
+		private EntityRef<AspVideoDetail> _AspVideoDetail;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSoundSegmentIdChanging(int value);
+    partial void OnSoundSegmentIdChanged();
+    partial void OnVideoIdChanging(string value);
+    partial void OnVideoIdChanged();
+    partial void OnSoundSegmentIndexChanging(System.Nullable<int> value);
+    partial void OnSoundSegmentIndexChanged();
+    partial void OnOffsetChanging(System.Nullable<double> value);
+    partial void OnOffsetChanged();
+    partial void OnDurationChanging(System.Nullable<double> value);
+    partial void OnDurationChanged();
+    partial void OnTemperValChanging(System.Nullable<double> value);
+    partial void OnTemperValChanged();
+    partial void OnTemperModeChanging(string value);
+    partial void OnTemperModeChanged();
+    partial void OnValenceValChanging(System.Nullable<double> value);
+    partial void OnValenceValChanged();
+    partial void OnValenceModeChanging(string value);
+    partial void OnValenceModeChanged();
+    partial void OnArousalValChanging(System.Nullable<double> value);
+    partial void OnArousalValChanged();
+    partial void OnArousalModeChanging(string value);
+    partial void OnArousalModeChanged();
+    partial void OnGenderChanging(string value);
+    partial void OnGenderChanged();
+    partial void OnMoodPrimaryChanging(string value);
+    partial void OnMoodPrimaryChanged();
+    partial void OnMoodSecondaryChanging(string value);
+    partial void OnMoodSecondaryChanged();
+    partial void OnCompositePrimaryChanging(string value);
+    partial void OnCompositePrimaryChanged();
+    partial void OnCompositeSecondaryChanging(string value);
+    partial void OnCompositeSecondaryChanged();
+    #endregion
+		
+		public AspSoundAnalisysSegment()
+		{
+			this._AspVideoDetail = default(EntityRef<AspVideoDetail>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoundSegmentId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SoundSegmentId
+		{
+			get
+			{
+				return this._SoundSegmentId;
+			}
+			set
+			{
+				if ((this._SoundSegmentId != value))
+				{
+					this.OnSoundSegmentIdChanging(value);
+					this.SendPropertyChanging();
+					this._SoundSegmentId = value;
+					this.SendPropertyChanged("SoundSegmentId");
+					this.OnSoundSegmentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VideoId", DbType="VarChar(255)")]
+		public string VideoId
+		{
+			get
+			{
+				return this._VideoId;
+			}
+			set
+			{
+				if ((this._VideoId != value))
+				{
+					if (this._AspVideoDetail.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVideoIdChanging(value);
+					this.SendPropertyChanging();
+					this._VideoId = value;
+					this.SendPropertyChanged("VideoId");
+					this.OnVideoIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoundSegmentIndex", DbType="Int")]
+		public System.Nullable<int> SoundSegmentIndex
+		{
+			get
+			{
+				return this._SoundSegmentIndex;
+			}
+			set
+			{
+				if ((this._SoundSegmentIndex != value))
+				{
+					this.OnSoundSegmentIndexChanging(value);
+					this.SendPropertyChanging();
+					this._SoundSegmentIndex = value;
+					this.SendPropertyChanged("SoundSegmentIndex");
+					this.OnSoundSegmentIndexChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Offset", DbType="Float")]
+		public System.Nullable<double> Offset
+		{
+			get
+			{
+				return this._Offset;
+			}
+			set
+			{
+				if ((this._Offset != value))
+				{
+					this.OnOffsetChanging(value);
+					this.SendPropertyChanging();
+					this._Offset = value;
+					this.SendPropertyChanged("Offset");
+					this.OnOffsetChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Duration", DbType="Float")]
+		public System.Nullable<double> Duration
+		{
+			get
+			{
+				return this._Duration;
+			}
+			set
+			{
+				if ((this._Duration != value))
+				{
+					this.OnDurationChanging(value);
+					this.SendPropertyChanging();
+					this._Duration = value;
+					this.SendPropertyChanged("Duration");
+					this.OnDurationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TemperVal", DbType="Float")]
+		public System.Nullable<double> TemperVal
+		{
+			get
+			{
+				return this._TemperVal;
+			}
+			set
+			{
+				if ((this._TemperVal != value))
+				{
+					this.OnTemperValChanging(value);
+					this.SendPropertyChanging();
+					this._TemperVal = value;
+					this.SendPropertyChanged("TemperVal");
+					this.OnTemperValChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TemperMode", DbType="VarChar(255)")]
+		public string TemperMode
+		{
+			get
+			{
+				return this._TemperMode;
+			}
+			set
+			{
+				if ((this._TemperMode != value))
+				{
+					this.OnTemperModeChanging(value);
+					this.SendPropertyChanging();
+					this._TemperMode = value;
+					this.SendPropertyChanged("TemperMode");
+					this.OnTemperModeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValenceVal", DbType="Float")]
+		public System.Nullable<double> ValenceVal
+		{
+			get
+			{
+				return this._ValenceVal;
+			}
+			set
+			{
+				if ((this._ValenceVal != value))
+				{
+					this.OnValenceValChanging(value);
+					this.SendPropertyChanging();
+					this._ValenceVal = value;
+					this.SendPropertyChanged("ValenceVal");
+					this.OnValenceValChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValenceMode", DbType="VarChar(255)")]
+		public string ValenceMode
+		{
+			get
+			{
+				return this._ValenceMode;
+			}
+			set
+			{
+				if ((this._ValenceMode != value))
+				{
+					this.OnValenceModeChanging(value);
+					this.SendPropertyChanging();
+					this._ValenceMode = value;
+					this.SendPropertyChanged("ValenceMode");
+					this.OnValenceModeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArousalVal", DbType="Float")]
+		public System.Nullable<double> ArousalVal
+		{
+			get
+			{
+				return this._ArousalVal;
+			}
+			set
+			{
+				if ((this._ArousalVal != value))
+				{
+					this.OnArousalValChanging(value);
+					this.SendPropertyChanging();
+					this._ArousalVal = value;
+					this.SendPropertyChanged("ArousalVal");
+					this.OnArousalValChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArousalMode", DbType="VarChar(255)")]
+		public string ArousalMode
+		{
+			get
+			{
+				return this._ArousalMode;
+			}
+			set
+			{
+				if ((this._ArousalMode != value))
+				{
+					this.OnArousalModeChanging(value);
+					this.SendPropertyChanging();
+					this._ArousalMode = value;
+					this.SendPropertyChanged("ArousalMode");
+					this.OnArousalModeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="VarChar(255)")]
+		public string Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this.OnGenderChanging(value);
+					this.SendPropertyChanging();
+					this._Gender = value;
+					this.SendPropertyChanged("Gender");
+					this.OnGenderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoodPrimary", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string MoodPrimary
+		{
+			get
+			{
+				return this._MoodPrimary;
+			}
+			set
+			{
+				if ((this._MoodPrimary != value))
+				{
+					this.OnMoodPrimaryChanging(value);
+					this.SendPropertyChanging();
+					this._MoodPrimary = value;
+					this.SendPropertyChanged("MoodPrimary");
+					this.OnMoodPrimaryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoodSecondary", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string MoodSecondary
+		{
+			get
+			{
+				return this._MoodSecondary;
+			}
+			set
+			{
+				if ((this._MoodSecondary != value))
+				{
+					this.OnMoodSecondaryChanging(value);
+					this.SendPropertyChanging();
+					this._MoodSecondary = value;
+					this.SendPropertyChanged("MoodSecondary");
+					this.OnMoodSecondaryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompositePrimary", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string CompositePrimary
+		{
+			get
+			{
+				return this._CompositePrimary;
+			}
+			set
+			{
+				if ((this._CompositePrimary != value))
+				{
+					this.OnCompositePrimaryChanging(value);
+					this.SendPropertyChanging();
+					this._CompositePrimary = value;
+					this.SendPropertyChanged("CompositePrimary");
+					this.OnCompositePrimaryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompositeSecondary", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string CompositeSecondary
+		{
+			get
+			{
+				return this._CompositeSecondary;
+			}
+			set
+			{
+				if ((this._CompositeSecondary != value))
+				{
+					this.OnCompositeSecondaryChanging(value);
+					this.SendPropertyChanging();
+					this._CompositeSecondary = value;
+					this.SendPropertyChanged("CompositeSecondary");
+					this.OnCompositeSecondaryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspVideoDetail_AspSoundAnalisysSegment", Storage="_AspVideoDetail", ThisKey="VideoId", OtherKey="VideoId", IsForeignKey=true)]
+		public AspVideoDetail AspVideoDetail
+		{
+			get
+			{
+				return this._AspVideoDetail.Entity;
+			}
+			set
+			{
+				AspVideoDetail previousValue = this._AspVideoDetail.Entity;
+				if (((previousValue != value) 
+							|| (this._AspVideoDetail.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AspVideoDetail.Entity = null;
+						previousValue.AspSoundAnalisysSegments.Remove(this);
+					}
+					this._AspVideoDetail.Entity = value;
+					if ((value != null))
+					{
+						value.AspSoundAnalisysSegments.Add(this);
+						this._VideoId = value.VideoId;
+					}
+					else
+					{
+						this._VideoId = default(string);
+					}
+					this.SendPropertyChanged("AspVideoDetail");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

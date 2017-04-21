@@ -32,7 +32,7 @@ namespace WebApplication.ApiManager
                         Encoding.ASCII.GetBytes(
                             ApiKeys.ibmSpeechToTextUsername + ":" + ApiKeys.ibmSpeechToTextPassword)));
 
-                var content = new StreamContent(new FileStream(file, FileMode.Open));
+                var content = new StreamContent(new FileStream(file, FileMode.Open, FileAccess.Read));
                 content.Headers.ContentType = new MediaTypeHeaderValue("audio/wav");
 
                 using (
