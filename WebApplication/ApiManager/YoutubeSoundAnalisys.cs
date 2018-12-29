@@ -86,7 +86,7 @@ namespace WebApplication.ApiManager
             db.AspVideoDetails.InsertOnSubmit(videoDetails);
             db.SubmitChanges();
 
-            //Start parallel threads for analisys
+            //Start parallel threads for analysis
             var ve = new MicrosoftVideoEmotion();
             var te = new IbmSpeechToText();
             var se = new BeyondVerbal();
@@ -197,19 +197,19 @@ namespace WebApplication.ApiManager
             {
                 s.VideoId = vidmod.VideoId;
                 Debug.WriteLine("***Segment number:" + s.SoundSegmentIndex);
-                Debug.WriteLine("Segment sound analisys Duration            ---->" + s.Duration);
-                Debug.WriteLine("Segment sound analisys Gender              ---->" + s.Gender);
-                Debug.WriteLine("Segment sound analisys Offset              ---->" + s.Offset);
-                Debug.WriteLine("Segment sound analisys ArousalMode         ---->" + s.ArousalMode);
-                Debug.WriteLine("Segment sound analisys ArousalVal          ---->" + s.ArousalVal);
-                Debug.WriteLine("Segment sound analisys ValenceMode         ---->" + s.ValenceMode);
-                Debug.WriteLine("Segment sound analisys ValenceVal          ---->" + s.ValenceVal);
-                Debug.WriteLine("Segment sound analisys TemperMode          ---->" + s.TemperMode);
-                Debug.WriteLine("Segment sound analisys TemperVal           ---->" + s.TemperVal);
-                Debug.WriteLine("Segment sound analisys MoodPrimary         ---->" + s.MoodPrimary);
-                Debug.WriteLine("Segment sound analisys MoodSecondary       ---->" + s.MoodSecondary);
-                Debug.WriteLine("Segment sound analisys CompositePrimary    ---->" + s.CompositePrimary);
-                Debug.WriteLine("Segment sound analisys CompositeSecondary  ---->" + s.CompositeSecondary);
+                Debug.WriteLine("Segment sound analysis Duration            ---->" + s.Duration);
+                Debug.WriteLine("Segment sound analysis Gender              ---->" + s.Gender);
+                Debug.WriteLine("Segment sound analysis Offset              ---->" + s.Offset);
+                Debug.WriteLine("Segment sound analysis ArousalMode         ---->" + s.ArousalMode);
+                Debug.WriteLine("Segment sound analysis ArousalVal          ---->" + s.ArousalVal);
+                Debug.WriteLine("Segment sound analysis ValenceMode         ---->" + s.ValenceMode);
+                Debug.WriteLine("Segment sound analysis ValenceVal          ---->" + s.ValenceVal);
+                Debug.WriteLine("Segment sound analysis TemperMode          ---->" + s.TemperMode);
+                Debug.WriteLine("Segment sound analysis TemperVal           ---->" + s.TemperVal);
+                Debug.WriteLine("Segment sound analysis MoodPrimary         ---->" + s.MoodPrimary);
+                Debug.WriteLine("Segment sound analysis MoodSecondary       ---->" + s.MoodSecondary);
+                Debug.WriteLine("Segment sound analysis CompositePrimary    ---->" + s.CompositePrimary);
+                Debug.WriteLine("Segment sound analysis CompositeSecondary  ---->" + s.CompositeSecondary);
                 Debug.WriteLine("            ");
 
                 db.AspSoundAnalisysSegments.InsertOnSubmit(s);

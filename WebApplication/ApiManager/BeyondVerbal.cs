@@ -104,16 +104,16 @@ namespace WebApplication.ApiManager
                 var sesMean = new AspSoundAnalisysSegment();
                 sesMean.SoundSegmentIndex = 0;
                 sesMean.TemperVal = 0;
-                sesMean.TemperMode = "The video is under 20 Second, we cant perform analisys";
+                sesMean.TemperMode = "The video is under 20 Second, we cant perform analysis";
                 sesMean.ValenceVal = 0;
-                sesMean.ValenceMode = "The video is under 20 Second, we cant perform analisys";
+                sesMean.ValenceMode = "The video is under 20 Second, we cant perform analysis";
                 sesMean.ArousalVal = 0;
-                sesMean.ArousalMode = "The video is under 20 Second, we cant perform analisys";
+                sesMean.ArousalMode = "The video is under 20 Second, we cant perform analysis";
 
-                sesMean.MoodPrimary = "The video is under 20 Second, we cant perform analisys";
-                sesMean.MoodSecondary = "The video is under 20 Second, we cant perform analisys";
-                sesMean.CompositePrimary = "The video is under 20 Second, we cant perform analisys";
-                sesMean.CompositeSecondary = "The video is under 20 Second, we cant perform analisys";
+                sesMean.MoodPrimary = "The video is under 20 Second, we cant perform analysis";
+                sesMean.MoodSecondary = "The video is under 20 Second, we cant perform analysis";
+                sesMean.CompositePrimary = "The video is under 20 Second, we cant perform analysis";
+                sesMean.CompositeSecondary = "The video is under 20 Second, we cant perform analysis";
                 sa.Add(sesMean);
             }
 

@@ -171,7 +171,7 @@ namespace WebApplication.Controllers
             }
 
             Response.Write(
-                "<script>alert('You will be notified as soon as the analysis is ready, it takes around 10 minutes for each minute submited for analisys!');</script>");
+                "<script>alert('You will be notified as soon as the analysis is ready, it takes around 10 minutes for each minute submited for analysis!');</script>");
 
             return View(newModel);
         }
