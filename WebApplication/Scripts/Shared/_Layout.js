@@ -331,7 +331,7 @@ $(function () {
         var newLbl = document.getElementById("newAddedLabel");
         newLbl.className = "label pull-right bg-green";
         d.className += " label label-success";
-        $("#notiList").append($('<li id="viewList" class="footer"><a href="/Home/DashboardV1?videoId=' + message + '">View new analisys</a></li>'));
+        $("#notiList").append($('<li id="viewList" class="footer"><a href="/Home/DashboardV1?videoId=' + message + '">View new analysis</a></li>'));
     }
 
     // signalr js code for start hub and send receive notification
